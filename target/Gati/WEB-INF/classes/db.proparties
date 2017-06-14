@@ -1,0 +1,5 @@
+driver=com.microsoft.sqlserver.jdbc.Driver
+url=jdbc:sqlserver://serverName:WRITER-SERVER/mydb
+user=sa
+password=writer@123
+server=WRITER-SERVER

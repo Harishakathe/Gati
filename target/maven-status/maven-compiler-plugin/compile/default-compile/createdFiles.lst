@@ -1,0 +1,10 @@
+com\mindworx\model\Shipper.class
+com\mindworx\dao\PickupDetailsDao.class
+com\mindworx\configuration\AppInitializer.class
+com\mindworx\util\DbUtil.class
+com\mindworx\configuration\AppConfiguration.class
+com\mindworx\model\Package.class
+com\mindworx\dao\PickupDetailsDaoImpl.class
+com\mindworx\controller\PickupDetailsReqController.class
+com\mindworx\model\Receiver.class
+com\mindworx\model\PickupDetails.class
