@@ -8,10 +8,12 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.springframework.validation.annotation.Validated;
+
 import com.mindworx.model.PickupDetails;
 import com.mindworx.model.Customer;
 
-
+@Validated
 public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	
 	

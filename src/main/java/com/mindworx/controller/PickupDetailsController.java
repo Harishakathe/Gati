@@ -43,6 +43,13 @@ public class PickupDetailsController {
 	
 	@Autowired
     private PickupDetailsDao pickupDetailsDao;
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public String getIndex() {
+		return "index";
+	}
+	
+	
 	//-------------------Create a Customer Requset --------------------------------------------------------
      
     @RequestMapping(value = "/generate_xml", method = RequestMethod.POST)
