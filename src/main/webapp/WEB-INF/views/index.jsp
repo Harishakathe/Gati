@@ -44,320 +44,328 @@
                             </div>
                         </div>
                         <div id="wizard">
-                            <h2>First Step</h2>
-                            <section>
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Docket No</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Product</label>
-                                        <select class="form-control">
-                                            <option>Select</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
-                                    </div>
-                                </div> 
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>BKG Basis</label>
-                                        <select class="form-control">
-                                            <option>Select</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Goods Type</label>
-                                        <select class="form-control">
-                                            <option>Select</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
-                                    </div>
-                                </div> 
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Receiver Code</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Shipper Code</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div> 
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>BKG Pin Code</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>DLY Pin Code</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div> 
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <label>No of Packages</label>
-                                                <input class="form-control w-control" type="text">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>Pkg No From</label>
-                                                <input class="form-control w-control" type="text">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <label>Pkg No To</label>
-                                                <input class="form-control w-control" type="text">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>Packing Type</label>
-                                                <select class="form-control">
-                                                    <option>Select</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <label>Length</label>
-                                                <input class="form-control w-control" type="text">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>Breadth</label>
-                                                <input class="form-control w-control" type="text">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <label>Height</label>
-                                                <input class="form-control w-control" type="text">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>Weight</label>
-                                                <input class="form-control w-control" type="text">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Shipment Value</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Risk</label>
-                                        <select class="form-control">
-                                            <option>Select</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
-                                    </div>
-                                </div> 
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Volume</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>UOM</label>
-                                        <select class="form-control">
-                                            <option>Select</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
-                                    </div>
-                                </div> 
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>ACT. WT</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>COD/DOD Flag</label>
-                                        <select class="form-control">
-                                            <option>Select</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
-                                    </div>
-                                </div> 
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>COD/DOD in Fav</label>
-                                        <select class="form-control">
-                                            <option>Select</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>COD/DOD Amt</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div> 
-                            </section>
+							<form action="generate_xml.do" method="post" modelAttribute="pickupDetails">
+								<h2>First Step</h2>
+								<section>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Docket No</label>
+											<input class="form-control w-control" maxlength="10" type="text" id="Docket_No" name="Docket_No" >
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Product</label>
+											<select class="form-control">
+												<option value="">Select</option>
+												<option value="Surface Express 25">Surface Express 25</option>
+												<option value="Surface Express 25">Express Plus20</option>
+												<option value="Surface Express 25">Gati-Laabh5</option>
+												<option value="Surface Express 25">Gati-D2DC 67</option>
+												<option value="Surface Express 25">Gati-Light65</option>
+												<option value="Surface Express 25">Secure Box80</option>
+												<option value="Surface Express 25">Standard 2</option>
+												<option value="Surface Express 25">Preminum14_1</option>
+												<option value="Surface Express 25">Premium Plus-12 hrs14_2</option>
+												<option value="Premium Plus-24 hrs14_3">Premium Plus-24 hrs14_3</option>
 
-                            <h2>Second Step</h2>
-                            <section>
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Shipper Code</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Mobile No</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div> 
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Name</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Phone No</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Address Line 1</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Address Line 2</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Address Line 3</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Address Line 4</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>City</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Pin Code</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Email</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>VAT/TIN</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div>
-                            </section>
+											</select>
+										</div>
+									</div> 
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>BKG Basis</label>
+											<select class="form-control">
+												<option>Select</option>
+												<option>2</option>
+												<option>3</option>
+												<option>4</option>
+												<option>5</option>
+											</select>
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Goods Type</label>
+											<select class="form-control">
+												<option>Select</option>
+												<option>2</option>
+												<option>3</option>
+												<option>4</option>
+												<option>5</option>
+											</select>
+										</div>
+									</div> 
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Receiver Code</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Shipper Code</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div> 
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>BKG Pin Code</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>DLY Pin Code</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div> 
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<div class="row">
+												<div class="col-sm-6">
+													<label>No of Packages</label>
+													<input class="form-control w-control" type="text">
+												</div>
+												<div class="col-sm-6">
+													<label>Pkg No From</label>
+													<input class="form-control w-control" type="text">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<div class="row">
+												<div class="col-sm-6">
+													<label>Pkg No To</label>
+													<input class="form-control w-control" type="text">
+												</div>
+												<div class="col-sm-6">
+													<label>Packing Type</label>
+													<select class="form-control">
+														<option>Select</option>
+														<option>2</option>
+														<option>3</option>
+														<option>4</option>
+														<option>5</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<div class="row">
+												<div class="col-sm-6">
+													<label>Length</label>
+													<input class="form-control w-control" type="text">
+												</div>
+												<div class="col-sm-6">
+													<label>Breadth</label>
+													<input class="form-control w-control" type="text">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<div class="row">
+												<div class="col-sm-6">
+													<label>Height</label>
+													<input class="form-control w-control" type="text">
+												</div>
+												<div class="col-sm-6">
+													<label>Weight</label>
+													<input class="form-control w-control" type="text">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Shipment Value</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Risk</label>
+											<select class="form-control">
+												<option>Select</option>
+												<option>2</option>
+												<option>3</option>
+												<option>4</option>
+												<option>5</option>
+											</select>
+										</div>
+									</div> 
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Volume</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>UOM</label>
+											<select class="form-control">
+												<option>Select</option>
+												<option>2</option>
+												<option>3</option>
+												<option>4</option>
+												<option>5</option>
+											</select>
+										</div>
+									</div> 
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>ACT. WT</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>COD/DOD Flag</label>
+											<select class="form-control">
+												<option>Select</option>
+												<option>2</option>
+												<option>3</option>
+												<option>4</option>
+												<option>5</option>
+											</select>
+										</div>
+									</div> 
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>COD/DOD in Fav</label>
+											<select class="form-control">
+												<option>Select</option>
+												<option>2</option>
+												<option>3</option>
+												<option>4</option>
+												<option>5</option>
+											</select>
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>COD/DOD Amt</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div> 
+								</section>
 
-                            <h2>Third Step</h2>
-                            <section>
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Receiver Code</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Mobile No</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div> 
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Name</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Phone No</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Address Line 1</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Address Line 2</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Address Line 3</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Address Line 4</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>City</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>Pin Code</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3 col-sm-offset-3 m-b-sm">
-                                        <label>Email</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                    <div class="col-sm-3 m-b-sm">
-                                        <label>VAT/TIN</label>
-                                        <input class="form-control w-control" type="text">
-                                    </div>
-                                </div>
-                            </section>
+								<h2>Second Step</h2>
+								<section>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Shipper Code</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Mobile No</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div> 
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Name</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Phone No</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Address Line 1</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Address Line 2</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Address Line 3</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Address Line 4</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>City</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Pin Code</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Email</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>VAT/TIN</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div>
+								</section>
 
-                            <h2>Forth Step</h2>
-                            <section>
+								<h2>Third Step</h2>
+								<section>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Receiver Code</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Mobile No</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div> 
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Name</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Phone No</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Address Line 1</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Address Line 2</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Address Line 3</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Address Line 4</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>City</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>Pin Code</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<label>Email</label>
+											<input class="form-control w-control" type="text">
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<label>VAT/TIN</label>
+											<input class="form-control w-control" type="text">
+										</div>
+									</div>
+								</section>
+
+								<h2>Forth Step</h2>
+								<section>
                                 <div class="row">
                                     <div class="col-sm-10 col-sm-offset-1 m-b-sm">
                                         <div class="header-strip">
@@ -444,7 +452,8 @@
                                 </div>
                                 <div class="m-t-lg"></div>
                             </section>
-                        </div>
+							</form>
+						</div>
                     </div>
                 </section>
             </div>

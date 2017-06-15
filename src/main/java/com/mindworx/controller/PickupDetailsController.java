@@ -41,8 +41,6 @@ import com.mindworx.model.Customer;
 @RequestMapping("/")
 public class PickupDetailsController {
 	
-	@Autowired
-    private PickupDetailsDao pickupDetailsDao;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getIndex() {
@@ -99,30 +97,7 @@ public class PickupDetailsController {
     	
     }
     
-    @RequestMapping(value = "/testconnection", method = RequestMethod.GET)
-    public void testConnection() {
-    	 System.out.println("count : "+pickupDetailsDao.getGEMS_WS_CUST_AUTO_prod_vals());
-    }
     
-    @RequestMapping(value = "/getBookingStation/{cust_code}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getBookingStation(@PathVariable String cust_code) {
-    	return new ResponseEntity<String>(pickupDetailsDao.getBookingStation(cust_code), HttpStatus.OK);
-    }
-    
-    @RequestMapping(value = "/getGoodType", method = RequestMethod.GET)
-    public ResponseEntity<String> getGoodType() {
-    	return new ResponseEntity<String>(pickupDetailsDao.getGoodType(), HttpStatus.OK);
-    }
-    
-    @RequestMapping(value = "/getCustomerDetails/{customerid}", method = RequestMethod.GET)
-    public ResponseEntity<String> getCustomerDetails(@PathVariable String customerid) {
-    	return new ResponseEntity<String>(pickupDetailsDao.getCustomerDetails(customerid), HttpStatus.OK);
-    }
-    
-    @RequestMapping(value = "/getPinCodes/{pinCode}", method = RequestMethod.GET)
-    public ResponseEntity<String> getPinCodes(@PathVariable String pinCode) {
-    	return new ResponseEntity<String>(pickupDetailsDao.getPinCodes(pinCode), HttpStatus.OK);
-    }
     	
  
 }
