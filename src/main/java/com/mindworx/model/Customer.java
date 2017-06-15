@@ -1,6 +1,6 @@
 package com.mindworx.model;
 
-public class Shipper {
+public class Customer {
 
 	private String shipper_Code;	
 	private String shipper_Name;
@@ -15,7 +15,7 @@ public class Shipper {
 	private String shipper_Email;
 	private String shipper_VAT_TIN;
 	
-	public Shipper() {
+	public Customer() {
 		// TODO Auto-generated constructor stub
 	}
 	

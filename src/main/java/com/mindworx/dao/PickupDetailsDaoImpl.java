@@ -1,5 +1,6 @@
 package com.mindworx.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +9,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import com.mindworx.model.PickupDetails;
-import com.mindworx.model.Shipper;
+import com.mindworx.model.Customer;
 
 
 public class PickupDetailsDaoImpl implements PickupDetailsDao {
@@ -120,7 +121,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			ps.setString(1,customerid+"%");
 			rs = ps.executeQuery();
 			if(rs.next()){
-				Shipper shipper = new Shipper();
+				Customer shipper = new Customer();
 				shipper.setShipper_Code(rs.getString("cust_code"));
 				shipper.setShipper_Name(rs.getString("CUST_NAME"));
 				shipper.setShipper_Address1(rs.getString("CUST_ADD1").trim());
@@ -171,6 +172,170 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		finally {
 			try {
 				rs.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}					
+		}
+		return out.toString();
+	}
+
+	public String validateXML(PickupDetails p) {
+		
+		CallableStatement cstmt = null;
+		String sp = "{call Gems_DOCKET_VALIDATE_proc(?,?,?,?)}";
+		StringBuffer out = new StringBuffer();
+		try {
+			cstmt = connection.prepareCall(sp);
+			cstmt.setInt(1, Integer.parseInt(p.getDocket_No())); 		//P_DKTNO || DOCKET_NO
+			cstmt.setString(2, p.getShipper_Pincode()); 	//P_BKGOU || OU_CODE 
+			cstmt.setString(3, ""); 	//P_DKT_CATG || DOCKET_Category
+			cstmt.setString(4, ""); 	//P_DKT_TYPE || DOCKET_type
+			cstmt.setDate(5, new java.sql.Date(p.getPickup_date().getTime())); 		//P_BKGDT || Date 
+			cstmt.setString(6, ""); 	//P_CONTRACTNO || contract_no
+			cstmt.setString(7, p.getShipper_Code()); 	//P_CONSIGNOR || cust_code
+			cstmt.setString(8, p.getReceiver_Code()); 	//P_CONSIGNEE || cust_code
+			cstmt.setString(9, p.getBooking_Basis()); 	//P_BASISCODE || Booking Basis
+			cstmt.setString(10, p.getProduct()); 	//P_PRODCODE || product_code || service code
+			cstmt.setString(11, p.getReceiver_Pincode()); 	//P_DLYOU || to_ou 			
+			cstmt.registerOutParameter(12, java.sql.Types.VARCHAR); //Error Flag
+			cstmt.registerOutParameter(13, java.sql.Types.VARCHAR); //Error Msg			
+			// execute getDBUSERByUserId store procedure
+			cstmt.executeUpdate();
+			
+			String Flag = cstmt.getString(1);
+			String Msg = cstmt.getString(2);
+			out.append("{\"error_flag\":\""+Flag+"\",\"error_msg\":\""+Msg+"\"}");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				cstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}					
+		}
+		return out.toString();
+	}
+	
+	public String insertDocket(PickupDetails p){
+		String sql = "insert into gemsprod.GEMS_GKE_DOCKET_UPLOAD(LOAD_SEQ_NO,created_date,DOCKET_NO,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,ESS_CODE,consignor_tinno,consignee_tinno,UPLOAD_FLAG,STATUS)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),sysdate,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'V')";
+		StringBuffer out = new StringBuffer();
+		PreparedStatement ps = null;
+		try {
+			ps = connection.prepareStatement(sql);
+			ps.setInt(1,Integer.parseInt(p.getDocket_No()));
+			ps.setString(2,p.getProduct());
+			ps.setString(3,p.getBooking_Basis());
+			ps.setString(4,p.getShipper_Code());
+			ps.setString(5,p.getReceiver_Code());
+			ps.setString(6,p.getGoods_Code());
+			ps.setString(7,p.getShipper_Pincode());
+			ps.setString(8,p.getReceiver_Pincode());
+			ps.setInt(9,Integer.parseInt(p.getNo_of_Packages()));
+			ps.setFloat(10,Float.parseFloat(p.getShipment_Value()));
+			ps.setString(11,p.getRisk());
+			ps.setFloat(12,Float.parseFloat(p.getVolume()));
+			ps.setString(13,p.getUOM());
+			ps.setFloat(14,Float.parseFloat(p.getActual_Weight()));
+			ps.setString(15,p.getShipper_Name());
+			ps.setString(16,p.getShipper_Address1());
+			ps.setString(17,p.getShipper_Address2());
+			ps.setString(18,p.getShipper_Address3());
+			ps.setString(19,p.getShipper_Address4());
+			ps.setString(20,p.getShipper_City());
+			ps.setString(21,p.getShipper_Mobile());
+			ps.setString(22,p.getShipper_Phone());
+			ps.setString(23,p.getShipper_Email());
+			ps.setString(24,p.getReceiver_Name());
+			ps.setString(25,p.getReceiver_Address1());
+			ps.setString(26,p.getReceiver_Address1());
+			ps.setString(27,p.getReceiver_Address1());
+			ps.setString(28,p.getReceiver_Address1());
+			ps.setString(29,p.getReceiver_City());
+			ps.setString(30,p.getReceiver_Mobile());
+			ps.setString(31,p.getReceiver_Phone());
+			ps.setString(32,p.getReceiver_Email());
+			ps.setString(33,p.getCOD_Flag());
+			ps.setString(34,"G");
+			ps.setString(35,"esscode");
+			ps.setString(36,p.getShipper_TIN());
+			ps.setString(37,p.getReceiver_TIN());
+			ps.setString(38,"W");
+			int k = ps.executeUpdate();
+			if(k > 0) 
+				out.append("Docket Created Successfully Created");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}					
+		}
+		return out.toString();
+	}
+	
+	public String updateDocket(PickupDetails p){
+		String sql = "update gemsprod.GEMS_GKE_DOCKET_UPLOAD set PROD_SERV_CODE=? ,BOOKING_BASIS=? ,CONSIGNOR_CODE=? ,CONSIGNEE_CODE=? ,GOODS_CODE=? ,CONSIGNOR_PINCODE=? ,CONSIGNEE_PINCODE=? ,NO_OF_PKGS=? ,DECL_CARGO_VAL=? ,RISK_COVERAGE=? ,VOLUME=? ,UOM=? ,ACTUAL_WT=? ,CONSIGNOR_NAME=? ,CONSIGNOR_ADD1=? ,CONSIGNOR_ADD2=? ,CONSIGNOR_ADD3=? ,CONSIGNOR_ADD4=? ,CONSIGNOR_CITY=? ,CONSIGNOR_MOBILE_NO=? ,CONSIGNOR_PHONE_NO=? ,CONSIGNOR_EMAIL=? ,CONSIGNEE_NAME=? ,CONSIGNEE_ADD1=? ,CONSIGNEE_ADD2=? ,CONSIGNEE_ADD3=? ,CONSIGNEE_ADD4=? ,CONSIGNEE_CITY=? ,CONSIGNEE_MOBILE_NO=? ,CONSIGNEE_PHONE_NO=? ,CONSIGNEE_EMAIL=? ,COD_DOD_FLAG=? ,COD_IN_FAVOUR_OF=? ,ESS_CODE=? ,consignor_tinno=? ,consignee_tinno=? where DOCKET_NO = ?";
+		StringBuffer out = new StringBuffer();
+		PreparedStatement ps = null;
+		try {
+			ps = connection.prepareStatement(sql);
+			
+			ps.setString(1,p.getProduct());
+			ps.setString(2,p.getBooking_Basis());
+			ps.setString(3,p.getShipper_Code());
+			ps.setString(4,p.getReceiver_Code());
+			ps.setString(5,p.getGoods_Code());
+			ps.setString(6,p.getShipper_Pincode());
+			ps.setString(7,p.getReceiver_Pincode());
+			ps.setInt(8,Integer.parseInt(p.getNo_of_Packages()));
+			ps.setFloat(9,Float.parseFloat(p.getShipment_Value()));
+			ps.setString(10,p.getRisk());
+			ps.setFloat(11,Float.parseFloat(p.getVolume()));
+			ps.setString(12,p.getUOM());
+			ps.setFloat(13,Float.parseFloat(p.getActual_Weight()));
+			ps.setString(14,p.getShipper_Name());
+			ps.setString(15,p.getShipper_Address1());
+			ps.setString(16,p.getShipper_Address2());
+			ps.setString(17,p.getShipper_Address3());
+			ps.setString(18,p.getShipper_Address4());
+			ps.setString(19,p.getShipper_City());
+			ps.setString(20,p.getShipper_Mobile());
+			ps.setString(21,p.getShipper_Phone());
+			ps.setString(22,p.getShipper_Email());
+			ps.setString(23,p.getReceiver_Name());
+			ps.setString(24,p.getReceiver_Address1());
+			ps.setString(25,p.getReceiver_Address1());
+			ps.setString(26,p.getReceiver_Address1());
+			ps.setString(27,p.getReceiver_Address1());
+			ps.setString(28,p.getReceiver_City());
+			ps.setString(29,p.getReceiver_Mobile());
+			ps.setString(30,p.getReceiver_Phone());
+			ps.setString(31,p.getReceiver_Email());
+			ps.setString(32,p.getCOD_Flag());
+			ps.setString(33,"G");
+			ps.setString(34,"esscode");
+			ps.setString(35,p.getShipper_TIN());
+			ps.setString(36,p.getReceiver_TIN());
+			ps.setString(37,"W");
+			ps.setInt(38,Integer.parseInt(p.getDocket_No()));
+			int k = ps.executeUpdate();
+			if(k > 0) 
+				out.append("Docket Updated Successfully");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
 				ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();

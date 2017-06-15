@@ -14,8 +14,35 @@ public class PickupDetails {
 	private String Docket_No;
 	private String Product;
 	private String Booking_Basis;
-	private Shipper shipper;
-	private Receiver receiver;
+	
+	private String Shipper_Code;
+	private String Shipper_Name;
+	private String Shipper_Address1;
+	private String Shipper_Address2;
+	private String Shipper_Address3;
+	private String Shipper_Address4;
+	private String Shipper_City;
+	private String Shipper_Pincode;
+	private String Shipper_Oucode;
+	private String Shipper_Phone;
+	private String Shipper_Mobile;
+	private String Shipper_Email;
+	private String Shipper_TIN;
+	
+	private String Receiver_Code;
+	private String Receiver_Mobile;
+	private String Receiver_Name;
+	private String Receiver_Address1;
+	private String Receiver_Address2;
+	private String Receiver_Address3;
+	private String Receiver_Address4;
+	private String Receiver_City;
+	private String Receiver_Pincode;
+	private String Receiver_Oucode;
+	private String Receiver_Phone;
+	private String Receiver_Email;
+	private String Receiver_TIN;
+		
 	private String Goods_Code;
 	private String Goods_Desc;
 	private String Booking_Pin_Code;
@@ -29,7 +56,6 @@ public class PickupDetails {
 	private String Volume;
 	private String UOM;
 	private String Actual_Weight;
-	private String COD_info;
 	private String COD_Flag;
 	private String COD_DOD_in_Favor;
 	private String COD_DOD_Amount;
@@ -40,9 +66,6 @@ public class PickupDetails {
 	private List<Package> Package_Details = new ArrayList<Package>();
 	
 	public PickupDetails() {
-		// TODO Auto-generated constructor stub
-		shipper = new Shipper();
-		receiver = new Receiver();
 	}
 	
 	public String getDocket_No() {
@@ -141,13 +164,7 @@ public class PickupDetails {
 	}
 	public void setActual_Weight(String actual_Weight) {
 		Actual_Weight = actual_Weight;
-	}
-	public String getCOD_info() {
-		return COD_info;
-	}
-	public void setCOD_info(String cOD_info) {
-		COD_info = cOD_info;
-	}
+	}	
 	public String getCOD_Flag() {
 		return COD_Flag;
 	}
@@ -183,24 +200,219 @@ public class PickupDetails {
 	}
 	public void setPackage_Details(List<Package> package_Details) {
 		Package_Details = package_Details;
+	}	
+	public String getShipper_Code() {
+		return Shipper_Code;
 	}
-	public Shipper getShipper() {
-		return shipper;
+
+	public void setShipper_Code(String shipper_Code) {
+		Shipper_Code = shipper_Code;
 	}
-	public void setShipper(Shipper shipper) {
-		this.shipper = shipper;
+
+	public String getShipper_Name() {
+		return Shipper_Name;
 	}
-	public Receiver getReceiver() {
-		return receiver;
+
+	public void setShipper_Name(String shipper_Name) {
+		Shipper_Name = shipper_Name;
 	}
-	public void setReceiver(Receiver receiver) {
-		this.receiver = receiver;
+
+	public String getShipper_Address1() {
+		return Shipper_Address1;
+	}
+
+	public void setShipper_Address1(String shipper_Address1) {
+		Shipper_Address1 = shipper_Address1;
+	}
+
+	public String getShipper_Address2() {
+		return Shipper_Address2;
+	}
+
+	public void setShipper_Address2(String shipper_Address2) {
+		Shipper_Address2 = shipper_Address2;
+	}
+
+	public String getShipper_Address3() {
+		return Shipper_Address3;
+	}
+
+	public void setShipper_Address3(String shipper_Address3) {
+		Shipper_Address3 = shipper_Address3;
+	}
+
+	public String getShipper_Address4() {
+		return Shipper_Address4;
+	}
+
+	public void setShipper_Address4(String shipper_Address4) {
+		Shipper_Address4 = shipper_Address4;
+	}
+
+	public String getShipper_City() {
+		return Shipper_City;
+	}
+
+	public void setShipper_City(String shipper_City) {
+		Shipper_City = shipper_City;
+	}
+
+	public String getShipper_Pincode() {
+		return Shipper_Pincode;
+	}
+
+	public void setShipper_Pincode(String shipper_Pincode) {
+		Shipper_Pincode = shipper_Pincode;
+	}
+
+	public String getShipper_Phone() {
+		return Shipper_Phone;
+	}
+
+	public void setShipper_Phone(String shipper_Phone) {
+		Shipper_Phone = shipper_Phone;
+	}
+
+	public String getShipper_Mobile() {
+		return Shipper_Mobile;
+	}
+
+	public void setShipper_Mobile(String shipper_Mobile) {
+		Shipper_Mobile = shipper_Mobile;
+	}
+
+	public String getShipper_Email() {
+		return Shipper_Email;
+	}
+
+	public void setShipper_Email(String shipper_Email) {
+		Shipper_Email = shipper_Email;
+	}
+
+	public String getShipper_TIN() {
+		return Shipper_TIN;
+	}
+
+	public void setShipper_TIN(String shipper_TIN) {
+		Shipper_TIN = shipper_TIN;
+	}
+
+	public String getReceiver_Code() {
+		return Receiver_Code;
+	}
+
+	public void setReceiver_Code(String receiver_Code) {
+		Receiver_Code = receiver_Code;
+	}
+
+	public String getReceiver_Mobile() {
+		return Receiver_Mobile;
+	}
+
+	public void setReceiver_Mobile(String receiver_Mobile) {
+		Receiver_Mobile = receiver_Mobile;
+	}
+
+	public String getReceiver_Name() {
+		return Receiver_Name;
+	}
+
+	public void setReceiver_Name(String receiver_Name) {
+		Receiver_Name = receiver_Name;
+	}
+
+	public String getReceiver_Address1() {
+		return Receiver_Address1;
+	}
+
+	public void setReceiver_Address1(String receiver_Address1) {
+		Receiver_Address1 = receiver_Address1;
+	}
+
+	public String getReceiver_Address2() {
+		return Receiver_Address2;
+	}
+
+	public void setReceiver_Address2(String receiver_Address2) {
+		Receiver_Address2 = receiver_Address2;
+	}
+
+	public String getReceiver_Address3() {
+		return Receiver_Address3;
+	}
+
+	public void setReceiver_Address3(String receiver_Address3) {
+		Receiver_Address3 = receiver_Address3;
+	}
+
+	public String getReceiver_Address4() {
+		return Receiver_Address4;
+	}
+
+	public void setReceiver_Address4(String receiver_Address4) {
+		Receiver_Address4 = receiver_Address4;
+	}
+
+	public String getReceiver_City() {
+		return Receiver_City;
+	}
+
+	public void setReceiver_City(String receiver_City) {
+		Receiver_City = receiver_City;
+	}
+
+	public String getReceiver_Pincode() {
+		return Receiver_Pincode;
+	}
+
+	public void setReceiver_Pincode(String receiver_Pincode) {
+		Receiver_Pincode = receiver_Pincode;
+	}
+
+	public String getReceiver_Phone() {
+		return Receiver_Phone;
+	}
+
+	public void setReceiver_Phone(String receiver_Phone) {
+		Receiver_Phone = receiver_Phone;
+	}
+
+	public String getReceiver_Email() {
+		return Receiver_Email;
+	}
+
+	public void setReceiver_Email(String receiver_Email) {
+		Receiver_Email = receiver_Email;
+	}
+
+	public String getReceiver_TIN() {
+		return Receiver_TIN;
+	}
+
+	public void setReceiver_TIN(String receiver_TIN) {
+		Receiver_TIN = receiver_TIN;
 	}
 	
+	public String getShipper_Oucode() {
+		return Shipper_Oucode;
+	}
+	public void setShipper_Oucode(String shipper_Oucode) {
+		Shipper_Oucode = shipper_Oucode;
+	}
+
+	public String getReceiver_Oucode() {
+		return Receiver_Oucode;
+	}
+
+	public void setReceiver_Oucode(String receiver_Oucode) {
+		Receiver_Oucode = receiver_Oucode;
+	}
+
 	@Override
 	public String toString() {
 		return new com.google.gson.Gson().toJson(this);
 	}
+
 	
 	
 }

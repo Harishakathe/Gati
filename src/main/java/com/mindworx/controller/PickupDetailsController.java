@@ -35,12 +35,11 @@ import org.w3c.dom.Document;
 import com.mindworx.dao.PickupDetailsDao;
 import com.mindworx.dao.PickupDetailsDaoImpl;
 import com.mindworx.model.PickupDetails;
-import com.mindworx.model.Receiver;
-import com.mindworx.model.Shipper;
+import com.mindworx.model.Customer;
 
 @Controller
 @RequestMapping("/")
-public class PickupDetailsReqController {
+public class PickupDetailsController {
 	
 	@Autowired
     private PickupDetailsDao pickupDetailsDao;

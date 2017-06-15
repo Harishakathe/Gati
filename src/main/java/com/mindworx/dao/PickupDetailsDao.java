@@ -10,5 +10,6 @@ public interface PickupDetailsDao {
 	public String getGoodType();
 	public String getCustomerDetails(String customerid);
 	public String getPinCodes(String pinCode);
+	public String validateXML(PickupDetails pickupDetails);
 	
 }
