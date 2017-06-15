@@ -1,4 +1,6 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page session="false"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,11 +8,14 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <c:url var="home" value="/" scope="request" />
         <link href="<c:url value="/resources/css/normalize.css" />" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/resources/css/jquery.steps.css" />" rel="stylesheet" type="text/css"/>
+        <link href="<c:url value="/resources/css/jquery-ui.css" />" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet" type="text/css"/>
         <script src="<c:url value="/resources/js/jquery-2.1.1.js" />" type="text/javascript"></script>
+        <script src="<c:url value="/resources/js/jquery-ui.js" />" type="text/javascript"></script>
         <script src="<c:url value="/resources/js/jquery.steps.js" />" type="text/javascript"></script>
     </head>
     <body>
@@ -43,8 +48,8 @@
                                 <h5>Confirm<br/> Details</h5>
                             </div>
                         </div>
-                        <div id="wizard">
-							<form action="generate_xml.do" method="post" modelAttribute="pickupDetails">
+                        <form action="generate_xml.do" method="post" modelAttribute="pickupDetails">
+                        	<div id="wizard">							
 								<h2>First Step</h2>
 								<section>
 									<div class="row">
@@ -454,12 +459,13 @@
                                     </div>
                                 </div>
                                 <div class="m-t-lg"></div>
-                            </section>
-							</form>
+                            </section>							
 						</div>
+						</form>
                     </div>
                 </section>
             </div>
         </div>
+        <script src="<c:url value="/resources/js/custom.js" />" type="text/javascript"></script>
     </body>
 </html>
