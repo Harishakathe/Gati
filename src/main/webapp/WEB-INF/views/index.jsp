@@ -74,11 +74,15 @@
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>BKG Basis</label>
 											<select class="form-control">
-												<option>Select</option>
-												<option>2</option>
-												<option>3</option>
-												<option>4</option>
-												<option>5</option>
+											<option value="">Select</option>
+											<option value="1">PAID</option>
+											<option value="2">TBB</option>
+											<option value="4">FOD</option>
+											<option value="6">BOD</option>    
+											   
+									            
+												
+												
 											</select>
 										</div>
 										<div class="col-sm-3 m-b-sm">
@@ -178,11 +182,11 @@
 										<div class="col-sm-3 m-b-sm">
 											<label>Risk</label>
 											<select class="form-control">
-												<option>Select</option>
-												<option>2</option>
-												<option>3</option>
-												<option>4</option>
-												<option>5</option>
+											
+											<option value="">Select</option>
+											<option value="1">Gati</option>
+											<option value="2">Owner</option>
+											
 											</select>
 										</div>
 									</div> 
@@ -222,11 +226,9 @@
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>COD/DOD in Fav</label>
 											<select class="form-control">
-												<option>Select</option>
-												<option>2</option>
-												<option>3</option>
-												<option>4</option>
-												<option>5</option>
+										    <option value="">Select</option>
+											<option value="Gati">1</option>
+											<option value="Shipper">2</option>
 											</select>
 										</div>
 										<div class="col-sm-3 m-b-sm">
