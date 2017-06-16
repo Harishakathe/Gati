@@ -60,6 +60,11 @@ public class PickupDetailsRestController {
     public ResponseEntity<String> getPinCodes(@PathVariable String pinCode) {
     	return new ResponseEntity<String>(pickupDetailsDao.getPinCodes(pinCode), HttpStatus.OK);
     }
+    
+    @RequestMapping(value = "/getEsscode/{receiver_pinCode}", method = RequestMethod.GET)
+    public ResponseEntity<String> getEsscode(@PathVariable String receiver_pinCode) {
+    	return new ResponseEntity<String>(pickupDetailsDao.getEsscode(receiver_pinCode), HttpStatus.OK);
+    }
 		
 	@RequestMapping(value = "/validate_xml", method = RequestMethod.POST)
     public ResponseEntity<?> validateXml(@ModelAttribute("pickupDetails") @Valid PickupDetails pickupDetails,BindingResult result, Model model) {
@@ -94,6 +99,10 @@ public class PickupDetailsRestController {
 
 
         responce.setMsg(o.get("error_flag").getAsString());
+        
+        /*HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new ResponseEntity<String>(resultJson.toString(), headers, HttpStatus.OK);*/
         
 		return ResponseEntity.ok(result);
 	}

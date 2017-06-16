@@ -95,12 +95,16 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		StringBuffer out = new StringBuffer();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		String comm = "";
 		try {
 			ps = connection.prepareStatement(sql);
 			rs = ps.executeQuery();
-			while(rs.next()){
-				out.append("<option value='"+rs.getString(1)+"' >"+rs.getString(2)+"</option>");
+			out.append("{\"items\":[");
+			while(rs.next()){				
+				out.append(comm+"{\"good_code\":\""+rs.getString(1)+"\",\"good_name\":\""+rs.getString(2)+"\"}");
+				comm=",";
 			}
+			out.append("]}");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -340,6 +344,34 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		finally {
 			try {
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}					
+		}
+		return out.toString();
+	}
+
+	@Override
+	public String getEsscode(String receiver_pincode) {
+		String sql = "select ess_code,attachedou_code from gemsprod.GEMS_X_ESS_PINCODE_DTLS where PIN_CODE=? and status='V' and OPERATIONAL_STATUS='O'";
+		StringBuffer out = new StringBuffer();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String comm = "";
+		try {
+			ps = connection.prepareStatement(sql);
+			ps.setString(1,receiver_pincode);
+			rs = ps.executeQuery();
+			if(rs.next()){
+				out.append(comm+"{\"ess_code\":\""+rs.getString(1)+"\",\"attachedou_code\":\""+rs.getString(2)+"\"}");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				rs.close();
 				ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();

@@ -93,7 +93,7 @@
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Goods Type</label>
-											<select class="form-control" name="Goods_Code">
+											<select class="form-control" id="Goods_Code" name="Goods_Code">
 											</select>
 										</div>
 									</div> 
@@ -118,6 +118,8 @@
 											<label>DLY Pin Code</label>
 											<input class="form-control w-control" type="text" id="Receiver_Pincode" name="Receiver_Pincode">
 											<input type="hidden" id="Receiver_TIN" name="Receiver_TIN">
+											<input type="hidden" id="esscode" name="esscode">
+											
 										</div>
 									</div> 
 									<div class="row">
@@ -471,10 +473,12 @@
         		 $("#Goods_Code").html="";
 	       		 $.ajax( {
 		              method:"get",
-		              url: "${get}getGoodType/",
+		              url: "${get}getGoodType",
 		              success: function( data ) {
-		            	  console.log(data);
-		            	  $("#Goods_Code").html(data);		                  
+		            	  data = JSON.parse(data);
+		            	  $.each(data.items, function(index, element) {		            	  
+		            	  	$("#Goods_Code").append("<option value='"+element.good_code+"'>"+element.good_name+"</option>");
+		            	  });		            	  		                  
 		              },
 		              error: function() {
 		                  alert("Failed to load Good Type");
@@ -482,7 +486,26 @@
 		              
 		            } );
         	 }
-        	 //fillGoodType();
+        	 
+        	 function getEsscode(receiver_pincode){
+        		 console.log("Function Call getEsscode:"+receiver_pincode);
+        		 $("#esscode").val="";        		 
+	       		 $.ajax( {
+		              method:"get",
+		              url: "${get}getEsscode/"+receiver_pincode,
+		              success: function( data ) {
+		            	  console.log(data);
+		            	  data = JSON.parse(data);
+		            	  console.log(data.ess_code);
+		            	  $("#esscode").val(data.ess_code);		            	  		                  
+		              },
+		              error: function() {
+		                  alert("Failed to load Esscode");
+		              }		              
+		            });
+        	 }
+        	 
+        	 fillGoodType();
 	        
 		      $( "#Shipper_Code" ).autocomplete({
 			        minLength: 3,
@@ -602,6 +625,7 @@
 			        select: function( event, ui ) {
 			          $( "#Receiver_Pincode" ).val( ui.item.pincode );
 			          $( "#Receiver_TIN" ).val( ui.item.ou_code );
+			          getEsscode(ui.item.pincode);
 			          return false;
 			        }
 			      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
