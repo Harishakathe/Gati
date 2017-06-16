@@ -51,8 +51,6 @@ public class PickupDetailsRestController {
     
     @RequestMapping(value = "/getCustomerDetails/{customerid}", method = RequestMethod.GET)
     public ResponseEntity<CustomerList> getCustomerDetails(@PathVariable String customerid) {
-    	//logs exception
-    	logger.error("This is Error message", new Exception("Testing"));
     	
     	CustomerList customers = new CustomerList();
     	customers.setCustomers(pickupDetailsDao.getCustomerDetails(customerid));

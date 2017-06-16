@@ -37,7 +37,7 @@
                         <div class="line"></div>
                         <div class="titles">
                             <div class="title-parent">
-                                <h5>Shipment<br/> ${home}</h5>
+                                <h5>Shipment<br/> Details</h5>
                             </div>
                             <div class="title-parent">
                                 <h5>Shipper<br/> Details</h5>
@@ -250,125 +250,124 @@
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Shipper Code</label>
-											<input class="form-control w-control" type="text" name="Shipper_Code" >
+											<input class="form-control w-control" type="text" name="Shipper_Code1" id="Shipper_Code1"  >
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Mobile No</label>
-											<input class="form-control w-control" type="text" name="Shipper_Mobile">
+											<input class="form-control w-control" type="text" name="Shipper_Mobile" id="Shipper_Mobile">
 										</div>
 									</div> 
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Name</label>
-											<input class="form-control w-control" type="text" name="Shipper_Name">
+											<input class="form-control w-control" type="text" name="Shipper_Name" id="Shipper_Name">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Phone No</label>
-											<input class="form-control w-control" type="text" name="Shipper_Phone">
+											<input class="form-control w-control" type="text" name="Shipper_Phone" id="Shipper_Phone">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Address Line 1</label>
-											<input class="form-control w-control" type="text" name="Shipper_Address1">
+											<input class="form-control w-control" type="text" name="Shipper_Address1" id="Shipper_Address1">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Address Line 2</label>
-											<input class="form-control w-control" type="text" name="Shipper_Address2">
+											<input class="form-control w-control" type="text" name="Shipper_Address2" id="Shipper_Address2">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Address Line 3</label>
-											<input class="form-control w-control" type="text" name="Shipper_Address3">
+											<input class="form-control w-control" type="text" name="Shipper_Address3" id="Shipper_Address3">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Address Line 4</label>
-											<input class="form-control w-control" type="text" name="Shipper_Address4">
+											<input class="form-control w-control" type="text" name="Shipper_Address4" id="Shipper_Address4">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>City</label>
-											<input class="form-control w-control" type="text" name="Shipper_City">
+											<input class="form-control w-control" type="text" name="Shipper_City" id="Shipper_City">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Pin Code</label>
-											<input class="form-control w-control" type="text" name="Shipper_Pincode">
+											<input class="form-control w-control" type="text" name="Shipper_Pincode" id="Shipper_Pincode">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Email</label>
-											<input class="form-control w-control" type="text" name="Shipper_Email">
+											<input class="form-control w-control" type="text" name="Shipper_Email" id="Shipper_Email">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>VAT/TIN</label>
-											<input class="form-control w-control" type="text" name="Shipper_TIN">
+											<input class="form-control w-control" type="text" name="Shipper_TIN" id="Shipper_TIN">
 										</div>
 									</div>
 								</section>
-
 								<h2>Third Step</h2>
 								<section>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Receiver Code</label>
-											<input class="form-control w-control" type="text" name="Receiver_Code">
+											<input class="form-control w-control" type="text" name="Receiver_Code1" id="Receiver_Code1">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Mobile No</label>
-											<input class="form-control w-control" type="text" name="Receiver_Mobile">
+											<input class="form-control w-control" type="text" name="Receiver_Mobile" id="Receiver_Mobile">
 										</div>
 									</div> 
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Name</label>
-											<input class="form-control w-control" type="text" name="Receiver_Name">
+											<input class="form-control w-control" type="text" name="Receiver_Name" id="Receiver_Name"> 
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Phone No</label>
-											<input class="form-control w-control" type="text" name="Receiver_Phone">
+											<input class="form-control w-control" type="text" name="Receiver_Phone" id="Receiver_Phone">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Address Line 1</label>
-											<input class="form-control w-control" type="text" name="Receiver_Address1">
+											<input class="form-control w-control" type="text" name="Receiver_Address1" id="Receiver_Address1">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Address Line 2</label>
-											<input class="form-control w-control" type="text" name="Receiver_Address2">
+											<input class="form-control w-control" type="text" name="Receiver_Address2" id="Receiver_Address2">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Address Line 3</label>
-											<input class="form-control w-control" type="text" name="Receiver_Address3">
+											<input class="form-control w-control" type="text" name="Receiver_Address3" id="Receiver_Address3">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Address Line 4</label>
-											<input class="form-control w-control" type="text" name="Receiver_Address4">
+											<input class="form-control w-control" type="text" name="Receiver_Address4" id="Receiver_Address4">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>City</label>
-											<input class="form-control w-control" type="text" name="Receiver_City">
+											<input class="form-control w-control" type="text" name="Receiver_City" id="Receiver_City">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Pin Code</label>
-											<input class="form-control w-control" type="text" name="Receiver_Pincode">
+											<input class="form-control w-control" type="text" name="Receiver_Pincode" id="Receiver_Pincode">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Email</label>
-											<input class="form-control w-control" type="text" name="Receiver_Email">
+											<input class="form-control w-control" type="text" name="Receiver_Email" id="Receiver_Email">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>VAT/TIN</label>
-											<input class="form-control w-control" type="text" name="Receiver_TIN">
+											<input class="form-control w-control" type="text" name="Receiver_TIN" id="Receiver_TIN">
 										</div>
 									</div>
 								</section>
@@ -488,10 +487,10 @@
 			        select: function( event, ui ) {
 			        	$("#Shipper_Code").val( ui.item.custCode );
 			        	$("#Shipper_Name").val( ui.item.custName );
-			        	$("#Shipper_Add1").val( ui.item.custAdd1 );
-			        	$("#Shipper_Add2").val( ui.item.custAdd2 );
-			        	$("#Shipper_Add3").val( ui.item.custAdd3 );
-			        	$("#Shipper_Add4").val( ui.item.custAdd4 );
+			        	$("#Shipper_Address1").val( ui.item.custAdd1 );
+			        	$("#Shipper_Address2").val( ui.item.custAdd2 );
+			        	$("#Shipper_Address3").val( ui.item.custAdd3 );
+			        	$("#Shipper_Address4").val( ui.item.custAdd4 );
 			        	$("#Shipper_City").val( ui.item.custCity );
 			        	$("#Shipper_Pincode").val( ui.item.custPincode );
 			        	$("#Shipper_Phone").val( ui.item.custPhone );
@@ -524,10 +523,10 @@
 		        select: function( event, ui ) {
 		        	$("#Receiver_Code").val( ui.item.custCode );
 		        	$("#Receiver_Name").val( ui.item.custName );
-		        	$("#Receiver_Add1").val( ui.item.custAdd1 );
-		        	$("#Receiver_Add2").val( ui.item.custAdd2 );
-		        	$("#Receiver_Add3").val( ui.item.custAdd3 );
-		        	$("#Receiver_Add4").val( ui.item.custAdd4 );
+		        	$("#Receiver_Address1").val( ui.item.custAdd1 );
+		        	$("#Receiver_Address2").val( ui.item.custAdd2 );
+		        	$("#Receiver_Address3").val( ui.item.custAdd3 );
+		        	$("#Receiver_Address4").val( ui.item.custAdd4 );
 		        	$("#Receiver_City").val( ui.item.custCity );
 		        	$("#Receiver_Pincode").val( ui.item.custPincode );
 		        	$("#Receiver_Phone").val( ui.item.custPhone );
