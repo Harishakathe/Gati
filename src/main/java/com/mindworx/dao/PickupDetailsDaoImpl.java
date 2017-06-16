@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -113,30 +115,30 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		return out.toString();
 	}
 
-	public String getCustomerDetails(String customerid) {
-		String sql = "SELECT cust_code,CUST_NAME,Nvl(CUST_ADD1,' ') CUST_ADD1,Nvl(CUST_ADD2,' ') CUST_ADD2,Nvl(CUST_ADD3,' ') CUST_ADD3,Nvl(CUST_ADD4,' ') CUST_ADD4,Nvl(CUST_CITY,' ') CUST_CITY,Nvl(CUST_PHONE_NO,' ') CUST_PHONE_NO ,Nvl(CUST_EMAIL,' ') CUST_EMAIL,Nvl(CUST_MOBILE_NO,' ') CUST_MOBILE_NO,NVL(CUST_EMAIL,' ') CUST_EMAIL,Nvl(BUSINESS_PINCODE,' ')BUSINESS_PINCODE,nvl(ATTACHED_OU,'-') ATTACHED_OU FROM gemsprod.gems_cust_mst WHERE status='V' AND cust_Code<>'99999' and cust_code like upper(?)";
-		StringBuffer out = new StringBuffer();
+	public List<Customer> getCustomerDetails(String customerid) {
+		String sql = "SELECT cust_code,CUST_NAME,Nvl(CUST_ADD1,' ') CUST_ADD1,Nvl(CUST_ADD2,' ') CUST_ADD2,Nvl(CUST_ADD3,' ') CUST_ADD3,Nvl(CUST_ADD4,' ') CUST_ADD4,Nvl(CUST_CITY,' ') CUST_CITY,Nvl(CUST_PHONE_NO,' ') CUST_PHONE_NO ,Nvl(CUST_EMAIL,' ') CUST_EMAIL,Nvl(CUST_MOBILE_NO,' ') CUST_MOBILE_NO,Nvl(BUSINESS_PINCODE,' ')BUSINESS_PINCODE,nvl(ATTACHED_OU,'-') ATTACHED_OU FROM gemsprod.gems_cust_mst WHERE status='V' AND cust_Code<>'99999' and cust_code like upper(?)";
+		List<Customer> out = new ArrayList<>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
 			ps = connection.prepareStatement(sql);
 			ps.setString(1,customerid+"%");
 			rs = ps.executeQuery();
-			if(rs.next()){
-				Customer shipper = new Customer();
-				shipper.setShipper_Code(rs.getString("cust_code"));
-				shipper.setShipper_Name(rs.getString("CUST_NAME"));
-				shipper.setShipper_Address1(rs.getString("CUST_ADD1").trim());
-				shipper.setShipper_Address2(rs.getString("CUST_ADD2").trim());
-				shipper.setShipper_Address3(rs.getString("CUST_ADD3").trim());
-				shipper.setShipper_Address4(rs.getString("CUST_ADD4").trim());
-				shipper.setShipper_City(rs.getString("CUST_CITY").trim());
-				shipper.setShipper_Pin_Code(rs.getString("BUSINESS_PINCODE").trim());
-				shipper.setShipper_Phone(rs.getString("CUST_PHONE_NO").trim());
-				shipper.setShipper_Mobile(rs.getString("CUST_MOBILE_NO").trim());
-				shipper.setShipper_Email(rs.getString("CUST_EMAIL").trim());
-				shipper.setShipper_VAT_TIN(rs.getString("ATTACHED_OU"));
-				out.append(shipper.toString());
+			while(rs.next()){
+				Customer cust = new Customer();
+				cust.setCustCode(rs.getString("cust_code"));
+				cust.setCustName(rs.getString("CUST_NAME"));
+				cust.setCustAdd1(rs.getString("CUST_ADD1").trim());
+				cust.setCustAdd2(rs.getString("CUST_ADD2").trim());
+				cust.setCustAdd3(rs.getString("CUST_ADD3").trim());
+				cust.setCustAdd4(rs.getString("CUST_ADD4").trim());
+				cust.setCustCity(rs.getString("CUST_CITY").trim());
+				cust.setCustPincode(rs.getString("BUSINESS_PINCODE").trim());
+				cust.setCustPhone(rs.getString("CUST_PHONE_NO").trim());
+				cust.setCustMobile(rs.getString("CUST_MOBILE_NO").trim());
+				cust.setCustEmail(rs.getString("CUST_EMAIL").trim());
+				cust.setCustTIN(rs.getString("ATTACHED_OU"));
+				out.add(cust);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -149,7 +151,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 				e.printStackTrace();
 			}					
 		}
-		return out.toString();
+		return out;
 	}
 
 	public String getPinCodes(String pincode) {

@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mindworx.dao.PickupDetailsDao;
 import com.mindworx.model.AjaxResponseBody;
+import com.mindworx.model.CustomerList;
 import com.mindworx.model.PickupDetails;
 import com.mindworx.validator.PickupDetailsValidator;
 
@@ -30,6 +31,8 @@ public class PickupDetailsRestController {
 	
 	@Autowired
     private PickupDetailsDao pickupDetailsDao;
+	
+	private static final Logger logger = Logger.getLogger(PickupDetailsRestController.class);
 	
 	@RequestMapping(value = "/testconnection", method = RequestMethod.GET)
     public void testConnection() {
@@ -47,17 +50,21 @@ public class PickupDetailsRestController {
     }
     
     @RequestMapping(value = "/getCustomerDetails/{customerid}", method = RequestMethod.GET)
-    public ResponseEntity<String> getCustomerDetails(@PathVariable String customerid) {
-    	return new ResponseEntity<String>(pickupDetailsDao.getCustomerDetails(customerid), HttpStatus.OK);
+    public ResponseEntity<CustomerList> getCustomerDetails(@PathVariable String customerid) {
+    	//logs exception
+    	logger.error("This is Error message", new Exception("Testing"));
+    	
+    	CustomerList customers = new CustomerList();
+    	customers.setCustomers(pickupDetailsDao.getCustomerDetails(customerid));
+    	
+    	return new ResponseEntity<CustomerList>(customers, HttpStatus.OK);
     }
     
     @RequestMapping(value = "/getPinCodes/{pinCode}", method = RequestMethod.GET)
     public ResponseEntity<String> getPinCodes(@PathVariable String pinCode) {
     	return new ResponseEntity<String>(pickupDetailsDao.getPinCodes(pinCode), HttpStatus.OK);
     }
-	
-	private static final Logger logger = Logger.getLogger(PickupDetailsRestController.class);
-	
+		
 	@RequestMapping(value = "/validate_xml", method = RequestMethod.POST)
     public ResponseEntity<?> validateXml(@ModelAttribute("pickupDetails") @Valid PickupDetails pickupDetails,BindingResult result, Model model) {
 		
