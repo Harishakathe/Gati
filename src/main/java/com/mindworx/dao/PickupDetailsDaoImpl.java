@@ -164,12 +164,12 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			ps = connection.prepareStatement(sql);
 			ps.setString(1,pincode+"%");
 			rs = ps.executeQuery();
-			out.append("[");
+			out.append("{\"items\":[");
 			while(rs.next()){
-				out.append(comm+"{\"PINCODE\":\""+rs.getString(1)+"\",\"ou_code\":\""+rs.getString(2)+"\"}");
+				out.append(comm+"{\"pincode\":"+rs.getString(1)+",\"ou_code\":\""+rs.getString(2)+"\"}");
 				comm=",";
 			}
-			out.append("]");
+			out.append("]}");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

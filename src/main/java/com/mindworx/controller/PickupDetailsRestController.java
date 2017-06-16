@@ -1,6 +1,5 @@
 package com.mindworx.controller;
 
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -81,10 +80,11 @@ public class PickupDetailsRestController {
 		
         //If error, just return a 400 bad request, along with the error message
         if (result.hasErrors()) {
-
+        	responce.setMsg(result.getAllErrors().toString());
+        	/*java 8
         	responce.setMsg(result.getAllErrors()
                         .stream().map(x -> x.getDefaultMessage())
-                        .collect(Collectors.joining(",")));
+                        .collect(Collectors.joining(",")));*/
 
             return ResponseEntity.badRequest().body(result);
 

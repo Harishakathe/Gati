@@ -116,11 +116,13 @@
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>BKG Pin Code</label>
-											<input class="form-control w-control" type="text" name="Shipper_Pincode">
+											<input class="form-control w-control" type="text" id="Shipper_Pincode" name="Shipper_Pincode">
+											<input type="hidden" id="Shipper_TIN" name="Shipper_TIN">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>DLY Pin Code</label>
-											<input class="form-control w-control" type="text" name="Receiver_Pincode">
+											<input class="form-control w-control" type="text" id="Receiver_Pincode" name="Receiver_Pincode">
+											<input type="hidden" id="Receiver_TIN" name="Receiver_TIN">
 										</div>
 									</div> 
 									<div class="row">
@@ -548,24 +550,54 @@
 		              method:"get",
 		              url: "${home}getPinCodes/"+request.term,
 		              success: function( data ) {
-		                response( data );
+		            	  var obj = JSON.parse(data);
+		            	  response(obj.items);
 		              }
 		            } );
 		          },
 		        focus: function( event, ui ) {
-		          $( "#Shipper_Pincode" ).val( ui.item.label );
+		          $( "#Shipper_Pincode" ).val( ui.item.pincode );
 		          return false;
 		        },
 		        select: function( event, ui ) {
-		          $( "#project" ).val( ui.item.label );
+		          $( "#Shipper_Pincode" ).val( ui.item.pincode );
+		          $( "#Shipper_TIN" ).val( ui.item.ou_code );
 		          return false;
 		        }
 		      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
 		        return $( "<li>" )
-		          .append( "<div>" + item.label + "<br>" + item.desc + "</div>" )
+		          .append( "<div>" + item.pincode + "<br>" + item.ou_code + "</div>" )
 		          .appendTo( ul );
 		      };
+		      
+		      $( "#Receiver_Pincode" ).autocomplete({
+			        minLength: 3,
+			        source: function( request, response ) {
+			            $.ajax( {
+			              method:"get",
+			              url: "${home}getPinCodes/"+request.term,
+			              success: function( data ) {
+			            	  var obj = JSON.parse(data);
+			            	  response(obj.items);
+			              }
+			            } );
+			          },
+			        focus: function( event, ui ) {
+			          $( "#Receiver_Pincode" ).val( ui.item.pincode );			          
+			          return false;
+			        },
+			        select: function( event, ui ) {
+			          $( "#Receiver_Pincode" ).val( ui.item.pincode );
+			          $( "#Receiver_TIN" ).val( ui.item.ou_code );
+			          return false;
+			        }
+			      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+			        return $( "<li>" )
+			          .append( "<div>" + item.pincode + "<br>" + item.ou_code + "</div>" )
+			          .appendTo( ul );
+			      };
         });
+        
         </script>
     </body>
 </html>
