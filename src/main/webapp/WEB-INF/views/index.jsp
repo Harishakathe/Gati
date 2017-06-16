@@ -94,11 +94,6 @@
 										<div class="col-sm-3 m-b-sm">
 											<label>Goods Type</label>
 											<select class="form-control" name="Goods_Code">
-												<option>Select</option>
-												<option>2</option>
-												<option>3</option>
-												<option>4</option>
-												<option>5</option>
 											</select>
 										</div>
 									</div> 
@@ -470,6 +465,24 @@
         </div>
         <script type="text/javascript">
         $( function() {
+        	
+        	 
+        	 function fillGoodType(){
+        		 $("#Goods_Code").html="";
+	       		 $.ajax( {
+		              method:"get",
+		              url: "${get}getGoodType/",
+		              success: function( data ) {
+		            	  console.log(data);
+		            	  $("#Goods_Code").html(data);		                  
+		              },
+		              error: function() {
+		                  alert("Failed to load Good Type");
+		              }
+		              
+		            } );
+        	 }
+        	 //fillGoodType();
 	        
 		      $( "#Shipper_Code" ).autocomplete({
 			        minLength: 3,
