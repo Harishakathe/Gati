@@ -12,6 +12,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class PickupDetails {
 	
 	private String Docket_No;
+	private String Docket_Type;
+	private String Docket_Category;
 	private String Product;
 	private String Booking_Basis;
 	
@@ -74,6 +76,24 @@ public class PickupDetails {
 	public void setDocket_No(String docket_No) {
 		Docket_No = docket_No;
 	}
+	
+	
+	public String getDocket_Type() {
+		return Docket_Type;
+	}
+
+	public void setDocket_Type(String docket_Type) {
+		Docket_Type = docket_Type;
+	}
+
+	public String getDocket_Category() {
+		return Docket_Category;
+	}
+
+	public void setDocket_Category(String docket_Category) {
+		Docket_Category = docket_Category;
+	}
+
 	public String getProduct() {
 		return Product;
 	}

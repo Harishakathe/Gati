@@ -156,6 +156,8 @@
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Docket No</label>
 											<input class="form-control w-control" maxlength="10" type="text" name="Docket_No" id="Docket_No"  >
+											<input type="hidden" name="Docket_Type" value="NR"  >
+											<input type="hidden" name="Docket_Category" value="D"  >
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Product</label>
@@ -183,11 +185,7 @@
 											<option value="1">PAID</option>
 											<option value="2">TBB</option>
 											<option value="4">FOD</option>
-											<option value="6">BOD</option>    
-											   
-									            
-												
-												
+											<option value="6">BOD</option>
 											</select>
 										</div>
 										<div class="col-sm-3 m-b-sm">

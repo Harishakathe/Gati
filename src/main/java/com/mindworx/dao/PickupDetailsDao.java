@@ -14,6 +14,8 @@ public interface PickupDetailsDao {
 	public List<Customer> getCustomerDetails(String customerid);
 	public String getPinCodes(String pinCode);
 	public String validateXML(PickupDetails pickupDetails);
+	public String updateDocket(PickupDetails p);
 	public String getEsscode(String pinCode);
 	public String getContractNo(String cust_code);
+	public String generateDocketNo(PickupDetails p);
 }

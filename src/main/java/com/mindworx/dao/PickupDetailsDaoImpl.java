@@ -10,9 +10,11 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
 import org.springframework.validation.annotation.Validated;
 
 import com.mindworx.model.PickupDetails;
+import com.mindworx.controller.PickupDetailsRestController;
 import com.mindworx.model.Customer;
 
 @Validated
@@ -20,6 +22,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	
 	
 	private Connection connection = null;
+	private static final Logger log = Logger.getLogger(PickupDetailsDaoImpl.class);
 	
 	public PickupDetailsDaoImpl(DataSource dataSource) {
 		try {
@@ -34,6 +37,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		
 	}
 	
+	//for Test Connection
 	public long getGEMS_WS_CUST_AUTO_prod_vals() {
 		String sql = "select count(*) from gemsprod.GEMS_WS_CUST_AUTO_prod_vals";
 		int count = 0;
@@ -59,11 +63,9 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		return count;
 		
-	}
+	}	
 	
-	
-	
-
+	//for getBookingStation
 	public String getBookingStation(String cust_code) {
 		String sql = "select attached_ou from gemsprod.gems_cust_mst where cust_code = ? ";
 		String out = null;
@@ -89,7 +91,8 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		return out;
 	}
-
+	
+	//for getGoodType at initial load page
 	public String getGoodType() {
 		String sql = "select goods_code,substr(goods_name,1,20) goods_nm from gemsprod.GEMS_GOODS_MST where status='V' order by goods_name";
 		StringBuffer out = new StringBuffer();
@@ -118,7 +121,8 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		return out.toString();
 	}
-
+	
+	//for autocomplete ajax Shipper Code || Receiver Code
 	public List<Customer> getCustomerDetails(String customerid) {
 		String sql = "SELECT cust_code,CUST_NAME,Nvl(CUST_ADD1,' ') CUST_ADD1,Nvl(CUST_ADD2,' ') CUST_ADD2,Nvl(CUST_ADD3,' ') CUST_ADD3,Nvl(CUST_ADD4,' ') CUST_ADD4,Nvl(CUST_CITY,' ') CUST_CITY,Nvl(CUST_PHONE_NO,' ') CUST_PHONE_NO ,Nvl(CUST_EMAIL,' ') CUST_EMAIL,Nvl(CUST_MOBILE_NO,' ') CUST_MOBILE_NO,Nvl(BUSINESS_PINCODE,' ')BUSINESS_PINCODE,nvl(ATTACHED_OU,'-') ATTACHED_OU FROM gemsprod.gems_cust_mst WHERE status='V' AND cust_Code<>'99999' and cust_code like upper(?)";
 		List<Customer> out = new ArrayList<>();
@@ -157,9 +161,12 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		return out;
 	}
-
+	
+	//for autocomplete ajax Shipper Pincode || Receiver Pincode
 	public String getPinCodes(String pincode) {
-		String sql = "SELECT distinct PINCODE,ou_code FROM gemsprod.GEMS_PINCODE_LOCATION_MST  WHERE PINCODE_STATUS='O'  AND END_DT > SYSDATE  AND STATUS='V' and pincode like ?";
+		//String sql = "SELECT distinct PINCODE,ou_code FROM gemsprod.GEMS_PINCODE_LOCATION_MST  WHERE PINCODE_STATUS='O'  AND END_DT > SYSDATE  AND STATUS='V' and pincode like ?";
+		String sql = "SELECT distinct PINCODE,pincode||','||Trim(location)||','||state_code location,ou_code FROM gemsprod.GEMS_PINCODE_LOCATION_MST  WHERE PINCODE_STATUS='O'  AND END_DT > SYSDATE  AND STATUS='V' AND serv_type='D'  and pincode like ?";
+		
 		StringBuffer out = new StringBuffer();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -170,7 +177,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			rs = ps.executeQuery();
 			out.append("{\"items\":[");
 			while(rs.next()){
-				out.append(comm+"{\"pincode\":"+rs.getString(1)+",\"ou_code\":\""+rs.getString(2)+"\"}");
+				out.append(comm+"{\"pincode\":"+rs.getString(1)+",\"location\":\""+rs.getString(2)+"\",\"ou_code\":\""+rs.getString(3)+"\"}");
 				comm=",";
 			}
 			out.append("]}");
@@ -187,8 +194,20 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		return out.toString();
 	}
-
+	
+	//for Submit form and insert data
 	public String validateXML(PickupDetails p) {
+		log.debug("call validateXML");
+		//generate contract_no;
+		String cust_code = p.getShipper_Code();
+		if(p.getBooking_Basis().equalsIgnoreCase("6")){
+			cust_code = p.getReceiver_Code();
+		}	
+		String contract_no =  this.getContractNo(cust_code);
+		log.debug("call Contract No:"+contract_no);
+		//generate Docket_no;
+		String output = this.generateDocketNo(p);
+		log.debug("call Docket No:"+output);
 		
 		CallableStatement cstmt = null;
 		String sp = "{call Gems_DOCKET_VALIDATE_proc(?,?,?,?)}";
@@ -200,7 +219,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			cstmt.setString(3, ""); 	//P_DKT_CATG || DOCKET_Category
 			cstmt.setString(4, ""); 	//P_DKT_TYPE || DOCKET_type
 			cstmt.setDate(5, new java.sql.Date(p.getPickup_date().getTime())); 		//P_BKGDT || Date 
-			cstmt.setString(6, ""); 	//P_CONTRACTNO || contract_no
+			cstmt.setString(6, contract_no); 	//P_CONTRACTNO || contract_no
 			cstmt.setString(7, p.getShipper_Code()); 	//P_CONSIGNOR || cust_code
 			cstmt.setString(8, p.getReceiver_Code()); 	//P_CONSIGNEE || cust_code
 			cstmt.setString(9, p.getBooking_Basis()); 	//P_BASISCODE || Booking Basis
@@ -214,7 +233,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			String Flag = cstmt.getString(1);
 			String Msg = cstmt.getString(2);
 			out.append("{\"error_flag\":\""+Flag+"\",\"error_msg\":\""+Msg+"\"}");
-			
+			log.debug("call CallableStatement:"+out.toString());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -229,7 +248,8 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		return out.toString();
 	}
 	
-	public String insertDocket(PickupDetails p){
+	//for Submit form and insert data
+	private String insertDocket(PickupDetails p){
 		String sql = "insert into gemsprod.GEMS_GKE_DOCKET_UPLOAD(LOAD_SEQ_NO,created_date,DOCKET_NO,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,ESS_CODE,consignor_tinno,consignee_tinno,UPLOAD_FLAG,STATUS)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),sysdate,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'V')";
 		StringBuffer out = new StringBuffer();
 		PreparedStatement ps = null;
@@ -290,6 +310,47 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		return out.toString();
 	}
 	
+	//for insert insertPackage
+	private String insertPackage(PickupDetails p){
+		
+		String sql = "insert into gemsprod.TEMP_DOCKET_ITEM_DTLS(LOAD_SEQNO,DOCKET_NO,PKG_NO,PKG_LN,PKG_BR,PKG_HT,PKG_WT)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),?,?,?,?,?,?)";
+		StringBuffer out = new StringBuffer();
+		int maxBatchSize = 100;
+		PreparedStatement ps = null;
+		int []executeResult = null;
+		try {
+			
+			ps = connection.prepareStatement(sql);
+			List<com.mindworx.model.Package> packages = p.getPackage_Details();
+			for (int i = 0; i < packages.size();  i++) {
+				int package_no = Integer.parseInt(p.getPackage_number_from());
+				ps.setInt(1,Integer.parseInt(p.getDocket_No()));
+				ps.setInt(2,package_no+i);
+				ps.setInt(3,Integer.parseInt(packages.get(i).getPkg_ln()));
+				ps.setInt(4,Integer.parseInt(packages.get(i).getPkg_br()));
+				ps.setInt(5,Integer.parseInt(packages.get(i).getPkg_ht()));
+				ps.setInt(6,Integer.parseInt(packages.get(i).getPkg_wt()));
+				ps.addBatch();
+                if ((i + 1) % maxBatchSize == 0 || (i + 1) == packages.size()) {
+                    executeResult = ps.executeBatch();
+                }
+            } 
+			out.append("Docket Package Inserted");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}					
+		}
+		return out.toString();
+	}
+	
+	//for insert updateDocket
 	public String updateDocket(PickupDetails p){
 		String sql = "update gemsprod.GEMS_GKE_DOCKET_UPLOAD set PROD_SERV_CODE=? ,BOOKING_BASIS=? ,CONSIGNOR_CODE=? ,CONSIGNEE_CODE=? ,GOODS_CODE=? ,CONSIGNOR_PINCODE=? ,CONSIGNEE_PINCODE=? ,NO_OF_PKGS=? ,DECL_CARGO_VAL=? ,RISK_COVERAGE=? ,VOLUME=? ,UOM=? ,ACTUAL_WT=? ,CONSIGNOR_NAME=? ,CONSIGNOR_ADD1=? ,CONSIGNOR_ADD2=? ,CONSIGNOR_ADD3=? ,CONSIGNOR_ADD4=? ,CONSIGNOR_CITY=? ,CONSIGNOR_MOBILE_NO=? ,CONSIGNOR_PHONE_NO=? ,CONSIGNOR_EMAIL=? ,CONSIGNEE_NAME=? ,CONSIGNEE_ADD1=? ,CONSIGNEE_ADD2=? ,CONSIGNEE_ADD3=? ,CONSIGNEE_ADD4=? ,CONSIGNEE_CITY=? ,CONSIGNEE_MOBILE_NO=? ,CONSIGNEE_PHONE_NO=? ,CONSIGNEE_EMAIL=? ,COD_DOD_FLAG=? ,COD_IN_FAVOUR_OF=? ,ESS_CODE=? ,consignor_tinno=? ,consignee_tinno=? where DOCKET_NO = ?";
 		StringBuffer out = new StringBuffer();
@@ -352,6 +413,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		return out.toString();
 	}
 
+	//for generate getEsscode
 	@Override
 	public String getEsscode(String receiver_pincode) {
 		String sql = "select ess_code,attachedou_code from gemsprod.GEMS_X_ESS_PINCODE_DTLS where PIN_CODE=? and status='V' and OPERATIONAL_STATUS='O'";
@@ -379,6 +441,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		return out.toString();
 	}
 
+	//for generate Contract No 
 	@Override
 	public String getContractNo(String cust_code) {
 		String sql = "SELECT gccd.contract_no FROM gems_contract_cust_dtls gccd, gems_cust_contract_mst gccm WHERE gccd.cust_code = ? AND gccd.amend_version = gccm.amend_version AND gccd.contract_no = gccm.contract_no AND gccm.contract_status IN ( 'O', 'A' ) AND gccd.status = 'V' AND TRUNC(to_date(?)) BETWEEN TRUNC(gccm.lof_contract_activation_dt) AND TRUNC(gccm.cust_contract_end_dt) AND ( (gccm.cust_contract_termination_dt IS NOT NULL AND TRUNC(gccm.cust_contract_termination_dt) > TRUNC(to_Date(?))) OR ( gccm.cust_contract_termination_dt IS NULL ) ) AND TO_NUMBER(gccd.amend_version) != 0 AND TO_NUMBER(gccd.amend_version) = ( SELECT MAX(TO_NUMBER(amend_version)) FROM gems_cust_contract_mst WHERE contract_no = gccd.contract_no AND status = 'V' )";
@@ -403,6 +466,42 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			try {
 				rs.close();
 				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}					
+		}
+		return out.toString();
+	}
+	
+	//for generate Docket No
+	public String generateDocketNo(PickupDetails p) {
+		//StoreProcedure gems_proc_dkt_generate_java(i_ou_code IN VARCHAR2,V_USER_ID VARCHAR2, b_basis varchar2 , V_DKT_NO OUT NUMBER,err_msg OUT VARCHAR2,err_flag OUT VARCHAR2)
+		CallableStatement cstmt = null;
+		String sp = "{call gems_proc_dkt_generate_java(?,?,?,?,?,?)}";
+		StringBuffer out = new StringBuffer();
+		try {
+			cstmt = connection.prepareCall(sp);
+			cstmt.setString(1, p.getBooking_Pin_Code()); 		//Booking_STN
+			cstmt.setString(2, "BAL_30811"); 	//User Code HARD_CODE
+			cstmt.setString(3, p.getBooking_Basis()); 	//Booking Basis
+			cstmt.registerOutParameter(4, java.sql.Types.INTEGER); // Generate Docket No
+			cstmt.registerOutParameter(5, java.sql.Types.VARCHAR); //Error Msg
+			cstmt.registerOutParameter(6, java.sql.Types.VARCHAR); //Error Flag			
+			// execute getDBUSERByUserId store procedure
+			cstmt.executeUpdate();
+			int Docket_No = cstmt.getInt(1);
+			String Msg = cstmt.getString(2);
+			String Flag = cstmt.getString(3);
+			
+			out.append("{\"Docket_No\":"+Docket_No+",\"error_flag\":\""+Flag+"\",\"error_msg\":\""+Msg+"\"}");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				cstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}					
