@@ -65,6 +65,14 @@ public class PickupDetailsRestController {
     public ResponseEntity<String> getEsscode(@PathVariable String receiver_pinCode) {
     	return new ResponseEntity<String>(pickupDetailsDao.getEsscode(receiver_pinCode), HttpStatus.OK);
     }
+    
+    
+    @RequestMapping(value = "/getContractNo/{cust_code}", method = RequestMethod.GET)
+    public ResponseEntity<String> getContractNo(@PathVariable String cust_code) {
+    	return new ResponseEntity<String>(pickupDetailsDao.getContractNo(cust_code), HttpStatus.OK);
+    }
+    
+    
 		
 	@RequestMapping(value = "/validate_xml", method = RequestMethod.POST)
     public ResponseEntity<?> validateXml(@ModelAttribute("pickupDetails") @Valid PickupDetails pickupDetails,BindingResult result, Model model) {

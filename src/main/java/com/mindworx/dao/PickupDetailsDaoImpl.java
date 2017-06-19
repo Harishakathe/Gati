@@ -358,13 +358,43 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		StringBuffer out = new StringBuffer();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String comm = "";
 		try {
 			ps = connection.prepareStatement(sql);
 			ps.setString(1,receiver_pincode);
 			rs = ps.executeQuery();
 			if(rs.next()){
-				out.append(comm+"{\"ess_code\":\""+rs.getString(1)+"\",\"attachedou_code\":\""+rs.getString(2)+"\"}");
+				out.append("{\"ess_code\":\""+rs.getString(1)+"\",\"attachedou_code\":\""+rs.getString(2)+"\"}");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				rs.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}					
+		}
+		return out.toString();
+	}
+
+	@Override
+	public String getContractNo(String cust_code) {
+		String sql = "SELECT gccd.contract_no FROM gems_contract_cust_dtls gccd, gems_cust_contract_mst gccm WHERE gccd.cust_code = ? AND gccd.amend_version = gccm.amend_version AND gccd.contract_no = gccm.contract_no AND gccm.contract_status IN ( 'O', 'A' ) AND gccd.status = 'V' AND TRUNC(to_date(?)) BETWEEN TRUNC(gccm.lof_contract_activation_dt) AND TRUNC(gccm.cust_contract_end_dt) AND ( (gccm.cust_contract_termination_dt IS NOT NULL AND TRUNC(gccm.cust_contract_termination_dt) > TRUNC(to_Date(?))) OR ( gccm.cust_contract_termination_dt IS NULL ) ) AND TO_NUMBER(gccd.amend_version) != 0 AND TO_NUMBER(gccd.amend_version) = ( SELECT MAX(TO_NUMBER(amend_version)) FROM gems_cust_contract_mst WHERE contract_no = gccd.contract_no AND status = 'V' )";
+		StringBuffer out = new StringBuffer();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String comm = "";
+		try {
+			ps = connection.prepareStatement(sql);
+			ps.setString(1,cust_code);
+			ps.setString(2,"16-06-2017");		//gems_docket_mst.bkg_dt
+			ps.setString(3,"16-06-2017");		//gems_docket_mst.bkg_dt
+			rs = ps.executeQuery();
+			while(rs.next()){
+				out.append(comm+"{\"contract_no\":\""+rs.getString(1)+"\"}");
+				comm=",";
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -30,8 +30,107 @@
                                 $("#wizard").steps({
                                     headerTag: "h2",
                                     bodyTag: "section",
-                                    transitionEffect: "slideLeft"
+                                    transitionEffect: "slideLeft",
+                                 	// Triggered when clicking the Previous/Next buttons
+                                     /*onStepChanging: function(e, currentIndex, newIndex) {
+                                        var fv         = $('#profileForm').data('formValidation'), // FormValidation instance
+                                            // The current step container
+                                            $container = $('#profileForm').find('section[data-step="' + currentIndex +'"]');
+
+                                        // If user click on "Previous" button, we just normally let he/she goes
+                                        if (newIndex < currentIndex) {
+                                            return true;
+                                        }
+
+                                        // Validate the container
+                                        fv.validateContainer($container); 
+
+                                    },*/
+                                    onFinished: function(e, currentIndex) {
+                                    	var form = $(this);
+                                        e.preventDefault();
+                                        var json_str = {};
+                                        
+                                        var xml = '';                                         			
+                                        try{
+                                        	
+                                        	xml = $($.parseXML('<?xml version="1.0" encoding="utf-8" ?><gati />'));
+                                        	$('gati',xml).append($('<pickupDetails />', xml));
+                                        	
+                                        	var ele = ''; var p_ele='';
+                                        	
+                                        	$.each($('#PickupDetailsForm input'), function(i, field) {
+                                        		
+                                        		var f_name = field.name;                                        		
+                                        		if(f_name.includes('.')){                                        			
+                                        			
+                                        			var array_str = f_name.split('.');                                        			
+                                        			if(ele != array_str[0]){
+                                        				
+                                        				ele = array_str[0];                                        				
+                                        				var ele_json_str = {};                                        				
+                                        				
+                                        				
+                                        				if(p_ele != ele.substr(0,ele.length-3))
+                                        					$('pickupDetails',xml).append($('<'+p_ele+' />', xml));                                        					
+                                        				
+                                        				
+                                        				var p_ele = ele.substr(0,ele.length-3);
+                                        				$(p_ele,xml).append($('<PKG_INFO />', xml));
+                                        				
+                                        				$.each($("input[name^='"+ele+"']"),function() {
+                                        					
+                                        					var e_name = this.name.substr(this.name.indexOf(".")+1);
+                                        					ele_json_str[e_name] = this.value || '';
+                                        					$('PKG_INFO',xml).append($('<'+e_name+' />', xml).text(this.value));
+                                        					
+                                        				}); 
+                                        				
+                                        				json_str[p_ele] = (json_str[p_ele] || []).concat(ele_json_str);
+                                        			}
+                                        			
+                                        		}
+                                        		else{
+                                        			json_str[field.name] = field.value;
+                                                	$('pickupDetails',xml).append($('<'+field.name+' />', xml).text(field.value));
+                                        		}
+                                            	
+                                            });
+                                            
+                                            xml=((new XMLSerializer()).serializeToString(xml.context));   
+                                            
+                                        }catch(e){
+                                        	alert(e.message);
+                                        }
+                                        
+                                        alert(JSON.stringify(json_str));
+                                        alert(xml);
+                                        $.ajax({
+                                            type: form.method,
+                                            url: form.url,
+                                            data: xml,
+                                            contentType: "application/xml",
+                                            dataType: 'xml',
+                                            success: function (data) {
+                                            	console.log(data);
+                                            	alert(data);
+                                            	
+                                            }
+                                        });   
+                                        
+                                    }
                                 });
+                                
+                                
+                                function ConvertFormToJSON(form){
+                                    var array = jQuery(form).serializeArray();
+                                    var json = {};
+                                    jQuery.each(array, function() {
+                                        json[this.name] = this.value || '';
+                                    });                                    
+                                    return json;
+                                }
+                                
                             });
                         </script>
                         <div class="line"></div>
@@ -49,7 +148,7 @@
                                 <h5>Confirm<br/> Details</h5>
                             </div>
                         </div>
-                        <form action="generate_xml.do" method="post" modelAttribute="pickupDetails">
+                        <form action="${get}/validate_xml" method="post" id="PickupDetailsForm" enctype='application/json'>
                         	<div id="wizard">							
 								<h2>First Step</h2>
 								<section>
@@ -176,6 +275,32 @@
 												<div class="col-sm-6">
 													<label>Weight</label>
 													<input class="form-control w-control" type="text" name="Package_Details[0].pkg_wt">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<div class="row">
+												<div class="col-sm-6">
+													<label>Length</label>
+													<input class="form-control w-control" type="text" name="Package_Details[1].pkg_ln">
+												</div>
+												<div class="col-sm-6">
+													<label>Breadth</label>
+													<input class="form-control w-control" type="text" name="Package_Details[1].pkg_br">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3 m-b-sm">
+											<div class="row">
+												<div class="col-sm-6">
+													<label>Height</label>
+													<input class="form-control w-control" type="text" name="Package_Details[1].pkg_ht">
+												</div>
+												<div class="col-sm-6">
+													<label>Weight</label>
+													<input class="form-control w-control" type="text" name="Package_Details[1].pkg_wt">
 												</div>
 											</div>
 										</div>
