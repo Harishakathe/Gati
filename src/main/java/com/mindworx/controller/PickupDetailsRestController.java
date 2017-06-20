@@ -12,9 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -75,32 +77,15 @@ public class PickupDetailsRestController {
     
 		
 	@RequestMapping(value = "/validate_xml", method = RequestMethod.POST)
-    public ResponseEntity<?> validateXml(@ModelAttribute("pickupDetails") @Valid PickupDetails pickupDetails,BindingResult result, Model model) {
-		
-		new PickupDetailsValidator().validate(pickupDetails , result);
-		
+    public ResponseEntity<?> validateXml(@Valid @RequestBody PickupDetails pickupDetails,UriComponentsBuilder ucBuilder) {
 		//logs debug message
 		if(logger.isDebugEnabled()){
-			logger.debug("getWelcome is executed!");
+			logger.info(pickupDetails);
 		}
-
-		//logs exception
-		logger.error("This is Error message", new Exception("Testing"));
-		
 		
 		AjaxResponseBody responce = new AjaxResponseBody();
-		
-        //If error, just return a 400 bad request, along with the error message
-        if (result.hasErrors()) {
-        	responce.setMsg(result.getAllErrors().toString());
-        	/*java 8
-        	responce.setMsg(result.getAllErrors()
-                        .stream().map(x -> x.getDefaultMessage())
-                        .collect(Collectors.joining(",")));*/
-
-            return ResponseEntity.badRequest().body(result);
-
-        }
+		//If error, just return a 400 bad request, along with the error message
+        
         String str = pickupDetailsDao.validateXML(pickupDetails);
         JsonParser parser = new JsonParser();
         JsonObject o = parser.parse(str).getAsJsonObject();
@@ -112,6 +97,6 @@ public class PickupDetailsRestController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<String>(resultJson.toString(), headers, HttpStatus.OK);*/
         
-		return ResponseEntity.ok(result);
+		return ResponseEntity.ok(responce);
 	}
 }

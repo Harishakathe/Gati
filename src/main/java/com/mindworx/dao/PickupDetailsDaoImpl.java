@@ -165,7 +165,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	//for autocomplete ajax Shipper Pincode || Receiver Pincode
 	public String getPinCodes(String pincode) {
 		//String sql = "SELECT distinct PINCODE,ou_code FROM gemsprod.GEMS_PINCODE_LOCATION_MST  WHERE PINCODE_STATUS='O'  AND END_DT > SYSDATE  AND STATUS='V' and pincode like ?";
-		String sql = "SELECT distinct PINCODE,pincode||','||Trim(location)||','||state_code location,ou_code FROM gemsprod.GEMS_PINCODE_LOCATION_MST  WHERE PINCODE_STATUS='O'  AND END_DT > SYSDATE  AND STATUS='V' AND serv_type='D'  and pincode like ?";
+		String sql = "SELECT distinct PINCODE, Trim(location)||','||state_code location,ou_code FROM gemsprod.GEMS_PINCODE_LOCATION_MST  WHERE PINCODE_STATUS='O'  AND END_DT > SYSDATE  AND STATUS='V' AND serv_type='D'  and pincode like ?";
 		
 		StringBuffer out = new StringBuffer();
 		PreparedStatement ps = null;

@@ -15,6 +15,40 @@
         <link href="<c:url value="/resources/css/jquery.steps.css" />" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/resources/css/jquery-ui.css" />" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet" type="text/css"/>
+        <style type="text/css">
+	        .ui-autocomplete {
+			    position: absolute;
+			    z-index: 1000;
+			    cursor: default;
+			    padding: 0;
+			    margin-top: 2px;
+			    list-style: none;
+			    background-color: #ffffff;
+			    border: 1px solid #ccc
+			    -webkit-border-radius: 5px;
+			       -moz-border-radius: 5px;
+			            border-radius: 5px;
+			    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+			       -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+			            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+			}
+			.ui-autocomplete > li {
+			  padding: 3px 20px;
+			}
+			.ui-autocomplete > li.ui-state-focus {
+			  background-color: #DDD;
+			}
+			.ui-helper-hidden-accessible {
+			  display: none;
+			}
+			.list-pin{
+				display: inline-block;
+				min-width: 70px;				
+			}
+			.list-ou{
+				float: right;
+			}
+        </style>
         <script src="<c:url value="/resources/js/jquery-1.12.4.js" />" type="text/javascript"></script>
         <script src="<c:url value="/resources/js/jquery-ui.js" />" type="text/javascript"></script>
         <script src="<c:url value="/resources/js/jquery.steps.js" />" type="text/javascript"></script>
@@ -47,19 +81,18 @@
 
                                     },*/
                                     onFinished: function(e, currentIndex) {
-                                    	var form = $(this);
+                                    	
                                         e.preventDefault();
                                         var json_str = {};
                                         
                                         var xml = '';                                         			
                                         try{
                                         	
-                                        	xml = $($.parseXML('<?xml version="1.0" encoding="utf-8" ?><gati />'));
-                                        	$('gati',xml).append($('<pickupDetails />', xml));
+                                        	xml = $($.parseXML('<?xml version="1.0" encoding="utf-8" ?><PickupDetails />'));
                                         	
                                         	var ele = ''; var p_ele='';
                                         	
-                                        	$.each($('#PickupDetailsForm input'), function(i, field) {
+                                        	$.each($('#PickupDetailsForm :input'), function(i, field) {
                                         		
                                         		var f_name = field.name;                                        		
                                         		if(f_name.includes('.')){                                        			
@@ -68,21 +101,20 @@
                                         			if(ele != array_str[0]){
                                         				
                                         				ele = array_str[0];                                        				
-                                        				var ele_json_str = {};                                        				
+                                        				var ele_json_str = {};
                                         				
+                                        				if(p_ele != ele.substr(0,ele.length-3)){
+                                        					p_ele = ele.substr(0,ele.length-3);
+                                        					$('PickupDetails',xml).append($('<'+p_ele+' />', xml));
+                                        				}
                                         				
-                                        				if(p_ele != ele.substr(0,ele.length-3))
-                                        					$('pickupDetails',xml).append($('<'+p_ele+' />', xml));                                        					
-                                        				
-                                        				
-                                        				var p_ele = ele.substr(0,ele.length-3);
-                                        				$(p_ele,xml).append($('<PKG_INFO />', xml));
+                                        				$(p_ele,xml).append($('<PKG_INFO />', xml));                                        				
                                         				
                                         				$.each($("input[name^='"+ele+"']"),function() {
                                         					
                                         					var e_name = this.name.substr(this.name.indexOf(".")+1);
                                         					ele_json_str[e_name] = this.value || '';
-                                        					$('PKG_INFO',xml).append($('<'+e_name+' />', xml).text(this.value));
+                                        					$('PKG_INFO',xml).last().append($('<'+e_name+' />', xml).text(this.value || ''));
                                         					
                                         				}); 
                                         				
@@ -91,8 +123,9 @@
                                         			
                                         		}
                                         		else{
-                                        			json_str[field.name] = field.value;
-                                                	$('pickupDetails',xml).append($('<'+field.name+' />', xml).text(field.value));
+                                        			json_str[field.name] = field.value || '';
+                                        			console.log("name:"+field.name+" value:"+field.value);
+                                                	$('PickupDetails',xml).append($('<'+field.name+' />', xml).text(field.value || ''));
                                         		}
                                             	
                                             });
@@ -106,15 +139,18 @@
                                         alert(JSON.stringify(json_str));
                                         alert(xml);
                                         $.ajax({
-                                            type: form.method,
-                                            url: form.url,
+                                            type: 'post',
+                                            url: '${get}validate_xml',
                                             data: xml,
-                                            contentType: "application/xml",
+                                            contentType: 'application/xml',
                                             dataType: 'xml',
                                             success: function (data) {
                                             	console.log(data);
                                             	alert(data);
                                             	
+                                            },
+                                            error:function(e){
+                                            	alert(e);
                                             }
                                         });   
                                         
@@ -148,7 +184,7 @@
                                 <h5>Confirm<br/> Details</h5>
                             </div>
                         </div>
-                        <form action="${get}/validate_xml" method="post" id="PickupDetailsForm" enctype='application/json'>
+                        <form action="${get}validate_xml" method="post" id="PickupDetailsForm">
                         	<div id="wizard">							
 								<h2>First Step</h2>
 								<section>
@@ -725,7 +761,7 @@
 		        }
 		      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
 		        return $( "<li>" )
-		          .append( "<div>" + item.pincode + "<br>" + item.ou_code + "</div>" )
+		          .append( "<span class='list-pin'>"+ item.pincode +"</span>"+item.location+"<span class='list-ou'>"+item.ou_code + "</span>" )
 		          .appendTo( ul );
 		      };
 		      
@@ -753,7 +789,7 @@
 			        }
 			      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
 			        return $( "<li>" )
-			          .append( "<div>" + item.pincode + "<br>" + item.ou_code + "</div>" )
+			          .append( "<span class='list-pin'>"+ item.pincode +"</span>"+item.location+"<span class='list-ou'>"+item.ou_code + "</span>" )
 			          .appendTo( ul );
 			      };
         });

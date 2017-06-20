@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.springframework.format.annotation.DateTimeFormat;
-@XmlRootElement(name="gati")
+@XmlRootElement(name="PickupDetails")
 public class PickupDetails {
 	
 	private String Docket_No;
