@@ -48,10 +48,15 @@
 			.list-ou{
 				float: right;
 			}
+			.list-custcode{
+				display: inline-block;
+				min-width: 100px;
+			}
         </style>
         <script src="<c:url value="/resources/js/jquery-1.12.4.js" />" type="text/javascript"></script>
         <script src="<c:url value="/resources/js/jquery-ui.js" />" type="text/javascript"></script>
         <script src="<c:url value="/resources/js/jquery.steps.js" />" type="text/javascript"></script>
+        <script src="<c:url value="/resources/js/XMLWriter.js" />" type="text/javascript"></script>
     </head>
     <body>
         <div class="container">
@@ -83,61 +88,13 @@
                                     onFinished: function(e, currentIndex) {
                                     	
                                         e.preventDefault();
-                                        var json_str = {};
+                                        var form = $("#PickupDetailsForm");
+                                        var xml = ConvertFormToXML(form);
+                                        var json = ConvertFormToJSON(form);
                                         
-                                        var xml = '';                                         			
-                                        try{
-                                        	
-                                        	xml = $($.parseXML('<?xml version="1.0" encoding="utf-8" ?><PickupDetails />'));
-                                        	
-                                        	var ele = ''; var p_ele='';
-                                        	
-                                        	$.each($('#PickupDetailsForm :input'), function(i, field) {
-                                        		
-                                        		var f_name = field.name;                                        		
-                                        		if(f_name.includes('.')){                                        			
-                                        			
-                                        			var array_str = f_name.split('.');                                        			
-                                        			if(ele != array_str[0]){
-                                        				
-                                        				ele = array_str[0];                                        				
-                                        				var ele_json_str = {};
-                                        				
-                                        				if(p_ele != ele.substr(0,ele.length-3)){
-                                        					p_ele = ele.substr(0,ele.length-3);
-                                        					$('PickupDetails',xml).append($('<'+p_ele+' />', xml));
-                                        				}
-                                        				
-                                        				$(p_ele,xml).append($('<PKG_INFO />', xml));                                        				
-                                        				
-                                        				$.each($("input[name^='"+ele+"']"),function() {
-                                        					
-                                        					var e_name = this.name.substr(this.name.indexOf(".")+1);
-                                        					ele_json_str[e_name] = this.value || '';
-                                        					$('PKG_INFO',xml).last().append($('<'+e_name+' />', xml).text(this.value || ''));
-                                        					
-                                        				}); 
-                                        				
-                                        				json_str[p_ele] = (json_str[p_ele] || []).concat(ele_json_str);
-                                        			}
-                                        			
-                                        		}
-                                        		else{
-                                        			json_str[field.name] = field.value || '';
-                                        			console.log("name:"+field.name+" value:"+field.value);
-                                                	$('PickupDetails',xml).append($('<'+field.name+' />', xml).text(field.value || ''));
-                                        		}
-                                            	
-                                            });
-                                            
-                                            xml=((new XMLSerializer()).serializeToString(xml.context));   
-                                            
-                                        }catch(e){
-                                        	alert(e.message);
-                                        }
+                                        console.log(JSON.stringify(json));
+                                        console.log(xml);
                                         
-                                        alert(JSON.stringify(json_str));
-                                        alert(xml);
                                         $.ajax({
                                             type: 'post',
                                             url: '${get}validate_xml',
@@ -159,14 +116,75 @@
                                 
                                 
                                 function ConvertFormToJSON(form){
+                                	
+                                	var json = {};
+                                	var ele = ''; var p_ele='';                                	
                                     var array = jQuery(form).serializeArray();
-                                    var json = {};
+                                    
                                     jQuery.each(array, function() {
-                                        json[this.name] = this.value || '';
+                                        
+                                        var f_name = this.name;                                        		
+                                		
+                                        if(f_name.includes('.')){ 
+                                        	
+                                			var array_str = f_name.split('.');                                        			
+                                			if(ele != array_str[0]){                                				
+                                				ele = array_str[0];                                        				
+                                				var ele_json_str = {};                                				
+                                				if(p_ele != ele.substr(0,ele.length-3)){
+                                					p_ele = ele.substr(0,ele.length-3);
+                                				}                                				
+                                				$.each($("input[name^='"+ele+"']"),function() {                                        					
+                                					var e_name = this.name.substr(this.name.indexOf(".")+1);
+                                					ele_json_str[e_name] = this.value || '';                                					
+                                				});                                				
+                                				json[p_ele] = (json[p_ele] || []).concat(ele_json_str);
+                                			}                                			
+                                		}
+                                		else{
+                                			json[this.name] = this.value || '';  
+                                		}
                                     });                                    
                                     return json;
                                 }
                                 
+                                function ConvertFormToXML(form){
+                                    var array = jQuery(form).serializeArray();
+                                    try{
+	                                    var xml = $($.parseXML('<?xml version="1.0" encoding="utf-8" ?><PickupDetails />'));      //Main Root Name                          	
+	                                	var ele = ''; var p_ele='';
+	                                	
+	                                    jQuery.each(array, function() {
+	                                    	var f_name = this.name;                                        		
+	                                		if(f_name.includes('.')){                                        			
+	                                			
+	                                			var array_str = f_name.split('.');                                        			
+	                                			if(ele != array_str[0]){
+	                                				
+	                                				ele = array_str[0];
+	                                				
+	                                				if(p_ele != ele.substr(0,ele.length-3)){
+	                                					p_ele = ele.substr(0,ele.length-3);
+	                                					$('PickupDetails',xml).append($('<'+p_ele+' />', xml));
+	                                				}
+	                                				
+	                                				$(p_ele,xml).append($('<PKG_INFO />', xml));
+	                                				$.each($("input[name^='"+ele+"']"),function() {                                        					
+	                                					var e_name = this.name.substr(this.name.indexOf(".")+1);
+	                                					$('PKG_INFO',xml).last().append($('<'+e_name+' />', xml).text(this.value || ''));                                        					
+	                                				});                                				
+	                                			}
+	                                			
+	                                		}
+	                                		else{
+	                                			$('PickupDetails',xml).append($('<'+this.name+' />', xml).text(this.value || ''));                                   		    
+	                                		}
+	                                    }); 
+                                    }catch(e){
+                                    	alert("Converting in xml error:"+e.message);
+                                    }
+                                    return ((new XMLSerializer()).serializeToString(xml.context));
+                                }                            
                             });
                         </script>
                         <div class="line"></div>
@@ -191,14 +209,14 @@
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Docket No</label>
-											<input class="form-control w-control" maxlength="10" type="text" name="Docket_No" id="Docket_No"  >
-											<input type="hidden" name="Docket_Type" value="NR"  >
-											<input type="hidden" name="Docket_Category" value="D"  >
+											<input class="form-control w-control" maxlength="10" type="text" name="docket_no" id="docket_no"  >
+											<input type="hidden" name="docket_type" value="NR"  >
+											<input type="hidden" name="docket_category" value="D"  >
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Product</label>
-											<select class="form-control" name="Product" id="Product">
-												<option value="">Select</option>
+											<select class="form-control" name="product" id="product">
+												<option value="">-Select-</option>
 												<option value="25">Surface Express</option>
 												<option value="20">Express Plus</option>
 												<option value="5">Gati-Laabh</option>
@@ -216,8 +234,8 @@
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>BKG Basis</label>
-											<select class="form-control" name="Booking_Basis">
-											<option value="">Select</option>
+											<select class="form-control" name="booking_basis">
+											<option value="">-Select-</option>
 											<option value="1">PAID</option>
 											<option value="2">TBB</option>
 											<option value="4">FOD</option>
@@ -226,31 +244,31 @@
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Goods Type</label>
-											<select class="form-control" id="Goods_Code" name="Goods_Code">
+											<select class="form-control" id="goods_code" name="goods_code">
 											</select>
 										</div>
 									</div> 
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Shipper Code</label>
-											<input class="form-control w-control" type="text" name="Shipper_Code" id="Shipper_Code">
+											<input class="form-control w-control" type="text" name="shipper_code" id="shipper_code">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Receiver Code</label>
-											<input class="form-control w-control" type="text" name="Receiver_Code" id="Receiver_Code">
+											<input class="form-control w-control" type="text" name="receiver_code" id="receiver_code">
 										</div>
 										
 									</div> 
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>BKG Pin Code</label>
-											<input class="form-control w-control" type="text" id="Shipper_Pincode" name="Shipper_Pincode">
-											<input type="hidden" id="Shipper_TIN" name="Shipper_TIN">
+											<input class="form-control w-control" type="text" id="shipper_pincode" name="shipper_pincode">
+											<input type="hidden" id="shipper_tin" name="shipper_tin">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>DLY Pin Code</label>
-											<input class="form-control w-control" type="text" id="Receiver_Pincode" name="Receiver_Pincode">
-											<input type="hidden" id="Receiver_TIN" name="Receiver_TIN">
+											<input class="form-control w-control" type="text" id="receiver_pincode" name="receiver_pincode">
+											<input type="hidden" id="receiver_tin" name="receiver_tin">
 											<input type="hidden" id="esscode" name="esscode">
 											
 										</div>
@@ -260,11 +278,11 @@
 											<div class="row">
 												<div class="col-sm-6">
 													<label>No of Packages</label>
-													<input class="form-control w-control" type="text" name="No_of_Packages">
+													<input class="form-control w-control" type="text" name="no_of_packages">
 												</div>
 												<div class="col-sm-6">
 													<label>Pkg No From</label>
-													<input class="form-control w-control" type="text" name="Package_number_from">
+													<input class="form-control w-control" type="text" name="package_number_from">
 												</div>
 											</div>
 										</div>
@@ -272,16 +290,17 @@
 											<div class="row">
 												<div class="col-sm-6">
 													<label>Pkg No To</label>
-													<input class="form-control w-control" type="text" name="Package_number_to">
+													<input class="form-control w-control" type="text" name="package_number_to">
 												</div>
 												<div class="col-sm-6">
-													<label>Packing Type</label>
-													<select class="form-control" name="Package_Type">
-														<option>Select</option>
-														<option>2</option>
-														<option>3</option>
-														<option>4</option>
-														<option>5</option>
+													<label>Package Type</label>
+													<select class="form-control" name="package_type">
+														<option value="">Select</option>
+														<option value="1">1</option>
+														<option value="2">2</option>
+														<option value="3">3</option>
+														<option value="4">4</option>
+														<option value="5">5</option>
 													</select>
 												</div>
 											</div>
@@ -292,11 +311,11 @@
 											<div class="row">
 												<div class="col-sm-6">
 													<label>Length</label>
-													<input class="form-control w-control" type="text" name="Package_Details[0].pkg_ln">
+													<input class="form-control w-control" type="text" name="package_details[0].pkg_ln">
 												</div>
 												<div class="col-sm-6">
 													<label>Breadth</label>
-													<input class="form-control w-control" type="text" name="Package_Details[0].pkg_br">
+													<input class="form-control w-control" type="text" name="package_details[0].pkg_br">
 												</div>
 											</div>
 										</div>
@@ -304,11 +323,11 @@
 											<div class="row">
 												<div class="col-sm-6">
 													<label>Height</label>
-													<input class="form-control w-control" type="text" name="Package_Details[0].pkg_ht">
+													<input class="form-control w-control" type="text" name="package_details[0].pkg_ht">
 												</div>
 												<div class="col-sm-6">
 													<label>Weight</label>
-													<input class="form-control w-control" type="text" name="Package_Details[0].pkg_wt">
+													<input class="form-control w-control" type="text" name="package_details[0].pkg_wt">
 												</div>
 											</div>
 										</div>
@@ -318,11 +337,11 @@
 											<div class="row">
 												<div class="col-sm-6">
 													<label>Length</label>
-													<input class="form-control w-control" type="text" name="Package_Details[1].pkg_ln">
+													<input class="form-control w-control" type="text" name="package_details[1].pkg_ln">
 												</div>
 												<div class="col-sm-6">
 													<label>Breadth</label>
-													<input class="form-control w-control" type="text" name="Package_Details[1].pkg_br">
+													<input class="form-control w-control" type="text" name="package_details[1].pkg_br">
 												</div>
 											</div>
 										</div>
@@ -330,11 +349,11 @@
 											<div class="row">
 												<div class="col-sm-6">
 													<label>Height</label>
-													<input class="form-control w-control" type="text" name="Package_Details[1].pkg_ht">
+													<input class="form-control w-control" type="text" name="package_details[1].pkg_ht">
 												</div>
 												<div class="col-sm-6">
 													<label>Weight</label>
-													<input class="form-control w-control" type="text" name="Package_Details[1].pkg_wt">
+													<input class="form-control w-control" type="text" name="package_details[1].pkg_wt">
 												</div>
 											</div>
 										</div>
@@ -342,63 +361,60 @@
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Shipment Value</label>
-											<input class="form-control w-control" type="text" name="Shipment_Value">
+											<input class="form-control w-control" type="text" name="shipment_value">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Risk</label>
-											<select class="form-control" name="Risk">
-											
-											<option value="">Select</option>
-											<option value="1">Gati</option>
-											<option value="2">Owner</option>
-											
+											<select class="form-control" name="risk">											
+												<option value="">--Select--</option>
+												<option value="Gati">Gati</option>
+												<option value="Owner">Owner</option>											
 											</select>
 										</div>
 									</div> 
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Volume</label>
-											<input class="form-control w-control" type="text" name="Volume">
+											<input class="form-control w-control" type="text" name="volume">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>UOM</label>
 											<select class="form-control" name="UOM">
-												<option>Select</option>
-												<option>2</option>
-												<option>3</option>
-												<option>4</option>
-												<option>5</option>
+												<option value="">--Select--</option>
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
+												<option value="5">5</option>
 											</select>
 										</div>
 									</div> 
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>ACT. WT</label>
-											<input class="form-control w-control" type="text" name="Actual_Weight">
+											<input class="form-control w-control" type="text" name="actual_weight">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>COD/DOD Flag</label>
-											<select class="form-control" name="COD_Flag">
-												<option>Select</option>
-												<option>2</option>
-												<option>3</option>
-												<option>4</option>
-												<option>5</option>
+											<select class="form-control" name="cod_flag" id="cod_flag">
+												<option value="">--Select--</option>
+												<option value="Yes">Yes</option>
+												<option value="No">No</option>
 											</select>
 										</div>
 									</div> 
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>COD/DOD in Fav</label>
-											<select class="form-control" name="COD_DOD_in_Favor">
-										    <option value="">Select</option>
-											<option value="Gati">1</option>
-											<option value="Shipper">2</option>
+											<select class="form-control" name="cod_dod_in_favor">
+											    <option value="">--Select--</option>
+												<option value="Gati">Gati</option>
+												<option value="Shipper">Shipper</option>
 											</select>
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>COD/DOD Amt</label>
-											<input class="form-control w-control" type="text" name="COD_DOD_Amount">
+											<input class="form-control w-control" type="text" name="cod_dod_amount">
 										</div>
 									</div> 
 								</section>
@@ -408,61 +424,61 @@
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Shipper Code</label>
-											<input class="form-control w-control" type="text" name="Shipper_Code1" id="Shipper_Code1"  >
+											<input class="form-control w-control" type="text" name="shipper_code1" id="shipper_code1"  >
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Mobile No</label>
-											<input class="form-control w-control" type="text" name="Shipper_Mobile" id="Shipper_Mobile">
+											<input class="form-control w-control" type="text" name="shipper_mobile" id="shipper_mobile">
 										</div>
 									</div> 
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Name</label>
-											<input class="form-control w-control" type="text" name="Shipper_Name" id="Shipper_Name">
+											<input class="form-control w-control" type="text" name="shipper_name" id="shipper_name">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Phone No</label>
-											<input class="form-control w-control" type="text" name="Shipper_Phone" id="Shipper_Phone">
+											<input class="form-control w-control" type="text" name="shipper_phone" id="shipper_phone">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Address Line 1</label>
-											<input class="form-control w-control" type="text" name="Shipper_Address1" id="Shipper_Address1">
+											<input class="form-control w-control" type="text" name="shipper_address1" id="shipper_address1">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Address Line 2</label>
-											<input class="form-control w-control" type="text" name="Shipper_Address2" id="Shipper_Address2">
+											<input class="form-control w-control" type="text" name="shipper_address2" id="shipper_address2">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Address Line 3</label>
-											<input class="form-control w-control" type="text" name="Shipper_Address3" id="Shipper_Address3">
+											<input class="form-control w-control" type="text" name="shipper_address3" id="shipper_address3">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Address Line 4</label>
-											<input class="form-control w-control" type="text" name="Shipper_Address4" id="Shipper_Address4">
+											<input class="form-control w-control" type="text" name="shipper_address4" id="shipper_address4">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>City</label>
-											<input class="form-control w-control" type="text" name="Shipper_City" id="Shipper_City">
+											<input class="form-control w-control" type="text" name="shipper_city" id="shipper_city">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Pin Code</label>
-											<input class="form-control w-control" type="text" name="Shipper_Pincode" id="Shipper_Pincode">
+											<input class="form-control w-control" type="text" name="shipper_pincode" id="shipper_pincode">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Email</label>
-											<input class="form-control w-control" type="text" name="Shipper_Email" id="Shipper_Email">
+											<input class="form-control w-control" type="text" name="shipper_email" id="shipper_email">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>VAT/TIN</label>
-											<input class="form-control w-control" type="text" name="Shipper_TIN" id="Shipper_TIN">
+											<input class="form-control w-control" type="text" name="shipper_tin" id="shipper_tin">
 										</div>
 									</div>
 								</section>
@@ -471,61 +487,61 @@
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Receiver Code</label>
-											<input class="form-control w-control" type="text" name="Receiver_Code1" id="Receiver_Code1">
+											<input class="form-control w-control" type="text" name="receiver_code1" id="receiver_code1">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Mobile No</label>
-											<input class="form-control w-control" type="text" name="Receiver_Mobile" id="Receiver_Mobile">
+											<input class="form-control w-control" type="text" name="receiver_mobile" id="receiver_mobile">
 										</div>
 									</div> 
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Name</label>
-											<input class="form-control w-control" type="text" name="Receiver_Name" id="Receiver_Name"> 
+											<input class="form-control w-control" type="text" name="receiver_name" id="receiver_name"> 
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Phone No</label>
-											<input class="form-control w-control" type="text" name="Receiver_Phone" id="Receiver_Phone">
+											<input class="form-control w-control" type="text" name="receiver_phone" id="receiver_phone">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Address Line 1</label>
-											<input class="form-control w-control" type="text" name="Receiver_Address1" id="Receiver_Address1">
+											<input class="form-control w-control" type="text" name="receiver_address1" id="receiver_address1">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Address Line 2</label>
-											<input class="form-control w-control" type="text" name="Receiver_Address2" id="Receiver_Address2">
+											<input class="form-control w-control" type="text" name="receiver_address2" id="receiver_address2">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Address Line 3</label>
-											<input class="form-control w-control" type="text" name="Receiver_Address3" id="Receiver_Address3">
+											<input class="form-control w-control" type="text" name="receiver_address3" id="receiver_address3">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Address Line 4</label>
-											<input class="form-control w-control" type="text" name="Receiver_Address4" id="Receiver_Address4">
+											<input class="form-control w-control" type="text" name="receiver_address4" id="receiver_address4">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>City</label>
-											<input class="form-control w-control" type="text" name="Receiver_City" id="Receiver_City">
+											<input class="form-control w-control" type="text" name="receiver_city" id="receiver_city">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Pin Code</label>
-											<input class="form-control w-control" type="text" name="Receiver_Pincode" id="Receiver_Pincode">
+											<input class="form-control w-control" type="text" name="receiver_pincode" id="receiver_pincode">
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Email</label>
-											<input class="form-control w-control" type="text" name="Receiver_Email" id="Receiver_Email">
+											<input class="form-control w-control" type="text" name="receiver_email" id="receiver_email">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>VAT/TIN</label>
-											<input class="form-control w-control" type="text" name="Receiver_TIN" id="Receiver_TIN">
+											<input class="form-control w-control" type="text" name="receiver_tin" id="receiver_tin">
 										</div>
 									</div>
 								</section>
@@ -540,9 +556,9 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-5 col-sm-offset-2 labels">
-                                            <label><strong>Docket No</strong> : 543213</label>
-                                            <label><strong>BKG. Basis</strong> : lorem ipsum</label>
-                                            <label><strong>Receiver Code</strong> : 543213</label>
+                                            <label><strong>Docket No</strong> : </label>
+                                            <label><strong>BKG. Basis</strong> : </label>
+                                            <label><strong>Receiver Code</strong> :</label>
                                             <label><strong>BKG Pin Code</strong> : 543213</label>
                                             <label><strong>No Of Packages</strong> : 5</label>
                                             <label><strong>Shipment Value</strong> : $ 100</label>
@@ -629,14 +645,16 @@
         	
         	 
         	 function fillGoodType(){
-        		 $("#Goods_Code").html="";
+        		 $("#goods_code").html="";
 	       		 $.ajax( {
 		              method:"get",
+		              headers: {
+		            	    Accept: "application/json"
+		            	  },
 		              url: "${get}getGoodType",
 		              success: function( data ) {
-		            	  data = JSON.parse(data);
 		            	  $.each(data.items, function(index, element) {		            	  
-		            	  	$("#Goods_Code").append("<option value='"+element.good_code+"'>"+element.good_name+"</option>");
+		            	  	$("#goods_code").append("<option value='"+element.good_code+"'>"+element.good_name+"</option>");
 		            	  });		            	  		                  
 		              },
 		              error: function() {
@@ -651,10 +669,11 @@
         		 $("#esscode").val="";        		 
 	       		 $.ajax( {
 		              method:"get",
+		              headers: {
+		            	    Accept: "application/json"
+		            	  },
 		              url: "${get}getEsscode/"+receiver_pincode,
 		              success: function( data ) {
-		            	  console.log(data);
-		            	  data = JSON.parse(data);
 		            	  console.log(data.ess_code);
 		            	  $("#esscode").val(data.ess_code);		            	  		                  
 		              },
@@ -666,11 +685,14 @@
         	 
         	 fillGoodType();
 	        
-		      $( "#Shipper_Code" ).autocomplete({
+		      $( "#shipper_code" ).autocomplete({
 			        minLength: 3,
 			        source: function( request, response ) {
 			            $.ajax( {
 			              method:"get",
+			              headers: {
+			            	    Accept: "application/json"
+			            	  },
 			              url: "${get}getCustomerDetails/"+request.term,
 			              success: function( data ) {
 			                response( data.customers );
@@ -678,35 +700,38 @@
 			            } );
 			          },       
 			        focus: function( event, ui ) {
-			          $("#Shipper_Code").val( ui.item.custCode );
+			          $("#shipper_code").val( ui.item.custCode );
 			          return false;
 			        },
 			        select: function( event, ui ) {
-			        	$("#Shipper_Code").val( ui.item.custCode );
-			        	$("#Shipper_Name").val( ui.item.custName );
-			        	$("#Shipper_Address1").val( ui.item.custAdd1 );
-			        	$("#Shipper_Address2").val( ui.item.custAdd2 );
-			        	$("#Shipper_Address3").val( ui.item.custAdd3 );
-			        	$("#Shipper_Address4").val( ui.item.custAdd4 );
-			        	$("#Shipper_City").val( ui.item.custCity );
-			        	$("#Shipper_Pincode").val( ui.item.custPincode );
-			        	$("#Shipper_Phone").val( ui.item.custPhone );
-			        	$("#Shipper_Mobile").val( ui.item.custMobile );
-			        	$("#Shipper_Email").val( ui.item.custEmail );
-			        	$("#Shipper_TIN").val( ui.item.custTIN );
+			        	$("#shipper_code").val( ui.item.custCode );
+			        	$("#shipper_name").val( ui.item.custName );
+			        	$("#shipper_address1").val( ui.item.custAdd1 );
+			        	$("#shipper_address2").val( ui.item.custAdd2 );
+			        	$("#shipper_address3").val( ui.item.custAdd3 );
+			        	$("#shipper_address4").val( ui.item.custAdd4 );
+			        	$("#shipper_city").val( ui.item.custCity );
+			        	$("#shipper_pincode").val( ui.item.custPincode );
+			        	$("#shipper_phone").val( ui.item.custPhone );
+			        	$("#shipper_mobile").val( ui.item.custMobile );
+			        	$("#shipper_email").val( ui.item.custEmail );
+			        	$("#shipper_tin").val( ui.item.custTIN );
 			          return false;
 			        }
 			      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
 			        return $( "<li>" )
-			          .append( "<div>" + item.custCode + "<br>" + item.custName + "</div>" )
+			          .append( "<span class='list-custcode'>"+ item.custCode + "</span>" + item.custName )
 			          .appendTo( ul );
 			      };
 		      
-		      $( "#Receiver_Code" ).autocomplete({
+		      $( "#receiver_code" ).autocomplete({
 		        minLength: 3,
 		        source: function( request, response ) {
 		            $.ajax( {
 		              method:"get",
+		              headers: {
+		            	    Accept: "application/json"
+		            	  },
 		              url: "${get}getCustomerDetails/"+request.term,
 		              success: function( data ) {
 		                response( data.customers );
@@ -714,49 +739,51 @@
 		            } );
 		          },       
 		        focus: function( event, ui ) {
-		          $("#Receiver_Code").val( ui.item.custCode );
+		          $("#receiver_code").val( ui.item.custCode );
 		          return false;
 		        },
 		        select: function( event, ui ) {
-		        	$("#Receiver_Code").val( ui.item.custCode );
-		        	$("#Receiver_Name").val( ui.item.custName );
-		        	$("#Receiver_Address1").val( ui.item.custAdd1 );
-		        	$("#Receiver_Address2").val( ui.item.custAdd2 );
-		        	$("#Receiver_Address3").val( ui.item.custAdd3 );
-		        	$("#Receiver_Address4").val( ui.item.custAdd4 );
-		        	$("#Receiver_City").val( ui.item.custCity );
-		        	$("#Receiver_Pincode").val( ui.item.custPincode );
-		        	$("#Receiver_Phone").val( ui.item.custPhone );
-		        	$("#Receiver_Mobile").val( ui.item.custMobile );
-		        	$("#Receiver_Email").val( ui.item.custEmail );
-		        	$("#Receiver_TIN").val( ui.item.custTIN );	   
+		        	$("#receiver_code").val( ui.item.custCode );
+		        	$("#receiver_name").val( ui.item.custName );
+		        	$("#receiver_address1").val( ui.item.custAdd1 );
+		        	$("#receiver_address2").val( ui.item.custAdd2 );
+		        	$("#receiver_address3").val( ui.item.custAdd3 );
+		        	$("#receiver_address4").val( ui.item.custAdd4 );
+		        	$("#receiver_city").val( ui.item.custCity );
+		        	$("#receiver_pincode").val( ui.item.custPincode );
+		        	$("#receiver_phone").val( ui.item.custPhone );
+		        	$("#receiver_mobile").val( ui.item.custMobile );
+		        	$("#receiver_email").val( ui.item.custEmail );
+		        	$("#receiver_tin").val( ui.item.custTIN );	   
 		          return false;
 		        }
 		      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
 		        return $( "<li>" )
-		          .append( "<div>" + item.custCode + "<br>" + item.custName + "</div>" )
+		          .append( "<span class='list-custcode'>"+ item.custCode + "</span>" + item.custName )
 		          .appendTo( ul );
 		      };
 			      
-		      $( "#Shipper_Pincode" ).autocomplete({
+		      $( "#shipper_pincode" ).autocomplete({
 		        minLength: 3,
 		        source: function( request, response ) {
 		            $.ajax( {
 		              method:"get",
+		              headers: {
+		            	    Accept: "application/json"
+		            	  },
 		              url: "${home}getPinCodes/"+request.term,
 		              success: function( data ) {
-		            	  var obj = JSON.parse(data);
-		            	  response(obj.items);
+		            	  response(data.items);
 		              }
 		            } );
 		          },
 		        focus: function( event, ui ) {
-		          $( "#Shipper_Pincode" ).val( ui.item.pincode );
+		          $( "#shipper_pincode" ).val( ui.item.pincode );
 		          return false;
 		        },
 		        select: function( event, ui ) {
-		          $( "#Shipper_Pincode" ).val( ui.item.pincode );
-		          $( "#Shipper_TIN" ).val( ui.item.ou_code );
+		          $( "#shipper_pincode" ).val( ui.item.pincode );
+		          $( "#shipper_tin" ).val( ui.item.ou_code );
 		          return false;
 		        }
 		      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
@@ -765,25 +792,27 @@
 		          .appendTo( ul );
 		      };
 		      
-		      $( "#Receiver_Pincode" ).autocomplete({
+		      $( "#receiver_pincode" ).autocomplete({
 			        minLength: 3,
 			        source: function( request, response ) {
 			            $.ajax( {
 			              method:"get",
+			              headers: {
+			            	    Accept: "application/json"
+			            	  },
 			              url: "${home}getPinCodes/"+request.term,
 			              success: function( data ) {
-			            	  var obj = JSON.parse(data);
-			            	  response(obj.items);
+			            	  response(data.items);
 			              }
 			            } );
 			          },
 			        focus: function( event, ui ) {
-			          $( "#Receiver_Pincode" ).val( ui.item.pincode );			          
+			          $( "#receiver_pincode" ).val( ui.item.pincode );			          
 			          return false;
 			        },
 			        select: function( event, ui ) {
-			          $( "#Receiver_Pincode" ).val( ui.item.pincode );
-			          $( "#Receiver_TIN" ).val( ui.item.ou_code );
+			          $( "#receiver_pincode" ).val( ui.item.pincode );
+			          $( "#receiver_tin" ).val( ui.item.ou_code );
 			          getEsscode(ui.item.pincode);
 			          return false;
 			        }

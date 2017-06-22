@@ -1,7 +1,11 @@
 package com.mindworx.controller;
 
 
+import java.util.Date;
+
 import javax.validation.Valid;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.core.Application;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,14 +79,14 @@ public class PickupDetailsRestController {
     }
     
     
-		
-	@RequestMapping(value = "/validate_xml", method = RequestMethod.POST)
+	@RequestMapping(value = "/validate_xml", method = RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> validateXml(@Valid @RequestBody PickupDetails pickupDetails,UriComponentsBuilder ucBuilder) {
+		logger.info(pickupDetails.toString());
 		//logs debug message
 		if(logger.isDebugEnabled()){
 			logger.info(pickupDetails);
 		}
-		
+		pickupDetails.setPickup_date(new Date());
 		AjaxResponseBody responce = new AjaxResponseBody();
 		//If error, just return a 400 bad request, along with the error message
         
@@ -92,7 +96,11 @@ public class PickupDetailsRestController {
 
 
         responce.setMsg(o.get("error_flag").getAsString());
-        
+      //generate Docket_no;
+  		String output = pickupDetailsDao.generateDocketNo(pickupDetails);
+  		logger.info("generated Docket No:"+output);
+  		
+  		
         /*HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<String>(resultJson.toString(), headers, HttpStatus.OK);*/
