@@ -224,7 +224,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			cstmt.setString(4, p.getShipper_tin()); 	//P_BKGOU || OU_CODE 
 			cstmt.setString(5, p.getDocket_category()); 	//P_DKT_CATG || DOCKET_Category
 			cstmt.setString(6, p.getDocket_type()); 	//P_DKT_TYPE || DOCKET_type
-			//cstmt.setDate(7, new java.sql.Date(p.getPickup_date().getTime())); 		//P_BKGDT || Date 
+			cstmt.setDate(7, new java.sql.Date(p.getPickup_date().getTime())); 		//P_BKGDT || Date 
 			cstmt.setString(7, contract_no); 	//P_CONTRACTNO || contract_no
 			cstmt.setString(8, p.getShipper_code()); 	//P_CONSIGNOR || cust_code
 			cstmt.setString(9, p.getReceiver_code()); 	//P_CONSIGNEE || cust_code
@@ -364,14 +364,15 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	                    log.info("packageDetails batch is inseted");
 	                    }
 	            } 
-				out.append("Docket Package Inserted");
+				out.append("{\"error_flag\":\"N\"}");
 				log.info("Docket Package Inserted");
 			}
 			else
 			{
-				out.append("Docket dose not inserted ");
+				out.append("{\"error_flag\":\"Y\",\"error_msg\":\"Docket Does Not Inserted\"}");
 			}
 		} catch (SQLException e) {
+			out.append("{\"error_flag\":\"Y\",\"error_msg\":\""+e.getMessage()+"\"}");
 			log.error("SQLException: " + e.getMessage());
 			try {
 				connection.rollback();

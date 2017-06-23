@@ -1,20 +1,13 @@
 package com.mindworx.controller;
 
-
-import java.util.Date;
-
 import javax.validation.Valid;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.core.Application;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +18,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mindworx.dao.PickupDetailsDao;
-import com.mindworx.model.AjaxResponseBody;
 import com.mindworx.model.CustomerList;
+import com.mindworx.model.JsonResponse;
 import com.mindworx.model.PickupDetails;
 import com.mindworx.validator.PickupDetailsValidator;
 
@@ -80,44 +73,60 @@ public class PickupDetailsRestController {
     
     
 	@RequestMapping(value = "/validate_xml", method = RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<?> validateXml(@Valid @RequestBody PickupDetails pickupDetails,UriComponentsBuilder ucBuilder) {
-		logger.info(pickupDetails.toString());
-		//logs debug message
-		if(logger.isDebugEnabled()){
-			logger.info(pickupDetails);
+    public ResponseEntity<?> validateXml(@Valid @RequestBody PickupDetails pickupDetails,UriComponentsBuilder ucBuilder, BindingResult result ) {
+		
+		logger.info("pickupDetails:"+pickupDetails);
+		
+		JsonResponse res = new JsonResponse();
+		
+		PickupDetailsValidator validator = new PickupDetailsValidator();  
+		validator.validate(pickupDetails, result);  
+				
+		if(!result.hasErrors()){
+			logger.info("My Validation success Start ValidateXML Procedure");
+			String str = pickupDetailsDao.validateXML(pickupDetails);			
+	        JsonParser parser = new JsonParser();
+	        JsonObject o = parser.parse(str).getAsJsonObject();
+	        if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
+	        	String output = pickupDetailsDao.generateDocketNo(pickupDetails);
+	        	logger.info("generated Docket No:"+output);
+	        	o = parser.parse(output).getAsJsonObject();
+	        	
+	        	if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
+	        		pickupDetails.setDocket_no(o.get("Docket_No").getAsString());
+	        		
+	        		output = pickupDetailsDao.insertDocket(pickupDetails);
+	        		o = parser.parse(output).getAsJsonObject();
+	        		
+	        		if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
+	        			res.setStatus("FAIL");
+			        	res.setMessage(o.get("error_msg").getAsString());
+	        		}else{
+	        			res.setStatus("SUCCESS");
+			        	res.setMessage("Docket Inserted Success");
+	        		}
+	        	}
+	        	else{
+	        		res.setStatus("FAIL");
+		        	res.setMessage("validation sp error:"+o.get("error_msg").getAsString());
+	        	}
+	        }else{
+	        	res.setStatus("FAIL");
+	        	res.setMessage("validation sp error:"+o.get("error_msg").getAsString());
+	        }
 		}
-		pickupDetails.setPickup_date(new Date());
-		AjaxResponseBody responce = new AjaxResponseBody();
-		//If error, just return a 400 bad request, along with the error message
-        
-        String str = pickupDetailsDao.validateXML(pickupDetails);        
-        
-        JsonParser parser = new JsonParser();
-        JsonObject o = parser.parse(str).getAsJsonObject();
-        
-        if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
-        	String output = pickupDetailsDao.generateDocketNo(pickupDetails);
-        	logger.info("generated Docket No:"+output);
-        	o = parser.parse(output).getAsJsonObject();
-        	if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
-        		pickupDetails.setDocket_no(o.get("Docket_No").getAsString());
-        		pickupDetailsDao.insertDocket(pickupDetails);
-        	}
-        	else{
-        		o.get("error_msg").getAsString();
-        	}
-        }
-        else{
-        	
-        }
-      //generate Docket_no;
-  		
-  		 		
+		else{
+			res.setStatus("FAIL");
+            res.setResult(result.getAllErrors());
+            logger.error("validation error:"+result.getAllErrors());
+		}
+		
+		return new ResponseEntity<JsonResponse>(res,HttpStatus.BAD_REQUEST);
   		
         /*HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<String>(resultJson.toString(), headers, HttpStatus.OK);*/
         
-		return ResponseEntity.ok(responce);
+		
 	}
 }
