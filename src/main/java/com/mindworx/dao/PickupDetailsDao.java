@@ -18,4 +18,5 @@ public interface PickupDetailsDao {
 	public String getEsscode(String pinCode);
 	public String getContractNo(String cust_code);
 	public String generateDocketNo(PickupDetails p);
+	public String insertDocket(PickupDetails p);
 }

@@ -14,6 +14,7 @@
         <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/resources/css/jquery.steps.css" />" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/resources/css/jquery-ui.css" />" rel="stylesheet" type="text/css"/>
+        <link href="<c:url value="/resources/css/bootstrapValidator.min.css" />" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet" type="text/css"/>
         <style type="text/css">
 	        .ui-autocomplete {
@@ -57,6 +58,7 @@
         <script src="<c:url value="/resources/js/jquery-ui.js" />" type="text/javascript"></script>
         <script src="<c:url value="/resources/js/jquery.steps.js" />" type="text/javascript"></script>
         <script src="<c:url value="/resources/js/XMLWriter.js" />" type="text/javascript"></script>
+        <script src="<c:url value="/resources/js/bootstrapValidator.min.js" />" type="text/javascript"></script>
     </head>
     <body>
         <div class="container">
@@ -71,10 +73,10 @@
                                     bodyTag: "section",
                                     transitionEffect: "slideLeft",
                                  	// Triggered when clicking the Previous/Next buttons
-                                     /*onStepChanging: function(e, currentIndex, newIndex) {
-                                        var fv         = $('#profileForm').data('formValidation'), // FormValidation instance
-                                            // The current step container
-                                            $container = $('#profileForm').find('section[data-step="' + currentIndex +'"]');
+                                     onStepChanging: function(e, currentIndex, newIndex) {
+                                        var fv = $('#PickupDetailsForm').data('bootstrapValidator'); // bootstrapValidator instance
+                                        // The current step container
+                                        $container = $('#PickupDetailsForm').find('section[data-step="' + currentIndex +'"]');
 
                                         // If user click on "Previous" button, we just normally let he/she goes
                                         if (newIndex < currentIndex) {
@@ -82,11 +84,19 @@
                                         }
 
                                         // Validate the container
-                                        fv.validateContainer($container); 
+                                        fv.validateField($container);
+                                        
+                                        var isValidStep = fv.isValidContainer($container);
+                                        if (isValidStep === false || isValidStep === null) {
+                                            // Do not jump to the next step
+                                            return false;
+                                        }
 
-                                    },*/
+                                        return true;
+
+                                    },
                                     onFinished: function(e, currentIndex) {
-                                    	
+                                    	$('#PickupDetailsForm').bootstrapValidator('defaultSubmit');
                                         e.preventDefault();
                                         var form = $("#PickupDetailsForm");
                                         var xml = ConvertFormToXML(form);
@@ -112,6 +122,91 @@
                                         });   
                                         
                                     }
+                                }).bootstrapValidator({
+                                    excluded: ':disabled',
+                                    message: 'This value is not valid',
+                                    container: 'tooltip',
+                                    feedbackIcons: {
+                                        valid: 'glyphicon glyphicon-ok',
+                                        invalid: 'glyphicon glyphicon-remove',
+                                        validating: 'glyphicon glyphicon-refresh'
+                                    },
+                                    fields: {
+                                    	docket_type: {
+                                            validators: {
+                                                notEmpty: {
+                                                    message: 'The Docket Type is required and cannot be empty'
+                                                }			                                    
+                                            }
+                                        },
+                                        docket_category: {
+                                            validators: {
+                                                notEmpty: {
+                                                    message: 'The Docket Category is required and cannot be empty'
+                                                }			                                    
+                                            }
+                                        },
+                                        product: {
+                                            validators: {
+                                                notEmpty: {
+                                                    message: 'The Product Must Be Select and cannot be empty'
+                                                }			                                    
+                                            }
+                                        },                                        
+                                        shipper_code: {
+                                            validators: {
+                                                notEmpty: {
+                                                    message: 'The Shipper Code cannot be empty'
+                                                },
+		                                        between: {
+			                                        min: 99999,
+			                                        message: 'The Shipper Code is mor than 5 digit'
+			                                    }
+                                            }
+                                        },
+                                        
+                                        shipper_pincode: {
+                                            validators: {
+                                                notEmpty: {
+                                                    message: 'The Shipper Pincode cannot be empty'
+                                                },
+		                                        between: {
+			                                        min: 100000,
+			                                        max: 999999,
+			                                        message: 'The Shipper Pincode is an 6 digit reqired'
+			                                    }
+                                            }
+                                        },
+                                        
+                                        shipper_tin: {
+                                            validators: {
+                                                notEmpty: {
+                                                    message: 'The Shipper Tin is required and cannot be empty'
+                                                },
+                                                stringLength: {
+                                                    min: 3,
+                                                    max: 3,
+                                                    message: 'The Shipper Tin must be 3 characters long'
+                                                },
+                                                regexp: {
+                                                    regexp: /^[A-Z]+$/i,
+                                                    message: 'The Shipper Tin can only consist of alphabetical characters'
+                                                }
+                                            }
+                                        },
+                                        shipper_email: {
+                                            validators: {
+                                                notEmpty: {
+                                                    message: 'The Shipper E-Mail ID is required and cannot be empty'
+                                                },
+                                                regexp: {
+                                                    regexp: /[a-zA-Z0-9]+(?:(\.|_)[A-Za-z0-9!#$%&'*+\/=?^`{|}~-]+)*@(?!([a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/g,
+                                                    message: 'The Shipper E-Mail ID is not a valid E-Mail'
+                                                }
+                                            }
+                                        },
+                                    }
+
                                 });
                                 
                                 
@@ -205,11 +300,11 @@
                         <form action="${get}validate_xml" method="post" id="PickupDetailsForm">
                         	<div id="wizard">							
 								<h2>First Step</h2>
-								<section>
+								<section data-step="0">
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Docket No</label>
-											<input class="form-control w-control" maxlength="10" type="text" name="docket_no" id="docket_no"  >
+											<input class="form-control w-control" maxlength="10" type="text" name="docket_no" id="docket_no" readonly="readonly" >
 											<input type="hidden" name="docket_type" value="NR"  >
 											<input type="hidden" name="docket_category" value="D"  >
 										</div>
@@ -227,7 +322,6 @@
 												<option value="14_1">Preminum</option>
 												<option value="14_2">Premium Plus-12 hrs</option>
 												<option value="14_3">Premium Plus-24 hrs</option>
-
 											</select>
 										</div>
 									</div> 
@@ -264,12 +358,14 @@
 											<label>BKG Pin Code</label>
 											<input class="form-control w-control" type="text" id="shipper_pincode" name="shipper_pincode">
 											<input type="hidden" id="shipper_tin" name="shipper_tin">
+											<input type="hidden" id="booking_ou" name="booking_ou">
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>DLY Pin Code</label>
 											<input class="form-control w-control" type="text" id="receiver_pincode" name="receiver_pincode">
 											<input type="hidden" id="receiver_tin" name="receiver_tin">
-											<input type="hidden" id="esscode" name="esscode">
+											<input type="hidden" id="delivery_ou" name="delivery_ou">
+											<input type="hidden" id="ess_code" name="ess_code">
 											
 										</div>
 									</div> 
@@ -367,8 +463,8 @@
 											<label>Risk</label>
 											<select class="form-control" name="risk">											
 												<option value="">--Select--</option>
-												<option value="Gati">Gati</option>
-												<option value="Owner">Owner</option>											
+												<option value="CR">Gati</option>
+												<option value="OR">Owner</option>											
 											</select>
 										</div>
 									</div> 
@@ -397,9 +493,8 @@
 										<div class="col-sm-3 m-b-sm">
 											<label>COD/DOD Flag</label>
 											<select class="form-control" name="cod_flag" id="cod_flag">
-												<option value="">--Select--</option>
-												<option value="Yes">Yes</option>
-												<option value="No">No</option>
+												<option value="Y">Yes</option>
+												<option value="N">No</option>
 											</select>
 										</div>
 									</div> 
@@ -408,8 +503,8 @@
 											<label>COD/DOD in Fav</label>
 											<select class="form-control" name="cod_dod_in_favor">
 											    <option value="">--Select--</option>
-												<option value="Gati">Gati</option>
-												<option value="Shipper">Shipper</option>
+												<option value="G">Gati</option>
+												<option value="S">Shipper</option>
 											</select>
 										</div>
 										<div class="col-sm-3 m-b-sm">
@@ -420,7 +515,8 @@
 								</section>
 
 								<h2>Second Step</h2>
-								<section>
+								<section data-step="1">
+									
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Shipper Code</label>
@@ -468,7 +564,7 @@
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Pin Code</label>
-											<input class="form-control w-control" type="text" name="shipper_pincode" id="shipper_pincode">
+											<input class="form-control w-control" type="text" name="shipper_pincode1" id="shipper_pincode1">
 										</div>
 									</div>
 									<div class="row">
@@ -478,12 +574,13 @@
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>VAT/TIN</label>
-											<input class="form-control w-control" type="text" name="shipper_tin" id="shipper_tin">
+											<input class="form-control w-control" type="text" name="shipper_tin1" id="shipper_tin1">
 										</div>
 									</div>
 								</section>
 								<h2>Third Step</h2>
-								<section>
+								<section data-step="2">
+									
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
 											<label>Receiver Code</label>
@@ -531,7 +628,7 @@
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Pin Code</label>
-											<input class="form-control w-control" type="text" name="receiver_pincode" id="receiver_pincode">
+											<input class="form-control w-control" type="text" name="receiver_pincode1" id="receiver_pincode1">
 										</div>
 									</div>
 									<div class="row">
@@ -541,13 +638,14 @@
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>VAT/TIN</label>
-											<input class="form-control w-control" type="text" name="receiver_tin" id="receiver_tin">
+											<input class="form-control w-control" type="text" name="receiver_tin1" id="receiver_tin1">
 										</div>
 									</div>
 								</section>
 
 								<h2>Forth Step</h2>
-								<section>
+								<section data-step="3">
+								
                                 <div class="row">
                                     <div class="col-sm-10 col-sm-offset-1 m-b-sm">
                                         <div class="header-strip">
@@ -675,7 +773,7 @@
 		              url: "${get}getEsscode/"+receiver_pincode,
 		              success: function( data ) {
 		            	  console.log(data.ess_code);
-		            	  $("#esscode").val(data.ess_code);		            	  		                  
+		            	  $("#ess_code").val(data.ess_code);		            	  		                  
 		              },
 		              error: function() {
 		                  alert("Failed to load Esscode");
@@ -716,6 +814,11 @@
 			        	$("#shipper_mobile").val( ui.item.custMobile );
 			        	$("#shipper_email").val( ui.item.custEmail );
 			        	$("#shipper_tin").val( ui.item.custTIN );
+			        	
+			        	$("#shipper_code1").val( ui.item.custCode );
+			        	$("#shipper_pincode1").val( ui.item.custPincode );
+			        	$("#shipper_tin1").val( ui.item.custTIN );
+			        	$("#booking_ou").val( ui.item.custTIN );
 			          return false;
 			        }
 			      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
@@ -754,7 +857,12 @@
 		        	$("#receiver_phone").val( ui.item.custPhone );
 		        	$("#receiver_mobile").val( ui.item.custMobile );
 		        	$("#receiver_email").val( ui.item.custEmail );
-		        	$("#receiver_tin").val( ui.item.custTIN );	   
+		        	$("#receiver_tin").val( ui.item.custTIN );
+		        	
+		        	$("#receiver_code1").val( ui.item.custCode );
+		        	$("#receiver_pincode1").val( ui.item.custPincode );
+		        	$("#receiver_tin1").val( ui.item.custTIN );
+		        	$("#delivery_ou").val( ui.item.custTIN );
 		          return false;
 		        }
 		      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
@@ -784,6 +892,9 @@
 		        select: function( event, ui ) {
 		          $( "#shipper_pincode" ).val( ui.item.pincode );
 		          $( "#shipper_tin" ).val( ui.item.ou_code );
+		          $( "#shipper_pincode1" ).val( ui.item.pincode );
+		          $( "#shipper_tin1" ).val( ui.item.ou_code );
+		          $( "#booking_ou" ).val( ui.item.ou_code );
 		          return false;
 		        }
 		      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
@@ -813,6 +924,9 @@
 			        select: function( event, ui ) {
 			          $( "#receiver_pincode" ).val( ui.item.pincode );
 			          $( "#receiver_tin" ).val( ui.item.ou_code );
+			          $( "#receiver_pincode1" ).val( ui.item.pincode );
+			          $( "#receiver_tin1" ).val( ui.item.ou_code );
+			          $( "#delivery_ou" ).val( ui.item.ou_code );
 			          getEsscode(ui.item.pincode);
 			          return false;
 			        }
@@ -821,8 +935,7 @@
 			          .append( "<span class='list-pin'>"+ item.pincode +"</span>"+item.location+"<span class='list-ou'>"+item.ou_code + "</span>" )
 			          .appendTo( ul );
 			      };
-        });
-        
+        });        
         </script>
     </body>
 </html>

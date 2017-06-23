@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import com.mindworx.model.PickupDetails;
 import com.mindworx.controller.PickupDetailsRestController;
 import com.mindworx.model.Customer;
+import com.mindworx.model.PackageDetails;
 
 @Validated
 public class PickupDetailsDaoImpl implements PickupDetailsDao {
@@ -207,58 +208,31 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}	
 		String contract_no =  this.getContractNo(cust_code);
 		log.info("call generated Contract No:"+contract_no);
-		log.info("{call gemsprod.gems_docket_pack.Gems_DOCKET_VALIDATE_proc(0,"+p.getShipper_tin()+","+p.getDocket_category()+","+p.getDocket_type()+","+new java.sql.Date(p.getPickup_date().getTime())+","+contract_no+","+p.getShipper_code()+","+p.getReceiver_code()+","+p.getBooking_basis()+","+p.getProduct()+","+p.getReceiver_tin()+","+java.sql.Types.VARCHAR+","+java.sql.Types.VARCHAR+")}");
-		
-		/*
-		
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		String comm = "";
-		try {
-			ps = connection.prepareStatement("SELECT line,text FROM ALL_SOURCE WHERE type='PROCEDURE' ORDER BY line");
-			rs = ps.executeQuery();
-			StringBuffer out = new StringBuffer();
-			out.append("{\"items\":[");
-			while(rs.next()){
-				out.append(comm+"{\"line\":"+rs.getString(1)+",\"text\":\""+rs.getString(2)+"\"}");
-				comm=",";
-			}
-			out.append("]}");
-			log.info("call :"+out.toString());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}*/
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		String Sql = "{call gemsprod.gems_docket_pack.Gems_DOCKET_VALIDATE_proc(0,'"+p.getShipper_tin()+"','"+p.getDocket_category()+"','"+p.getDocket_type()+"',trunc(SYSDATE),'"+contract_no+"','"+p.getShipper_code()+"','"+p.getReceiver_code()+"','"+p.getBooking_basis()+"','"+p.getProduct()+"','"+p.getReceiver_tin()+"',?,?)}";
+		log.info("call Sql:"+Sql);
 		CallableStatement cstmt = null;
 		StringBuffer out = new StringBuffer();
 		try {
-			cstmt = connection.prepareCall("{call gemsprod.gems_docket_pack.Gems_DOCKET_VALIDATE_proc(?,?,?,?,trunc(SYSDATE),?,?,?,?,?,?,?,?)}");
-			log.info("query before :"+cstmt.toString());
-			cstmt.setInt(1, 0); 		//P_DKTNO || DOCKET_NO
-			cstmt.setString(2, p.getShipper_tin()); 	//P_BKGOU || OU_CODE 
-			cstmt.setString(3, p.getDocket_category()); 	//P_DKT_CATG || DOCKET_Category
-			cstmt.setString(4, p.getDocket_type()); 	//P_DKT_TYPE || DOCKET_type
-			//cstmt.setString(5, new java.sql.Date(p.getPickup_date().getTime())); 		//P_BKGDT || Date 
-			cstmt.setString(5, contract_no); 	//P_CONTRACTNO || contract_no
-			cstmt.setString(6, p.getShipper_code()); 	//P_CONSIGNOR || cust_code
-			cstmt.setString(7, p.getReceiver_code()); 	//P_CONSIGNEE || cust_code
-			cstmt.setString(8, p.getBooking_basis()); 	//P_BASISCODE || Booking Basis
-			cstmt.setString(9, p.getProduct()); 	//P_PRODCODE || product_code || service code
-			cstmt.setString(10, p.getReceiver_tin()); 	//P_DLYOU || to_ou 			
-			cstmt.registerOutParameter(11, Types.VARCHAR); //Error Flag
-			cstmt.registerOutParameter(12, Types.VARCHAR); //Error Msg	
-			log.info("query after :"+cstmt.toString());
-			cstmt.execute();
+			
+			//cstmt = connection.prepareCall("{call gemsprod.gems_docket_pack.Gems_DOCKET_VALIDATE_proc(?,?,?,?,trunc(SYSDATE),?,?,?,?,?,?,?,?)}");
+			cstmt = connection.prepareCall(Sql);
+			
+			cstmt.registerOutParameter(1, Types.VARCHAR); //Error Flag
+			cstmt.registerOutParameter(2, Types.VARCHAR); //Error Msg
+			
+		/*	cstmt.setInt(3, 0); 		//P_DKTNO || DOCKET_NO
+			cstmt.setString(4, p.getShipper_tin()); 	//P_BKGOU || OU_CODE 
+			cstmt.setString(5, p.getDocket_category()); 	//P_DKT_CATG || DOCKET_Category
+			cstmt.setString(6, p.getDocket_type()); 	//P_DKT_TYPE || DOCKET_type
+			//cstmt.setDate(7, new java.sql.Date(p.getPickup_date().getTime())); 		//P_BKGDT || Date 
+			cstmt.setString(7, contract_no); 	//P_CONTRACTNO || contract_no
+			cstmt.setString(8, p.getShipper_code()); 	//P_CONSIGNOR || cust_code
+			cstmt.setString(9, p.getReceiver_code()); 	//P_CONSIGNEE || cust_code
+			cstmt.setString(10, p.getBooking_basis()); 	//P_BASISCODE || Booking Basis
+			cstmt.setString(11, p.getProduct()); 	//P_PRODCODE || product_code || service code
+			cstmt.setString(12, p.getReceiver_tin()); 	//P_DLYOU || to_ou */
+			
+			cstmt.executeUpdate();
 			
 			String Flag = cstmt.getString(1);
 			String Msg = cstmt.getString(2);
@@ -320,11 +294,18 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	}
 
 	//for Submit form and insert data
-	private String insertDocket(PickupDetails p){
+	@Override
+	public String insertDocket(PickupDetails p){
 		String sql = "insert into gemsprod.GEMS_GKE_DOCKET_UPLOAD(LOAD_SEQ_NO,created_date,DOCKET_NO,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,ESS_CODE,consignor_tinno,consignee_tinno,UPLOAD_FLAG,STATUS)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),sysdate,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'V')";
+		String sql1 = "insert into gemsprod.TEMP_DOCKET_ITEM_DTLS(LOAD_SEQNO,DOCKET_NO,PKG_NO,PKG_LN,PKG_BR,PKG_HT,PKG_WT)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),?,?,?,?,?,?)";
+		
+		int maxBatchSize = 100;
 		StringBuffer out = new StringBuffer();
 		PreparedStatement ps = null;
+		PreparedStatement ps1 = null;
 		try {
+			connection.setAutoCommit(false);
+			
 			ps = connection.prepareStatement(sql);
 			ps.setInt(1,Integer.parseInt(p.getDocket_no()));
 			ps.setString(2,p.getProduct());
@@ -359,67 +340,60 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			ps.setString(31,p.getReceiver_phone());
 			ps.setString(32,p.getReceiver_email());
 			ps.setString(33,p.getCod_flag());
-			ps.setString(34,"G");
-			ps.setString(35,"esscode");
+			ps.setString(34,p.getCod_dod_in_favor());
+			ps.setString(35,p.getEss_code());
 			ps.setString(36,p.getShipper_tin());
 			ps.setString(37,p.getReceiver_tin());
 			ps.setString(38,"W");
 			int k = ps.executeUpdate();
-			if(k > 0) 
+			if(k > 0){
 				out.append("Docket Created Successfully Created");
-
+				ps1 = connection.prepareStatement(sql1);
+				List<PackageDetails> packageDetails = p.getPackage_details();
+				for (int i = 0; i < packageDetails.size();  i++) {
+					int package_no = Integer.parseInt(p.getPackage_number_from());
+					ps1.setInt(1,Integer.parseInt(p.getDocket_no()));
+					ps1.setInt(2,package_no+i);
+					ps1.setInt(3,Integer.parseInt(packageDetails.get(i).getPkg_ln()));
+					ps1.setInt(4,Integer.parseInt(packageDetails.get(i).getPkg_br()));
+					ps1.setInt(5,Integer.parseInt(packageDetails.get(i).getPkg_ht()));
+					ps1.setInt(6,Integer.parseInt(packageDetails.get(i).getPkg_wt()));
+					ps1.addBatch();
+	                if ((i + 1) % maxBatchSize == 0 || (i + 1) == packageDetails.size()) {
+	                    ps1.executeBatch(); 
+	                    log.info("packageDetails batch is inseted");
+	                    }
+	            } 
+				out.append("Docket Package Inserted");
+				log.info("Docket Package Inserted");
+			}
+			else
+			{
+				out.append("Docket dose not inserted ");
+			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("SQLException: " + e.getMessage());
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				log.error("connection SQLException: " + e1.getMessage());
+			}
 		}
 		finally {
-			try {
-				ps.close();
+			try {	
+				if(ps!=null)
+					ps.close();
+				if(ps1!=null)
+					ps1.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				log.error("connection SQLException: " + e.getMessage());
 			}					
 		}
+		
 		return out.toString();
 	}
 	
-	//for insert insertPackage
-	private String insertPackage(PickupDetails p){
-		
-		String sql = "insert into gemsprod.TEMP_DOCKET_ITEM_DTLS(LOAD_SEQNO,DOCKET_NO,PKG_NO,PKG_LN,PKG_BR,PKG_HT,PKG_WT)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),?,?,?,?,?,?)";
-		StringBuffer out = new StringBuffer();
-		int maxBatchSize = 100;
-		PreparedStatement ps = null;
-		int []executeResult = null;
-		try {
-			
-			ps = connection.prepareStatement(sql);
-			List<com.mindworx.model.PackageDetails> packageDetails = p.getPackage_details();
-			for (int i = 0; i < packageDetails.size();  i++) {
-				int package_no = Integer.parseInt(p.getPackage_number_from());
-				ps.setInt(1,Integer.parseInt(p.getDocket_no()));
-				ps.setInt(2,package_no+i);
-				ps.setInt(3,Integer.parseInt(packageDetails.get(i).getPkg_ln()));
-				ps.setInt(4,Integer.parseInt(packageDetails.get(i).getPkg_br()));
-				ps.setInt(5,Integer.parseInt(packageDetails.get(i).getPkg_ht()));
-				ps.setInt(6,Integer.parseInt(packageDetails.get(i).getPkg_wt()));
-				ps.addBatch();
-                if ((i + 1) % maxBatchSize == 0 || (i + 1) == packageDetails.size()) {
-                    executeResult = ps.executeBatch();
-                }
-            } 
-			out.append("Docket Package Inserted");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		finally {
-			try {
-				ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}					
-		}
-		return out.toString();
-	}
+	
 	
 	//for insert updateDocket
 	public String updateDocket(PickupDetails p){
@@ -546,19 +520,25 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	
 	//for generate Docket No
 	public String generateDocketNo(PickupDetails p) {
-		//StoreProcedure gems_proc_dkt_generate_java(i_ou_code IN VARCHAR2,V_USER_ID VARCHAR2, b_basis varchar2 , V_DKT_NO OUT NUMBER,err_msg OUT VARCHAR2,err_flag OUT VARCHAR2)
+		
 		CallableStatement cstmt = null;
-		String sp = "{call gems_proc_dkt_generate_java(?,?,?,?,?,?)}";
+		String sp = "{call gemsprod.gems_proc_dkt_generate_java('"+p.getShipper_tin()+"','BAL_30811','"+ p.getBooking_basis()+"',?,?,?)}";
+		//String sp = "{call gemsprod.gems_proc_dkt_generate_java(?,?,?,?,?,?)}";
 		StringBuffer out = new StringBuffer();
 		try {
+			log.info("call generateDocketNo CallableStatement :"+sp);
 			cstmt = connection.prepareCall(sp);
-			cstmt.setString(1, p.getBooking_pincode()); 		//Booking_STN
-			cstmt.setString(2, "BAL_30811"); 	//User Code HARD_CODE
-			cstmt.setString(3, p.getBooking_basis()); 	//Booking Basis
-			cstmt.registerOutParameter(4, java.sql.Types.INTEGER); // Generate Docket No
-			cstmt.registerOutParameter(5, java.sql.Types.VARCHAR); //Error Msg
-			cstmt.registerOutParameter(6, java.sql.Types.VARCHAR); //Error Flag			
-			// execute getDBUSERByUserId store procedure
+			
+			//inparams
+			//cstmt.setString(1, p.getShipper_tin()); 		//Booking_STN 
+			//cstmt.setString(2, "BAL_30811"); 	//User Code HARD_CODE
+			//cstmt.setString(3, p.getBooking_basis()); 	//Booking Basis
+			//outparms
+			
+			cstmt.registerOutParameter(1, Types.INTEGER); // Generate Docket No
+			cstmt.registerOutParameter(2, Types.VARCHAR); //Error Msg
+			cstmt.registerOutParameter(3, Types.VARCHAR); //Error Flag	
+										
 			cstmt.executeUpdate();
 			int Docket_No = cstmt.getInt(1);
 			String Msg = cstmt.getString(2);

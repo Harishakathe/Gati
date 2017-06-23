@@ -90,16 +90,29 @@ public class PickupDetailsRestController {
 		AjaxResponseBody responce = new AjaxResponseBody();
 		//If error, just return a 400 bad request, along with the error message
         
-        String str = pickupDetailsDao.validateXML(pickupDetails);
+        String str = pickupDetailsDao.validateXML(pickupDetails);        
+        
         JsonParser parser = new JsonParser();
         JsonObject o = parser.parse(str).getAsJsonObject();
-
-
-        responce.setMsg(o.get("error_flag").getAsString());
+        
+        if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
+        	String output = pickupDetailsDao.generateDocketNo(pickupDetails);
+        	logger.info("generated Docket No:"+output);
+        	o = parser.parse(output).getAsJsonObject();
+        	if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
+        		pickupDetails.setDocket_no(o.get("Docket_No").getAsString());
+        		pickupDetailsDao.insertDocket(pickupDetails);
+        	}
+        	else{
+        		o.get("error_msg").getAsString();
+        	}
+        }
+        else{
+        	
+        }
       //generate Docket_no;
-  		String output = pickupDetailsDao.generateDocketNo(pickupDetails);
-  		logger.info("generated Docket No:"+output);
   		
+  		 		
   		
         /*HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

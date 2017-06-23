@@ -44,8 +44,8 @@ public class PickupDetails {
 	private String receiver_tin;		
 	private String goods_code;
 	private String goods_desc;
-	private String booking_pincode;
-	private String delivery_pincode;
+	private String booking_ou;
+	private String delivery_ou;
 	private String no_of_packages;
 	private String package_number_from;
 	private String package_number_to;
@@ -58,6 +58,7 @@ public class PickupDetails {
 	private String cod_flag;
 	private String cod_dod_in_favor;
 	private String cod_dod_amount;
+	private String ess_code;
 	@DateTimeFormat(pattern = "MM-dd-yyyy")
 	private Date pickup_date;
 	private String pickup_time;
@@ -330,20 +331,20 @@ public class PickupDetails {
 		this.goods_desc = goods_desc;
 	}
 
-	public String getBooking_pincode() {
-		return booking_pincode;
+	public String getBooking_ou() {
+		return booking_ou;
 	}
 
-	public void setBooking_pincode(String booking_pincode) {
-		this.booking_pincode = booking_pincode;
+	public void setBooking_ou(String booking_ou) {
+		this.booking_ou = booking_ou;
 	}
 
-	public String getDelivery_pincode() {
-		return delivery_pincode;
+	public String getDelivery_ou() {
+		return delivery_ou;
 	}
 
-	public void setDelivery_pincode(String delivery_pincode) {
-		this.delivery_pincode = delivery_pincode;
+	public void setDelivery_ou(String delivery_ou) {
+		this.delivery_ou = delivery_ou;
 	}
 
 	public String getNo_of_packages() {
@@ -465,10 +466,20 @@ public class PickupDetails {
 	public void setPackage_details(List<PackageDetails> package_details) {
 		this.package_details = package_details;
 	}
+	
+	public String getEss_code() {
+		return ess_code;
+	}
 
+	public void setEss_code(String ess_code) {
+		this.ess_code = ess_code;
+	}
+	
 	@Override
 	public String toString() {
 		return new com.google.gson.Gson().toJson(this);
-	}	
+	}
+
+		
 	
 }
