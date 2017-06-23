@@ -4,11 +4,14 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.codehaus.jackson.impl.ReaderBasedParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -24,7 +27,10 @@ import oracle.jdbc.pool.OracleDataSource;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.mindworx")
-@PropertySource("classpath:config.properties")
+@PropertySources({
+	@PropertySource("classpath:config.properties"),
+	@PropertySource("classpath:validation.properties")
+})
 public class AppConfiguration extends WebMvcConfigurerAdapter{
 	
 	@Value("${url}")
@@ -71,4 +77,5 @@ public class AppConfiguration extends WebMvcConfigurerAdapter{
     public PickupDetailsDao getPickupDetailsDao() {
         return new PickupDetailsDaoImpl(getDataSource());
     }
+        
 }

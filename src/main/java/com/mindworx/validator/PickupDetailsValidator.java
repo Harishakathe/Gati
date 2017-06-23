@@ -32,11 +32,11 @@ public class PickupDetailsValidator implements Validator{
 		PickupDetails details = (PickupDetails) target;
 		
 		//ValidationUtils.rejectIfEmptyOrWhitespace(errors, "docket_no", "NotEmpty.docket_no");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "docket_type", "NotEmpty.docket_type");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "docket_category", "NotEmpty.docket_category");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "product", "NotEmpty.product");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "booking_basis", "NotEmpty.booking_basis");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_code", "NotEmpty.shipper_code");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "docket_type", "Docket Type Requird!");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "docket_category", "NotEmpty.Docket Category Requird!");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "product", "Product is Requied!");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "booking_basis", "Booking Basis is Requied!");
+		/*ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_code", "NotEmpty.shipper_code");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_name", "NotEmpty.shipper_name");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_address1", "NotEmpty.shipper_address1");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_address2", "NotEmpty.shipper_address2");
@@ -64,8 +64,8 @@ public class PickupDetailsValidator implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_tin", "NotEmpty.receiver_tin");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "goods_code", "NotEmpty.goods_code");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "goods_desc", "NotEmpty.goods_desc");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "booking_oucode", "NotEmpty.booking_oucode");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "delivery_oucode", "NotEmpty.delivery_oucode");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "booking_ou", "NotEmpty.booking_oucode");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "delivery_ou", "NotEmpty.delivery_oucode");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "no_of_packages", "NotEmpty.no_of_packages");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "package_number_from", "NotEmpty.package_number_from");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "package_number_to", "NotEmpty.package_number_to");
@@ -77,12 +77,12 @@ public class PickupDetailsValidator implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "actual_weight", "NotEmpty.actual_weight");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cod_flag", "NotEmpty.cod_flag");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cod_dod_in_favor", "NotEmpty.cod_dod_in_favor");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cod_dod_amount", "NotEmpty.cod_dod_amount");         
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cod_dod_amount", "NotEmpty.cod_dod_amount");         */
 		
 		/*if(!numberValidator.validDocket(details.getDocket_No())){
 			errors.rejectValue("docket_no", "Docket No Must be Valid 9 digit Number");
 		}*/
-		if(!numberValidator.valid(details.getBooking_basis())){
+		/*if(!numberValidator.valid(details.getBooking_basis())){
 			errors.rejectValue("booking_basis", "Booking Basis Must be Valid");
 		}
 		
@@ -149,7 +149,7 @@ public class PickupDetailsValidator implements Validator{
 		
 		if(!emailValidator.valid(details.getReceiver_email())){
 			errors.rejectValue("receiver_email", "Receiver Email must Be Valid");
-		}
+		}*/
 		
 		
 	}

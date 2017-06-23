@@ -330,7 +330,7 @@ public class PickupDetails {
 	public void setGoods_desc(String goods_desc) {
 		this.goods_desc = goods_desc;
 	}
-
+	
 	public String getBooking_ou() {
 		return booking_ou;
 	}

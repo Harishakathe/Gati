@@ -73,7 +73,7 @@
                                     bodyTag: "section",
                                     transitionEffect: "slideLeft",
                                  	// Triggered when clicking the Previous/Next buttons
-                                     onStepChanging: function(e, currentIndex, newIndex) {
+                                     /* onStepChanging: function(e, currentIndex, newIndex) {
                                         var fv = $('#PickupDetailsForm').data('bootstrapValidator'); // bootstrapValidator instance
                                         // The current step container
                                         $container = $('#PickupDetailsForm').find('section[data-step="' + currentIndex +'"]');
@@ -94,10 +94,9 @@
 
                                         return true;
 
-                                    },
+                                    }, */
                                     onFinished: function(e, currentIndex) {
-                                    	$('#PickupDetailsForm').bootstrapValidator('defaultSubmit');
-                                        e.preventDefault();
+                                    	e.preventDefault();
                                         var form = $("#PickupDetailsForm");
                                         var xml = ConvertFormToXML(form);
                                         var json = ConvertFormToJSON(form);
@@ -110,9 +109,12 @@
                                             url: '${get}validate_xml',
                                             data: xml,
                                             contentType: 'application/xml',
-                                            dataType: 'xml',
+                                            headers: {
+                			            	    Accept: "application/json"
+                			            	  },
                                             success: function (data) {
                                             	console.log(data);
+                                            	console.log(JSON.stringify(data));
                                             	alert(data);
                                             	
                                             },

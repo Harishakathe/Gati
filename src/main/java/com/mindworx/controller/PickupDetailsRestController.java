@@ -73,14 +73,14 @@ public class PickupDetailsRestController {
     
     
 	@RequestMapping(value = "/validate_xml", method = RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<?> validateXml(@Valid @RequestBody PickupDetails pickupDetails,UriComponentsBuilder ucBuilder, BindingResult result ) {
+    public ResponseEntity<?> validateXml(@RequestBody PickupDetails pickupDetails,UriComponentsBuilder ucBuilder, BindingResult result ) {
 		
 		logger.info("pickupDetails:"+pickupDetails);
 		
 		JsonResponse res = new JsonResponse();
 		
-		PickupDetailsValidator validator = new PickupDetailsValidator();  
-		validator.validate(pickupDetails, result);  
+		//PickupDetailsValidator validator = new PickupDetailsValidator();  
+		//validator.validate(pickupDetails, result);  
 				
 		if(!result.hasErrors()){
 			logger.info("My Validation success Start ValidateXML Procedure");
@@ -121,7 +121,7 @@ public class PickupDetailsRestController {
             logger.error("validation error:"+result.getAllErrors());
 		}
 		
-		return new ResponseEntity<JsonResponse>(res,HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<JsonResponse>(res,HttpStatus.OK);
   		
         /*HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
