@@ -53,13 +53,15 @@
 				display: inline-block;
 				min-width: 100px;
 			}
+			.error { color: red; }
         </style>
         <script src="<c:url value="/resources/js/jquery-1.12.4.js" />" type="text/javascript"></script>
         <script src="<c:url value="/resources/js/jquery-ui.js" />" type="text/javascript"></script>
         <script src="<c:url value="/resources/js/jquery.steps.js" />" type="text/javascript"></script>
         <script src="<c:url value="/resources/js/XMLWriter.js" />" type="text/javascript"></script>
-        <script src="<c:url value="/resources/js/bootstrapValidator.min.js" />" type="text/javascript"></script>
-    </head>
+        <script src="<c:url value="/resources/js/jquery.validate.js" />" type="text/javascript" ></script>
+        
+        </head>
     <body>
         <div class="container">
             <div class="row">
@@ -68,33 +70,214 @@
                         <script>
                             $(function ()
                             {
+                            	///////////////////
+                            	
+                            	
+                            	
+                            	 $.validator.addMethod("cemail", function(value, element) {
+                                     return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/i.test(value);
+                                 }, "Email Address is invalid: Please enter a valid email address.");
+                            	 
+                            	$.validator.addMethod("mobile", function(value, element) {
+                                     return this.optional(element) || /^d{10}$/i.test(value);
+                                 }, "It is not valid mobile number.input 10 digits number!");
+                            	
+                            	////////////////
+                            	
+                            	
                                 $("#wizard").steps({
                                     headerTag: "h2",
                                     bodyTag: "section",
                                     transitionEffect: "slideLeft",
                                  	// Triggered when clicking the Previous/Next buttons
-                                     /* onStepChanging: function(e, currentIndex, newIndex) {
-                                        var fv = $('#PickupDetailsForm').data('bootstrapValidator'); // bootstrapValidator instance
-                                        // The current step container
-                                        $container = $('#PickupDetailsForm').find('section[data-step="' + currentIndex +'"]');
+                                      onStepChanging: function(e, currentIndex, newIndex) {
+                                    	  
+                                    	  
+                                    		  var form = $("#PickupDetailsForm").validate({
+    											  rules: {
+    												/* docket_no: {
+    												  required: true,
+    												  minlength: 2
+    												}, */
+    												docket_type:"required",
+    												docket_category:"required",
+    												product:"required",
+    												booking_basis:"required",
+    												goods_code:"required",
+    												shipper_code:"required",
+    												receiver_code:"required",
+    												shipper_pincode:"required",
+    												shipper_tin:"required",
+    												booking_ou:"required",
+    												receiver_pincode:"required",
+    												receiver_tin:"required",
+    												delivery_ou:"required",
+    												ess_code:"required",
+    												no_of_packages:{
+    													required: true,
+    													range:[1,100],
+    												},
+    												shipment_value:{
+    													required: true,
+    													range:[1,9999999999]
+    												},
+    												risk:"required",
+    												volume:{
+    													required: true,
+    													range:[1,999999]
+    												},
+    												UOM:"required",
+    												actual_weight:"required",
+    												cod_flag:"required",
+    												cod_dod_in_favor:"required",
+    												cod_dod_amount:{
+    													required:{
+    														depends:function(element){
+    															return $("#cod_flag").val()==='Y';
+    														}
+    													}
+    												},
+    												shipper_code1:"required",
+    												shipper_mobile:{
+    													required: true,
+    													mobile:true,
+    												},
+    												shipper_name:"required",
+    												shipper_phone:"required",
+    												shipper_address1:"required",
+    												shipper_address2:"required",
+    												shipper_address3:"required",
+    												shipper_address4:"required",
+    												shipper_city:"required",
+    												shipper_pincode1:"required",
+    												shipper_email:{
+    													required: true,
+    													cemail: true,
+    												},
+    												shipper_tin1:"required",
+    												receiver_code1:"required",
+    												receiver_mobile:{
+    													required: true,
+    													mobile:true,
+    												},
+    												receiver_name:"required",
+    												receiver_phone:"required",
+    												receiver_address1:"required",
+    												receiver_address2:"required",
+    												receiver_address3:"required",
+    												receiver_address4:"required",
+    												receiver_city:"required",
+    												receiver_pincode1:"required",
+    												receiver_email:{
+    													required: true,
+    													cemail: true,
+    												},
+    												receiver_tin1:"required"
+    											  },
+    											  messages: {
+    												/* docket_no: {
+    												  required: "Docket No is requird",
+    												  minlength: jQuery.validator.format("At least {0} characters required!")
+    												}, */
+    												docket_type:"Docket Type is required",
+    												docket_category:"Docket Type is required",
+    												product:"Please Select Product",
+    												booking_basis:"Please Select BKG Basis",
+    												goods_code:"Please Select Goods Type",
+    												shipper_code:"Please Select Shipper Code",
+    												receiver_code:"Please Select Receiver Code",
+    												shipper_pincode:"Please Select valid Shipper PinCode",
+    												shipper_tin:"Please Select valid Shipper PinCode",
+    												booking_ou:"Please Select valid Shipper PinCode",
+    												receiver_pincode:"Please Select valid Receiver Pincode",
+    												receiver_tin:"Please Select valid Receiver Pincode",
+    												delivery_ou:"Please Select valid Receiver Pincode",
+    												ess_code:"Please Select valid Receiver Pincode",
+    												no_of_packages:{
+    												  required: "No of packages is required",
+    												  range: "Please enter a value between 1 to 100",
+    												},
+    												shipment_value:{
+    												  required: "Shipment Value is required",
+    												  range: "Please enter a value between 1 to 9999999999",
+    												},
+    												risk:"Please Select Risk Type",
+    												volume:{
+    												  required: "Volume is required",
+    												  range: "Please enter a value between 1 to 999999",
+    												},
+    												UOM:"Please select UOM Code",
+    												actual_weight:"Actual Weight is required",
+    												cod_flag:"Please select Cod Flag Type",
+    												cod_dod_in_favor:"Please select Cod\Dod in Favor Type",
+    												cod_dod_amount:" Cod\Dod Amount required",
+    												shipper_code1:"Shipper Code is required",
+    												shipper_mobile:"Shipper Mobile is required",
+    												shipper_name:"Shipper Name is required",
+    												shipper_phone:"Shipper Phone is required",
+    												shipper_address1:"Shipper Address 1 is required",
+    												shipper_address2:"Shipper Address 2 is required",
+    												shipper_address3:"Shipper Address 3 is required",
+    												shipper_address4:"Shipper Address 4 is required",
+    												shipper_city:"Shipper City is required",
+    												shipper_pincode1:"Shipper City is required",
+    												shipper_email:"Shipper Email is required",
+    												shipper_tin1:"Shipper Tin is required",
+    												receiver_code1:"Receiver Code is required",
+    												receiver_mobile:"Receiver Mobile is required",
+    												receiver_name:"Receiver Name is required",
+    												receiver_phone:"Receiver Phone is required",
+    												receiver_address1:"Receiver Address 1 is required",
+    												receiver_address2:"Receiver Address 2 is required",
+    												receiver_address3:"Receiver Address 3 is required",
+    												receiver_address4:"Receiver Address 4 is required",
+    												receiver_city:"Receiver City is required",
+    												receiver_pincode1:"Receiver City is required",
+    												receiver_email:"Receiver Email is required",
+    												receiver_tin1:"Receiver Tin is required"
+    											  },
+    											  errorElement: "em",
+   													errorPlacement: function ( error, element ) {
+	   													// Add the `help-block` class to the error element
+	   													error.addClass( "help-block" );
+	
+	   													// Add `has-feedback` class to the parent div.form-group
+	   													// in order to add icons to inputs
+	   													element.parent().addClass( "has-feedback" );
+	
+	   													if ( element.prop( "type" ) === "checkbox" ) {
+	   														error.insertAfter( element.parent( "label" ) );
+	   													} else {
+	   														error.insertAfter( element );
+	   													}
+	
+	   													// Add the span element, if doesn't exists, and apply the icon classes to it.
+	   													if ( !element.next( "span" )[ 0 ] ) {
+	   														$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+	   													}
+	   												},
+	   												success: function ( label, element ) {
+	   													// Add the span element, if doesn't exists, and apply the icon classes to it.
+	   													if ( !$( element ).next( "span" )[ 0 ] ) {
+	   														$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+	   													}
+	   												},
+	   												highlight: function ( element, errorClass, validClass ) {
+	   													$( element ).parent().addClass( "has-error" ).removeClass( "has-success" );
+	   													$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+	   												},
+	   												unhighlight: function ( element, errorClass, validClass ) {
+	   													$( element ).parent().addClass( "has-success" ).removeClass( "has-error" );
+	   													$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+	   												}
 
-                                        // If user click on "Previous" button, we just normally let he/she goes
-                                        if (newIndex < currentIndex) {
-                                            return true;
-                                        }
+    											});											
+    											return $("#PickupDetailsForm").valid();
+                                    	
+                                    		  
+                                    	   
 
-                                        // Validate the container
-                                        fv.validateField($container);
-                                        
-                                        var isValidStep = fv.isValidContainer($container);
-                                        if (isValidStep === false || isValidStep === null) {
-                                            // Do not jump to the next step
-                                            return false;
-                                        }
-
-                                        return true;
-
-                                    }, */
+                                    },
                                     onFinished: function(e, currentIndex) {
                                     	e.preventDefault();
                                         var form = $("#PickupDetailsForm");
@@ -124,91 +307,6 @@
                                         });   
                                         
                                     }
-                                }).bootstrapValidator({
-                                    excluded: ':disabled',
-                                    message: 'This value is not valid',
-                                    container: 'tooltip',
-                                    feedbackIcons: {
-                                        valid: 'glyphicon glyphicon-ok',
-                                        invalid: 'glyphicon glyphicon-remove',
-                                        validating: 'glyphicon glyphicon-refresh'
-                                    },
-                                    fields: {
-                                    	docket_type: {
-                                            validators: {
-                                                notEmpty: {
-                                                    message: 'The Docket Type is required and cannot be empty'
-                                                }			                                    
-                                            }
-                                        },
-                                        docket_category: {
-                                            validators: {
-                                                notEmpty: {
-                                                    message: 'The Docket Category is required and cannot be empty'
-                                                }			                                    
-                                            }
-                                        },
-                                        product: {
-                                            validators: {
-                                                notEmpty: {
-                                                    message: 'The Product Must Be Select and cannot be empty'
-                                                }			                                    
-                                            }
-                                        },                                        
-                                        shipper_code: {
-                                            validators: {
-                                                notEmpty: {
-                                                    message: 'The Shipper Code cannot be empty'
-                                                },
-		                                        between: {
-			                                        min: 99999,
-			                                        message: 'The Shipper Code is mor than 5 digit'
-			                                    }
-                                            }
-                                        },
-                                        
-                                        shipper_pincode: {
-                                            validators: {
-                                                notEmpty: {
-                                                    message: 'The Shipper Pincode cannot be empty'
-                                                },
-		                                        between: {
-			                                        min: 100000,
-			                                        max: 999999,
-			                                        message: 'The Shipper Pincode is an 6 digit reqired'
-			                                    }
-                                            }
-                                        },
-                                        
-                                        shipper_tin: {
-                                            validators: {
-                                                notEmpty: {
-                                                    message: 'The Shipper Tin is required and cannot be empty'
-                                                },
-                                                stringLength: {
-                                                    min: 3,
-                                                    max: 3,
-                                                    message: 'The Shipper Tin must be 3 characters long'
-                                                },
-                                                regexp: {
-                                                    regexp: /^[A-Z]+$/i,
-                                                    message: 'The Shipper Tin can only consist of alphabetical characters'
-                                                }
-                                            }
-                                        },
-                                        shipper_email: {
-                                            validators: {
-                                                notEmpty: {
-                                                    message: 'The Shipper E-Mail ID is required and cannot be empty'
-                                                },
-                                                regexp: {
-                                                    regexp: /[a-zA-Z0-9]+(?:(\.|_)[A-Za-z0-9!#$%&'*+\/=?^`{|}~-]+)*@(?!([a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.))(?:[A-Za-z0-9](?:[a-zA-Z0-9-]*[A-Za-z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/g,
-                                                    message: 'The Shipper E-Mail ID is not a valid E-Mail'
-                                                }
-                                            }
-                                        },
-                                    }
-
                                 });
                                 
                                 
@@ -281,8 +379,11 @@
                                     	alert("Converting in xml error:"+e.message);
                                     }
                                     return ((new XMLSerializer()).serializeToString(xml.context));
-                                }                            
+                                } 
+                                
+                                
                             });
+                            
                         </script>
                         <div class="line"></div>
                         <div class="titles">
@@ -299,12 +400,13 @@
                                 <h5>Confirm<br/> Details</h5>
                             </div>
                         </div>
-                        <form action="${get}validate_xml" method="post" id="PickupDetailsForm">
+                        <form action="${get}validate_xml" method="post" id="PickupDetailsForm" class="form-horizontal">
                         	<div id="wizard">							
 								<h2>First Step</h2>
 								<section data-step="0">
-									<div class="row">
+									<div class="form-group">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+										
 											<label>Docket No</label>
 											<input class="form-control w-control" maxlength="10" type="text" name="docket_no" id="docket_no" readonly="readonly" >
 											<input type="hidden" name="docket_type" value="NR"  >
@@ -329,6 +431,7 @@
 									</div> 
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<div class="form-group">
 											<label>BKG Basis</label>
 											<select class="form-control" name="booking_basis">
 											<option value="">-Select-</option>
@@ -337,17 +440,22 @@
 											<option value="4">FOD</option>
 											<option value="6">BOD</option>
 											</select>
+											</div>
 										</div>
 										<div class="col-sm-3 m-b-sm">
+											<div class="form-group">
 											<label>Goods Type</label>
 											<select class="form-control" id="goods_code" name="goods_code">
 											</select>
+											</div>
 										</div>
 									</div> 
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
+											<div class="form-group">
 											<label>Shipper Code</label>
 											<input class="form-control w-control" type="text" name="shipper_code" id="shipper_code">
+											</div>
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>Receiver Code</label>
@@ -511,7 +619,7 @@
 										</div>
 										<div class="col-sm-3 m-b-sm">
 											<label>COD/DOD Amt</label>
-											<input class="form-control w-control" type="text" name="cod_dod_amount">
+											<input class="form-control w-control" type="text" id="cod_dod_amount" name="cod_dod_amount">
 										</div>
 									</div> 
 								</section>
@@ -743,7 +851,15 @@
         <script type="text/javascript">
         $( function() {
         	
-        	 
+        	$("#cod_flag").change(function(){
+           		$("#cod_dod_amount").val('');
+           		if($("#cod_flag").val()=='Y'){
+           			$("#cod_dod_amount").attr("readonly",false);
+           		}else{                            			
+           			$("#cod_dod_amount").attr("readonly",true);           			
+           		}
+           	});
+        	
         	 function fillGoodType(){
         		 $("#goods_code").html="";
 	       		 $.ajax( {
