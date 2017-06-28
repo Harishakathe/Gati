@@ -399,11 +399,12 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	//for insert updateDocket
 	public String updateDocket(PickupDetails p){
 		String sql = "update gemsprod.GEMS_GKE_DOCKET_UPLOAD set PROD_SERV_CODE=? ,BOOKING_BASIS=? ,CONSIGNOR_CODE=? ,CONSIGNEE_CODE=? ,GOODS_CODE=? ,CONSIGNOR_PINCODE=? ,CONSIGNEE_PINCODE=? ,NO_OF_PKGS=? ,DECL_CARGO_VAL=? ,RISK_COVERAGE=? ,VOLUME=? ,UOM=? ,ACTUAL_WT=? ,CONSIGNOR_NAME=? ,CONSIGNOR_ADD1=? ,CONSIGNOR_ADD2=? ,CONSIGNOR_ADD3=? ,CONSIGNOR_ADD4=? ,CONSIGNOR_CITY=? ,CONSIGNOR_MOBILE_NO=? ,CONSIGNOR_PHONE_NO=? ,CONSIGNOR_EMAIL=? ,CONSIGNEE_NAME=? ,CONSIGNEE_ADD1=? ,CONSIGNEE_ADD2=? ,CONSIGNEE_ADD3=? ,CONSIGNEE_ADD4=? ,CONSIGNEE_CITY=? ,CONSIGNEE_MOBILE_NO=? ,CONSIGNEE_PHONE_NO=? ,CONSIGNEE_EMAIL=? ,COD_DOD_FLAG=? ,COD_IN_FAVOUR_OF=? ,ESS_CODE=? ,consignor_tinno=? ,consignee_tinno=? where DOCKET_NO = ?";
+		String sql1 = "insert into gemsprod.TEMP_DOCKET_ITEM_DTLS(LOAD_SEQNO,DOCKET_NO,PKG_NO,PKG_LN,PKG_BR,PKG_HT,PKG_WT)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),?,?,?,?,?,?)";
 		StringBuffer out = new StringBuffer();
 		PreparedStatement ps = null;
 		try {
 			ps = connection.prepareStatement(sql);
-			
+						
 			ps.setString(1,p.getProduct());
 			ps.setString(2,p.getBooking_basis());
 			ps.setString(3,p.getShipper_code());
@@ -436,8 +437,8 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			ps.setString(30,p.getReceiver_phone());
 			ps.setString(31,p.getReceiver_email());
 			ps.setString(32,p.getCod_flag());
-			ps.setString(33,"G");
-			ps.setString(34,"esscode");
+			ps.setString(33,p.getCod_dod_in_favor());
+			ps.setString(34,p.getEss_code());
 			ps.setString(35,p.getShipper_tin());
 			ps.setString(36,p.getReceiver_tin());
 			ps.setString(37,"W");
