@@ -70,9 +70,7 @@
                         <script>
                             $(function ()
                             {
-                            	///////////////////
-                            	
-                            	
+                            	///////////////////   
                             	
                             	 $.validator.addMethod("cemail", function(value, element) {
                                      return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/i.test(value);
@@ -95,7 +93,7 @@
                                     	  
                                     		  var form = $("#PickupDetailsForm").validate({
     											  rules: {
-    												/* docket_no: {
+    												 /* docket_no: {
     												  required: true,
     												  minlength: 2
     												}, */
@@ -175,10 +173,10 @@
     												receiver_tin1:"required"
     											  },
     											  messages: {
-    												/* docket_no: {
+    												 /* docket_no: {
     												  required: "Docket No is requird",
     												  minlength: jQuery.validator.format("At least {0} characters required!")
-    												}, */
+    												},  */
     												docket_type:"Docket Type is required",
     												docket_category:"Docket Type is required",
     												product:"Please Select Product",
@@ -250,7 +248,6 @@
 	   													} else {
 	   														error.insertAfter( element );
 	   													}
-	
 	   													// Add the span element, if doesn't exists, and apply the icon classes to it.
 	   													if ( !element.next( "span" )[ 0 ] ) {
 	   														$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
@@ -273,9 +270,6 @@
 
     											});											
     											return $("#PickupDetailsForm").valid();
-                                    	
-                                    		  
-                                    	   
 
                                     },
                                     onFinished: function(e, currentIndex) {
@@ -297,9 +291,46 @@
                 			            	  },
                                             success: function (data) {
                                             	console.log(data);
-                                            	console.log(JSON.stringify(data));
-                                            	alert(data);
-                                            	
+                                            	 if(data.status=='SUCCESS'){
+                                            		 alert("Inserting Success:" +data.result);
+                                            	 }
+                                            	 else{
+                                            		 if(data.message==='Inserting Error'){
+                                            			 alert(data.message+" : "+data.result);
+                                            		 }
+                                            		 if(data.message==='Docket Generation Error'){
+                                            			 alert(data.message+" : "+data.result);
+                                            		 }
+                                            		 if(data.message==='Validation XML Error'){
+                                            			 alert(data.message+" : "+data.result);
+                                            		 }
+                                            		 else{
+                                            			 console.log(data.result);
+                                            			 var validator = $( "#PickupDetailsForm" ).validate({
+                                            				 errorElement: "em",
+                                            				 errorPlacement: function ( error, element ) {
+         	   													// Add the `help-block` class to the error element
+         	   													error.addClass( "help-block" );         	
+         	   													// Add `has-feedback` class to the parent div.form-group
+         	   													// in order to add icons to inputs
+         	   													element.parent().addClass( "has-feedback" );         	
+         	   													if ( element.prop( "type" ) === "checkbox" ) {
+         	   														error.insertAfter( element.parent( "label" ) );
+         	   													} else {
+         	   														error.insertAfter( element );
+         	   													}
+         	   													// Add the span element, if doesn't exists, and apply the icon classes to it.
+         	   													if ( !element.next( "span" )[ 0 ] ) {
+         	   														$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+         	   													}
+         	   												},
+                                            				 highlight: function ( element, errorClass, validClass ) {                                            					 
+         	   													$( element ).parent().addClass( "has-error" ).removeClass( "has-success" );
+         	   													$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+         	   												}});
+                                            			 validator.showErrors(data.result);                                            			
+                                            		 }
+                                            	 }
                                             },
                                             error:function(e){
                                             	alert(e);

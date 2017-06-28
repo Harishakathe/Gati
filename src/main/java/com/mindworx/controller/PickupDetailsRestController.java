@@ -1,5 +1,8 @@
 package com.mindworx.controller;
 
+
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
@@ -8,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mindworx.dao.PickupDetailsDao;
@@ -71,17 +78,17 @@ public class PickupDetailsRestController {
     	return new ResponseEntity<String>(pickupDetailsDao.getContractNo(cust_code), HttpStatus.OK);
     }
     
-    
+        
 	@RequestMapping(value = "/validate_xml", method = RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<?> validateXml(@RequestBody PickupDetails pickupDetails,UriComponentsBuilder ucBuilder, BindingResult result ) {
+    public ResponseEntity<?> validateXml(@RequestBody @Valid PickupDetails pickupDetails,UriComponentsBuilder ucBuilder, BindingResult result ) {
 		
 		logger.info("pickupDetails:"+pickupDetails);
 		
 		JsonResponse res = new JsonResponse();
 		
-		//PickupDetailsValidator validator = new PickupDetailsValidator();  
-		//validator.validate(pickupDetails, result);  
-				
+		PickupDetailsValidator validator=new PickupDetailsValidator();
+		validator.validate(pickupDetails, result);
+						
 		if(!result.hasErrors()){
 			logger.info("My Validation success Start ValidateXML Procedure");
 			String str = pickupDetailsDao.validateXML(pickupDetails);			
@@ -99,34 +106,43 @@ public class PickupDetailsRestController {
 	        		o = parser.parse(output).getAsJsonObject();
 	        		
 	        		if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
-	        			res.setStatus("FAIL");
-			        	res.setMessage(o.get("error_msg").getAsString());
-	        		}else{
 	        			res.setStatus("SUCCESS");
 			        	res.setMessage("Docket Inserted Success");
+	        		}else{	        			
+			        	res.setStatus("FAIL");
+			        	res.setMessage("Inserting Error");
+			        	res.setResult(o.get("error_msg").getAsString());
 	        		}
 	        	}
 	        	else{
 	        		res.setStatus("FAIL");
-		        	res.setMessage("validation sp error:"+o.get("error_msg").getAsString());
+		        	res.setMessage("Docket Generation Error");
+		        	res.setResult(o.get("error_msg").getAsString());
 	        	}
 	        }else{
 	        	res.setStatus("FAIL");
-	        	res.setMessage("validation sp error:"+o.get("error_msg").getAsString());
+	        	res.setMessage("Validation XML Error");
+	        	res.setResult(o.get("error_msg").getAsString());
 	        }
 		}
 		else{
 			res.setStatus("FAIL");
-            res.setResult(result.getAllErrors());
-            logger.error("validation error:"+result.getAllErrors());
-		}
-		
+			res.setMessage("Invalied Pickup Details.");
+			
+			logger.error("validation error:"+result.getAllErrors());
+			
+			List<FieldError> allErrors = result.getFieldErrors();
+            JsonObject obj = new JsonObject();
+            for (FieldError objectError : allErrors) {
+            	obj.addProperty(objectError.getField(), objectError.getCode());
+            }
+            
+            Gson gson = new Gson();            
+            res.setResult(gson.fromJson(obj,Object.class));
+            
+		}		
 		return new ResponseEntity<JsonResponse>(res,HttpStatus.OK);
-  		
-        /*HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<String>(resultJson.toString(), headers, HttpStatus.OK);*/
-        
-		
 	}
+	
+	
 }

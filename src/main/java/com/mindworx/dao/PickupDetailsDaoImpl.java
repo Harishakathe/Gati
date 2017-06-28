@@ -347,7 +347,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			ps.setString(38,"W");
 			int k = ps.executeUpdate();
 			if(k > 0){
-				out.append("Docket Created Successfully Created");
+				
 				ps1 = connection.prepareStatement(sql1);
 				List<PackageDetails> packageDetails = p.getPackage_details();
 				for (int i = 0; i < packageDetails.size();  i++) {
