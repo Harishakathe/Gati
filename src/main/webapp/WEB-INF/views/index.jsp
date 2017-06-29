@@ -5,1086 +5,875 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>GATI FORM</title>
-        <meta charset="UTF-8">
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <c:url var="home" value="/" scope="request" />
-        <link href="<c:url value="/resources/css/normalize.css" />" rel="stylesheet" type="text/css"/>
-        <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet" type="text/css"/>
-        <link href="<c:url value="/resources/css/jquery.steps.css" />" rel="stylesheet" type="text/css"/>
-        <link href="<c:url value="/resources/css/jquery-ui.css" />" rel="stylesheet" type="text/css"/>
-        <link href="<c:url value="/resources/css/bootstrapValidator.min.css" />" rel="stylesheet" type="text/css"/>
-        <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet" type="text/css"/>
-        <style type="text/css">
-	        .ui-autocomplete {
-			    position: absolute;
-			    z-index: 1000;
-			    cursor: default;
-			    padding: 0;
-			    margin-top: 2px;
-			    list-style: none;
-			    background-color: #ffffff;
-			    border: 1px solid #ccc
-			    -webkit-border-radius: 5px;
-			       -moz-border-radius: 5px;
-			            border-radius: 5px;
-			    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-			       -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-			            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-			}
-			.ui-autocomplete > li {
-			  padding: 3px 20px;
-			}
-			.ui-autocomplete > li.ui-state-focus {
-			  background-color: #DDD;
-			}
-			.ui-helper-hidden-accessible {
-			  display: none;
-			}
-			.list-pin{
-				display: inline-block;
-				min-width: 70px;				
-			}
-			.list-ou{
-				float: right;
-			}
-			.list-custcode{
-				display: inline-block;
-				min-width: 100px;
-			}
-			.error { color: red; }
-        </style>
-        <script src="<c:url value="/resources/js/jquery-1.12.4.js" />" type="text/javascript"></script>
-        <script src="<c:url value="/resources/js/jquery-ui.js" />" type="text/javascript"></script>
-        <script src="<c:url value="/resources/js/jquery.steps.js" />" type="text/javascript"></script>
-        <script src="<c:url value="/resources/js/XMLWriter.js" />" type="text/javascript"></script>
-        <script src="<c:url value="/resources/js/jquery.validate.js" />" type="text/javascript" ></script>
+		
+        <title>Form</title>
+		<c:url var="home" value="/" scope="request" />
         
-        </head>
-    <body>
-        <div class="container">
-            <div class="row">
-                <section class="border">
-                    <div class="content">
-                        <script>
-                            $(function ()
-                            {
-                            	///////////////////   
-                            	
-                            	 $.validator.addMethod("cemail", function(value, element) {
-                                     return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/i.test(value);
-                                 }, "Email Address is invalid: Please enter a valid email address.");
-                            	 
-                            	$.validator.addMethod("mobile", function(value, element) {
-                                     return this.optional(element) || /^d{10}$/i.test(value);
-                                 }, "It is not valid mobile number.input 10 digits number!");
-                            	
-                            	////////////////
-                            	
-                            	
-                                $("#wizard").steps({
-                                    headerTag: "h2",
-                                    bodyTag: "section",
-                                    transitionEffect: "slideLeft",
-                                 	// Triggered when clicking the Previous/Next buttons
-                                      onStepChanging: function(e, currentIndex, newIndex) {
-                                    	  
-                                    	  
-                                    		  var form = $("#PickupDetailsForm").validate({
-    											  rules: {
-    												 /* docket_no: {
-    												  required: true,
-    												  minlength: 2
-    												}, */
-    												docket_type:"required",
-    												docket_category:"required",
-    												product:"required",
-    												booking_basis:"required",
-    												goods_code:"required",
-    												shipper_code:"required",
-    												receiver_code:"required",
-    												shipper_pincode:"required",
-    												shipper_tin:"required",
-    												booking_ou:"required",
-    												receiver_pincode:"required",
-    												receiver_tin:"required",
-    												delivery_ou:"required",
-    												ess_code:"required",
-    												no_of_packages:{
-    													required: true,
-    													range:[1,100],
-    												},
-    												shipment_value:{
-    													required: true,
-    													range:[1,9999999999]
-    												},
-    												risk:"required",
-    												volume:{
-    													required: true,
-    													range:[1,999999]
-    												},
-    												UOM:"required",
-    												actual_weight:"required",
-    												cod_flag:"required",
-    												cod_dod_in_favor:"required",
-    												cod_dod_amount:{
-    													required:{
-    														depends:function(element){
-    															return $("#cod_flag").val()==='Y';
-    														}
-    													}
-    												},
-    												shipper_code1:"required",
-    												shipper_mobile:{
-    													required: true,
-    													mobile:true,
-    												},
-    												shipper_name:"required",
-    												shipper_phone:"required",
-    												shipper_address1:"required",
-    												shipper_address2:"required",
-    												shipper_address3:"required",
-    												shipper_address4:"required",
-    												shipper_city:"required",
-    												shipper_pincode1:"required",
-    												shipper_email:{
-    													required: true,
-    													cemail: true,
-    												},
-    												shipper_tin1:"required",
-    												receiver_code1:"required",
-    												receiver_mobile:{
-    													required: true,
-    													mobile:true,
-    												},
-    												receiver_name:"required",
-    												receiver_phone:"required",
-    												receiver_address1:"required",
-    												receiver_address2:"required",
-    												receiver_address3:"required",
-    												receiver_address4:"required",
-    												receiver_city:"required",
-    												receiver_pincode1:"required",
-    												receiver_email:{
-    													required: true,
-    													cemail: true,
-    												},
-    												receiver_tin1:"required"
-    											  },
-    											  messages: {
-    												 /* docket_no: {
-    												  required: "Docket No is requird",
-    												  minlength: jQuery.validator.format("At least {0} characters required!")
-    												},  */
-    												docket_type:"Docket Type is required",
-    												docket_category:"Docket Type is required",
-    												product:"Please Select Product",
-    												booking_basis:"Please Select BKG Basis",
-    												goods_code:"Please Select Goods Type",
-    												shipper_code:"Please Select Shipper Code",
-    												receiver_code:"Please Select Receiver Code",
-    												shipper_pincode:"Please Select valid Shipper PinCode",
-    												shipper_tin:"Please Select valid Shipper PinCode",
-    												booking_ou:"Please Select valid Shipper PinCode",
-    												receiver_pincode:"Please Select valid Receiver Pincode",
-    												receiver_tin:"Please Select valid Receiver Pincode",
-    												delivery_ou:"Please Select valid Receiver Pincode",
-    												ess_code:"Please Select valid Receiver Pincode",
-    												no_of_packages:{
-    												  required: "No of packages is required",
-    												  range: "Please enter a value between 1 to 100",
-    												},
-    												shipment_value:{
-    												  required: "Shipment Value is required",
-    												  range: "Please enter a value between 1 to 9999999999",
-    												},
-    												risk:"Please Select Risk Type",
-    												volume:{
-    												  required: "Volume is required",
-    												  range: "Please enter a value between 1 to 999999",
-    												},
-    												UOM:"Please select UOM Code",
-    												actual_weight:"Actual Weight is required",
-    												cod_flag:"Please select Cod Flag Type",
-    												cod_dod_in_favor:"Please select Cod\Dod in Favor Type",
-    												cod_dod_amount:" Cod\Dod Amount required",
-    												shipper_code1:"Shipper Code is required",
-    												shipper_mobile:"Shipper Mobile is required",
-    												shipper_name:"Shipper Name is required",
-    												shipper_phone:"Shipper Phone is required",
-    												shipper_address1:"Shipper Address 1 is required",
-    												shipper_address2:"Shipper Address 2 is required",
-    												shipper_address3:"Shipper Address 3 is required",
-    												shipper_address4:"Shipper Address 4 is required",
-    												shipper_city:"Shipper City is required",
-    												shipper_pincode1:"Shipper City is required",
-    												shipper_email:"Shipper Email is required",
-    												shipper_tin1:"Shipper Tin is required",
-    												receiver_code1:"Receiver Code is required",
-    												receiver_mobile:"Receiver Mobile is required",
-    												receiver_name:"Receiver Name is required",
-    												receiver_phone:"Receiver Phone is required",
-    												receiver_address1:"Receiver Address 1 is required",
-    												receiver_address2:"Receiver Address 2 is required",
-    												receiver_address3:"Receiver Address 3 is required",
-    												receiver_address4:"Receiver Address 4 is required",
-    												receiver_city:"Receiver City is required",
-    												receiver_pincode1:"Receiver City is required",
-    												receiver_email:"Receiver Email is required",
-    												receiver_tin1:"Receiver Tin is required"
-    											  },
-    											  errorElement: "em",
-   													errorPlacement: function ( error, element ) {
-	   													// Add the `help-block` class to the error element
-	   													error.addClass( "help-block" );
-	
-	   													// Add `has-feedback` class to the parent div.form-group
-	   													// in order to add icons to inputs
-	   													element.parent().addClass( "has-feedback" );
-	
-	   													if ( element.prop( "type" ) === "checkbox" ) {
-	   														error.insertAfter( element.parent( "label" ) );
-	   													} else {
-	   														error.insertAfter( element );
-	   													}
-	   													// Add the span element, if doesn't exists, and apply the icon classes to it.
-	   													if ( !element.next( "span" )[ 0 ] ) {
-	   														$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
-	   													}
-	   												},
-	   												success: function ( label, element ) {
-	   													// Add the span element, if doesn't exists, and apply the icon classes to it.
-	   													if ( !$( element ).next( "span" )[ 0 ] ) {
-	   														$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
-	   													}
-	   												},
-	   												highlight: function ( element, errorClass, validClass ) {
-	   													$( element ).parent().addClass( "has-error" ).removeClass( "has-success" );
-	   													$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
-	   												},
-	   												unhighlight: function ( element, errorClass, validClass ) {
-	   													$( element ).parent().addClass( "has-success" ).removeClass( "has-error" );
-	   													$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
-	   												}
+        <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet">
+        <link href="<c:url value="/resources/css/font-awesome/css/font-awesome.css" />" rel="stylesheet">
+        <link href="<c:url value="/resources/css/animate.css" />" rel="stylesheet">
+        
+		<link href="<c:url value="/resources/css/jquery-ui.min.css" />" rel="stylesheet" type="text/css"/>
+        <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
+        <link href="<c:url value="/resources/css/wizard/material-bootstrap-wizard.css" />" rel="stylesheet" type="text/css"/>
+    </head>
 
-    											});											
-    											return $("#PickupDetailsForm").valid();
+    <body class="md-skin">
+        <div id="wrapper">
+            <nav class="navbar-default navbar-static-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav metismenu" id="side-menu">
+                        <li class="nav-header">
+                            <img alt="Gati KWE Logo" class="img-responsive center-block logo" src="<c:url value="/resources/img/logo.png" />" />
+                            <div class="dropdown profile-element m-t-md"> 
+                                <span>
+                                    <img alt="image" class="img-circle center-block" src="<c:url value="/resources/img/a6.jpg" />" />
+                                </span>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <span class="clear text-grey text-center"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
+                                        </span> <span class="text-light text-xs block">Designation <b class="caret"></b></span> </span> </a>
+                                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                    <li><a href="profile.html">Profile</a></li>
+                                    <li><a href="contacts.html">Contacts</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="login.html">Logout</a></li>
+                                </ul>
+                            </div>
+                            <div class="logo-element">
+                               
+                            </div>
+                        </li>
+                        <li class="active">
+                            <a href="#"><i class="fa fa-th-large fa-fw"></i> <span class="nav-label">Dashboard</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-diamond fa-fw"></i> <span class="nav-label">GST KYC</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-ellipsis-h fa-fw"></i> <span class="nav-label">Change Password</span></a>
 
-                                    },
-                                    onFinished: function(e, currentIndex) {
-                                    	e.preventDefault();
-                                        var form = $("#PickupDetailsForm");
-                                        var xml = ConvertFormToXML(form);
-                                        var json = ConvertFormToJSON(form);
-                                        
-                                        console.log(JSON.stringify(json));
-                                        console.log(xml);
-                                        
-                                        $.ajax({
-                                            type: 'post',
-                                            url: '${get}validate_xml',
-                                            data: xml,
-                                            contentType: 'application/xml',
-                                            headers: {
-                			            	    Accept: "application/json"
-                			            	  },
-                                            success: function (data) {
-                                            	console.log(data);
-                                            	 if(data.status=='SUCCESS'){
-                                            		 alert("Inserting Success:" +data.result);
-                                            	 }
-                                            	 else{
-                                            		 if(data.message==='Inserting Error'){
-                                            			 alert(data.message+" : "+data.result);
-                                            		 }
-                                            		 if(data.message==='Docket Generation Error'){
-                                            			 alert(data.message+" : "+data.result);
-                                            		 }
-                                            		 if(data.message==='Validation XML Error'){
-                                            			 alert(data.message+" : "+data.result);
-                                            		 }
-                                            		 else{
-                                            			 console.log(data.result);
-                                            			 var validator = $( "#PickupDetailsForm" ).validate({
-                                            				 errorElement: "em",
-                                            				 errorPlacement: function ( error, element ) {
-         	   													// Add the `help-block` class to the error element
-         	   													error.addClass( "help-block" );         	
-         	   													// Add `has-feedback` class to the parent div.form-group
-         	   													// in order to add icons to inputs
-         	   													element.parent().addClass( "has-feedback" );         	
-         	   													if ( element.prop( "type" ) === "checkbox" ) {
-         	   														error.insertAfter( element.parent( "label" ) );
-         	   													} else {
-         	   														error.insertAfter( element );
-         	   													}
-         	   													// Add the span element, if doesn't exists, and apply the icon classes to it.
-         	   													if ( !element.next( "span" )[ 0 ] ) {
-         	   														$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
-         	   													}
-         	   												},
-                                            				 highlight: function ( element, errorClass, validClass ) {                                            					 
-         	   													$( element ).parent().addClass( "has-error" ).removeClass( "has-success" );
-         	   													$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
-         	   												}});
-                                            			 validator.showErrors(data.result);                                            			
-                                            		 }
-                                            	 }
-                                            },
-                                            error:function(e){
-                                            	alert(e);
-                                            }
-                                        });   
-                                        
-                                    }
-                                });
-                                
-                                
-                                function ConvertFormToJSON(form){
-                                	
-                                	var json = {};
-                                	var ele = ''; var p_ele='';                                	
-                                    var array = jQuery(form).serializeArray();
-                                    
-                                    jQuery.each(array, function() {
-                                        
-                                        var f_name = this.name;                                        		
-                                		
-                                        if(f_name.includes('.')){ 
-                                        	
-                                			var array_str = f_name.split('.');                                        			
-                                			if(ele != array_str[0]){                                				
-                                				ele = array_str[0];                                        				
-                                				var ele_json_str = {};                                				
-                                				if(p_ele != ele.substr(0,ele.length-3)){
-                                					p_ele = ele.substr(0,ele.length-3);
-                                				}                                				
-                                				$.each($("input[name^='"+ele+"']"),function() {                                        					
-                                					var e_name = this.name.substr(this.name.indexOf(".")+1);
-                                					ele_json_str[e_name] = this.value || '';                                					
-                                				});                                				
-                                				json[p_ele] = (json[p_ele] || []).concat(ele_json_str);
-                                			}                                			
-                                		}
-                                		else{
-                                			json[this.name] = this.value || '';  
-                                		}
-                                    });                                    
-                                    return json;
-                                }
-                                
-                                function ConvertFormToXML(form){
-                                    var array = jQuery(form).serializeArray();
-                                    try{
-	                                    var xml = $($.parseXML('<?xml version="1.0" encoding="utf-8" ?><PickupDetails />'));      //Main Root Name                          	
-	                                	var ele = ''; var p_ele='';
-	                                	
-	                                    jQuery.each(array, function() {
-	                                    	var f_name = this.name;                                        		
-	                                		if(f_name.includes('.')){                                        			
-	                                			
-	                                			var array_str = f_name.split('.');                                        			
-	                                			if(ele != array_str[0]){
-	                                				
-	                                				ele = array_str[0];
-	                                				
-	                                				if(p_ele != ele.substr(0,ele.length-3)){
-	                                					p_ele = ele.substr(0,ele.length-3);
-	                                					$('PickupDetails',xml).append($('<'+p_ele+' />', xml));
-	                                				}
-	                                				
-	                                				$(p_ele,xml).append($('<PKG_INFO />', xml));
-	                                				$.each($("input[name^='"+ele+"']"),function() {                                        					
-	                                					var e_name = this.name.substr(this.name.indexOf(".")+1);
-	                                					$('PKG_INFO',xml).last().append($('<'+e_name+' />', xml).text(this.value || ''));                                        					
-	                                				});                                				
-	                                			}
-	                                			
-	                                		}
-	                                		else{
-	                                			$('PickupDetails',xml).append($('<'+this.name+' />', xml).text(this.value || ''));                                   		    
-	                                		}
-	                                    }); 
-                                    }catch(e){
-                                    	alert("Converting in xml error:"+e.message);
-                                    }
-                                    return ((new XMLSerializer()).serializeToString(xml.context));
-                                } 
-                                
-                                
-                            });
-                            
-                        </script>
-                        <div class="line"></div>
-                        <div class="titles">
-                            <div class="title-parent">
-                                <h5>Shipment<br/> Details</h5>
-                            </div>
-                            <div class="title-parent">
-                                <h5>Shipper<br/> Details</h5>
-                            </div>
-                            <div class="title-parent">
-                                <h5>Receivers<br/> Address</h5>
-                            </div>
-                            <div class="title-parent">
-                                <h5>Confirm<br/> Details</h5>
-                            </div>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-envelope fa-fw"></i> <span class="nav-label">Docket Summary </span></a>
+
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-pie-chart fa-fw"></i> <span class="nav-label">Docket Status</span>  </a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-shirtsinbulk fa-fw"></i> <span class="nav-label">COD Shipment Details</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> <span class="nav-label">Pickup Request Details</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-bell-o fa-fw"></i> <span class="nav-label">Claim Registration</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-clone fa-fw"></i> <span class="nav-label">Invoice Details</span></a>
+
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-print fa-fw"></i> <span class="nav-label">Docket Print</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-file-powerpoint-o fa-fw"></i> <span class="nav-label">Proof of Delivery (POD)</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-user fa-fw"></i> <span class="nav-label">Vendor Details</span></a>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>
+
+            <div id="page-wrapper" class="gray-bg">
+                <div class="row border-bottom">
+                    <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
+                        <div class="navbar-header">
+                            <a class="navbar-minimalize minimalize-styl-2 btn btn-link " href="#"><i class="fa fa-bars"></i> </a>
                         </div>
-                        <form action="${get}validate_xml" method="post" id="PickupDetailsForm" class="form-horizontal">
-                        	<div id="wizard">							
-								<h2>First Step</h2>
-								<section data-step="0">
-									<div class="form-group">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-										
-											<label>Docket No</label>
-											<input class="form-control w-control" maxlength="10" type="text" name="docket_no" id="docket_no" readonly="readonly" >
-											<input type="hidden" name="docket_type" value="NR"  >
-											<input type="hidden" name="docket_category" value="D"  >
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>Product</label>
-											<select class="form-control" name="product" id="product">
-												<option value="">-Select-</option>
-												<option value="25">Surface Express</option>
-												<option value="20">Express Plus</option>
-												<option value="5">Gati-Laabh</option>
-												<option value="67">Gati-D2DC</option>
-												<option value="65">Gati-Light</option>
-												<option value="80">Secure Box</option>
-												<option value="2">Standard</option>
-												<option value="14_1">Preminum</option>
-												<option value="14_2">Premium Plus-12 hrs</option>
-												<option value="14_3">Premium Plus-24 hrs</option>
-											</select>
-										</div>
-									</div> 
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<div class="form-group">
-											<label>BKG Basis</label>
-											<select class="form-control" name="booking_basis">
-											<option value="">-Select-</option>
-											<option value="1">PAID</option>
-											<option value="2">TBB</option>
-											<option value="4">FOD</option>
-											<option value="6">BOD</option>
-											</select>
-											</div>
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<div class="form-group">
-											<label>Goods Type</label>
-											<select class="form-control" id="goods_code" name="goods_code">
-											</select>
-											</div>
-										</div>
-									</div> 
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<div class="form-group">
-											<label>Shipper Code</label>
-											<input class="form-control w-control" type="text" name="shipper_code" id="shipper_code">
-											</div>
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>Receiver Code</label>
-											<input class="form-control w-control" type="text" name="receiver_code" id="receiver_code">
-										</div>
-										
-									</div> 
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>BKG Pin Code</label>
-											<input class="form-control w-control" type="text" id="shipper_pincode" name="shipper_pincode">
-											<input type="hidden" id="shipper_tin" name="shipper_tin">
-											<input type="hidden" id="booking_ou" name="booking_ou">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>DLY Pin Code</label>
-											<input class="form-control w-control" type="text" id="receiver_pincode" name="receiver_pincode">
-											<input type="hidden" id="receiver_tin" name="receiver_tin">
-											<input type="hidden" id="delivery_ou" name="delivery_ou">
-											<input type="hidden" id="ess_code" name="ess_code">
-											
-										</div>
-									</div> 
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<div class="row">
-												<div class="col-sm-6">
-													<label>No of Packages</label>
-													<input class="form-control w-control" type="text" name="no_of_packages">
-												</div>
-												<div class="col-sm-6">
-													<label>Pkg No From</label>
-													<input class="form-control w-control" type="text" name="package_number_from">
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<div class="row">
-												<div class="col-sm-6">
-													<label>Pkg No To</label>
-													<input class="form-control w-control" type="text" name="package_number_to">
-												</div>
-												<div class="col-sm-6">
-													<label>Package Type</label>
-													<select class="form-control" name="package_type">
-														<option value="">Select</option>
-														<option value="1">1</option>
-														<option value="2">2</option>
-														<option value="3">3</option>
-														<option value="4">4</option>
-														<option value="5">5</option>
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<div class="row">
-												<div class="col-sm-6">
-													<label>Length</label>
-													<input class="form-control w-control" type="text" name="package_details[0].pkg_ln">
-												</div>
-												<div class="col-sm-6">
-													<label>Breadth</label>
-													<input class="form-control w-control" type="text" name="package_details[0].pkg_br">
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<div class="row">
-												<div class="col-sm-6">
-													<label>Height</label>
-													<input class="form-control w-control" type="text" name="package_details[0].pkg_ht">
-												</div>
-												<div class="col-sm-6">
-													<label>Weight</label>
-													<input class="form-control w-control" type="text" name="package_details[0].pkg_wt">
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<div class="row">
-												<div class="col-sm-6">
-													<label>Length</label>
-													<input class="form-control w-control" type="text" name="package_details[1].pkg_ln">
-												</div>
-												<div class="col-sm-6">
-													<label>Breadth</label>
-													<input class="form-control w-control" type="text" name="package_details[1].pkg_br">
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<div class="row">
-												<div class="col-sm-6">
-													<label>Height</label>
-													<input class="form-control w-control" type="text" name="package_details[1].pkg_ht">
-												</div>
-												<div class="col-sm-6">
-													<label>Weight</label>
-													<input class="form-control w-control" type="text" name="package_details[1].pkg_wt">
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>Shipment Value</label>
-											<input class="form-control w-control" type="text" name="shipment_value">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>Risk</label>
-											<select class="form-control" name="risk">											
-												<option value="">--Select--</option>
-												<option value="CR">Gati</option>
-												<option value="OR">Owner</option>											
-											</select>
-										</div>
-									</div> 
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>Volume</label>
-											<input class="form-control w-control" type="text" name="volume">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>UOM</label>
-											<select class="form-control" name="UOM">
-												<option value="">--Select--</option>
-												<option value="1">1</option>
-												<option value="2">2</option>
-												<option value="3">3</option>
-												<option value="4">4</option>
-												<option value="5">5</option>
-											</select>
-										</div>
-									</div> 
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>ACT. WT</label>
-											<input class="form-control w-control" type="text" name="actual_weight">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>COD/DOD Flag</label>
-											<select class="form-control" name="cod_flag" id="cod_flag">
-												<option value="Y">Yes</option>
-												<option value="N">No</option>
-											</select>
-										</div>
-									</div> 
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>COD/DOD in Fav</label>
-											<select class="form-control" name="cod_dod_in_favor">
-											    <option value="">--Select--</option>
-												<option value="G">Gati</option>
-												<option value="S">Shipper</option>
-											</select>
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>COD/DOD Amt</label>
-											<input class="form-control w-control" type="text" id="cod_dod_amount" name="cod_dod_amount">
-										</div>
-									</div> 
-								</section>
+                        <ul class="nav navbar-top-links navbar-right">
+                            <li>
+                                <span class="m-r-sm text-light welcome-message"><i class="fa fa-phone"></i> 1800-180-4284</span>
+                            </li>
+                            <li>
+                                <a href="login.html" class="text-light">
+                                    <i class="fa fa-power-off"></i> Log out
+                                </a>
+                            </li>
+                        </ul>
 
-								<h2>Second Step</h2>
-								<section data-step="1">
-									
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>Shipper Code</label>
-											<input class="form-control w-control" type="text" name="shipper_code1" id="shipper_code1"  >
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>Mobile No</label>
-											<input class="form-control w-control" type="text" name="shipper_mobile" id="shipper_mobile">
-										</div>
-									</div> 
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>Name</label>
-											<input class="form-control w-control" type="text" name="shipper_name" id="shipper_name">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>Phone No</label>
-											<input class="form-control w-control" type="text" name="shipper_phone" id="shipper_phone">
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>Address Line 1</label>
-											<input class="form-control w-control" type="text" name="shipper_address1" id="shipper_address1">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>Address Line 2</label>
-											<input class="form-control w-control" type="text" name="shipper_address2" id="shipper_address2">
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>Address Line 3</label>
-											<input class="form-control w-control" type="text" name="shipper_address3" id="shipper_address3">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>Address Line 4</label>
-											<input class="form-control w-control" type="text" name="shipper_address4" id="shipper_address4">
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>City</label>
-											<input class="form-control w-control" type="text" name="shipper_city" id="shipper_city">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>Pin Code</label>
-											<input class="form-control w-control" type="text" name="shipper_pincode1" id="shipper_pincode1">
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>Email</label>
-											<input class="form-control w-control" type="text" name="shipper_email" id="shipper_email">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>VAT/TIN</label>
-											<input class="form-control w-control" type="text" name="shipper_tin1" id="shipper_tin1">
-										</div>
-									</div>
-								</section>
-								<h2>Third Step</h2>
-								<section data-step="2">
-									
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>Receiver Code</label>
-											<input class="form-control w-control" type="text" name="receiver_code1" id="receiver_code1">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>Mobile No</label>
-											<input class="form-control w-control" type="text" name="receiver_mobile" id="receiver_mobile">
-										</div>
-									</div> 
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>Name</label>
-											<input class="form-control w-control" type="text" name="receiver_name" id="receiver_name"> 
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>Phone No</label>
-											<input class="form-control w-control" type="text" name="receiver_phone" id="receiver_phone">
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>Address Line 1</label>
-											<input class="form-control w-control" type="text" name="receiver_address1" id="receiver_address1">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>Address Line 2</label>
-											<input class="form-control w-control" type="text" name="receiver_address2" id="receiver_address2">
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>Address Line 3</label>
-											<input class="form-control w-control" type="text" name="receiver_address3" id="receiver_address3">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>Address Line 4</label>
-											<input class="form-control w-control" type="text" name="receiver_address4" id="receiver_address4">
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>City</label>
-											<input class="form-control w-control" type="text" name="receiver_city" id="receiver_city">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>Pin Code</label>
-											<input class="form-control w-control" type="text" name="receiver_pincode1" id="receiver_pincode1">
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-3 col-sm-offset-3 m-b-sm">
-											<label>Email</label>
-											<input class="form-control w-control" type="text" name="receiver_email" id="receiver_email">
-										</div>
-										<div class="col-sm-3 m-b-sm">
-											<label>VAT/TIN</label>
-											<input class="form-control w-control" type="text" name="receiver_tin1" id="receiver_tin1">
-										</div>
-									</div>
-								</section>
+                    </nav>
+                </div>
 
-								<h2>Forth Step</h2>
-								<section data-step="3">
-								
-                                <div class="row">
-                                    <div class="col-sm-10 col-sm-offset-1 m-b-sm">
-                                        <div class="header-strip">
-                                            <h3>Shipment Details</h3>
+                <div class="wrapper wrapper-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!--      Wizard container        -->
+                            <div class="wizard-container">
+                                <div class="card wizard-card" data-color="blue" id="wizard">
+                                    <form action="${get}validate_xml" method="post" id="PickupDetailsForm" >
+                                        <!--	You can switch " data-color="rose" "  with one of the next bright colors: "blue", "green", "orange", "purple"        -->
+                                        <div class="wizard-navigation">
+                                            <ul class="no-border-li">
+                                                <li><a href="#tab1" data-toggle="tab">Receivers Details</a></li>
+                                                <li><a href="#tab2" data-toggle="tab">Shipper Details</a></li>
+                                                <li><a href="#tab3" data-toggle="tab">Shipment Details</a></li>
+                                                <li><a href="#tab4" data-toggle="tab">Confirm Details</a></li>
+                                            </ul>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-5 col-sm-offset-2 labels">
-                                            <label><strong>Docket No</strong> : </label>
-                                            <label><strong>BKG. Basis</strong> : </label>
-                                            <label><strong>Receiver Code</strong> :</label>
-                                            <label><strong>BKG Pin Code</strong> : 543213</label>
-                                            <label><strong>No Of Packages</strong> : 5</label>
-                                            <label><strong>Shipment Value</strong> : $ 100</label>
-                                            <label><strong>Volume</strong> : 121 LBS</label>
-                                            <label><strong>ACT. WT</strong> : 150 KG</label>
-                                            <label><strong>COD/DOD in Fav</strong> : lorem ipsum</label>
+
+                                        <div class="tab-content">
+                                            <div class="tab-pane" id="tab1">
+                                                <div class="row" id="slim">
+                                                    <div class="col-sm-5 col-sm-offset-1">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">Receiver Code <small>(requird)</small></label>
+                                                            <input type="text" class="form-control" name="receiver_code" id="receiver_code">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">Name <small>(requird)</small></label>
+                                                            <input type="text" class="form-control" name="receiver_name" id="receiver_name" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5 col-sm-offset-1">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">Phone No <small>(requird)</small></label>
+                                                            <input type="text" class="form-control" name="receiver_phone" id="receiver_phone">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">Mobile No <small>(requird)</small></label>
+                                                            <input type="text" class="form-control" name="receiver_mobile" id="receiver_mobile">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5 col-sm-offset-1">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">Address Line 1 <small>(requird)</small></label>
+                                                            <input type="text" class="form-control" name="receiver_address1" id="receiver_address1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">Address Line 2 <small>(requird)</small></label>
+                                                            <input type="text" class="form-control" name="receiver_address2" id="receiver_address2">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5 col-sm-offset-1">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">Address Line 3 <small>(requird)</small></label>
+                                                            <input type="text" class="form-control" name="receiver_address3" id="receiver_address3">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">Address Line 4</label>
+                                                            <input type="text" class="form-control" name="receiver_address4" id="receiver_address4">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5 col-sm-offset-1">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">City <small>(requird)</small></label>
+                                                            <input type="text" class="form-control" name="receiver_city" id="receiver_city">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">Pin Code <small>(requird)</small></label>
+                                                            <input type="text" class="form-control" name="receiver_pincode" id="receiver_pincode">
+                                                            <input type="hidden" id="delivery_ou" name="delivery_ou">
+															<input type="hidden" id="ess_code" name="ess_code">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5 col-sm-offset-1">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">Email <small>(requird)</small></label>
+                                                            <input type="text" class="form-control" name="receiver_email" id="receiver_email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">VAT / TIN <small>(requird)</small></label>
+                                                            <input type="text" class="form-control" name="receiver_tin" id="receiver_tin">                                                                
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab2">
+                                                <div class="row">
+                                                    <div class="row" id="slim2">
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Shipper Code <small>(requird)</small></label>
+                                                                <input type="text" class="form-control" name="shipper_code" id="shipper_code">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Name <small>(requird)</small></label>
+                                                                <input type="text" class="form-control"name="shipper_name" id="shipper_name" >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Phone No <small>(requird)</small></label>
+                                                                <input type="text" class="form-control" name="shipper_phone" id="shipper_phone" >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Mobile No <small>(requird)</small></label>
+                                                                <input type="text" class="form-control"name="shipper_mobile" id="shipper_mobile">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Address Line 1 <small>(requird)</small></label>
+                                                                <input type="text" class="form-control" name="shipper_address1" id="shipper_address1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Address Line 2 <small>(requird)</small></label>
+                                                                <input type="text" class="form-control" name="shipper_address2" id="shipper_address2">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Address Line 3 <small>(requird)</small></label>
+                                                                <input type="text" class="form-control" name="shipper_address3" id="shipper_address3">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Address Line 4</label>
+                                                                <input type="text" class="form-control" name="shipper_address4" id="shipper_address4">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">City <small>(requird)</small></label>
+                                                                <input type="text" class="form-control" name="shipper_city" id="shipper_city" >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Pin Code <small>(requird)</small></label>
+                                                                <input type="text" class="form-control" name="shipper_pincode" id="shipper_pincode" >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Email <small>(requird)</small></label>
+                                                                <input type="text" class="form-control" name="shipper_email" id="shipper_email" >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">VAT / TIN <small>(requird)</small></label>
+                                                                <input type="text" class="form-control" name="shipper_tin" id="shipper_tin" >                                                                    
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab3">
+                                                <div id="slim3">
+                                                    <div class="row">
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Product <small>(requird)</small></label>
+                                                                <select class="form-control" name="product" id="product">
+                                                                    <option disabled="" selected=""></option>
+                                                                    <option value="25">Surface Express</option>
+																	<option value="20">Express Plus</option>
+																	<option value="5">Gati-Laabh</option>
+																	<option value="67">Gati-D2DC</option>
+																	<option value="65">Gati-Light</option>
+																	<option value="80">Secure Box</option>
+																	<option value="2">Standard</option>
+																	<option value="14_1">Preminum</option>
+																	<option value="14_2">Premium Plus-12 hrs</option>
+																	<option value="14_3">Premium Plus-24 hrs</option>
+                                                                </select>
+                                                                <input type="hidden" name="docket_type" value="NR"  >
+																<input type="hidden" name="docket_category" value="D"  >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">BKG Basis <small>(requird)</small></label>
+                                                                <select class="form-control" name="booking_basis">
+                                                                    <option disabled="" selected=""></option>
+                                                                    <option value="1">PAID</option>
+																	<option value="2">TBB</option>
+																	<option value="4">FOD</option>
+																	<option value="6">BOD</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Goods Type <small>(requird)</small></label>
+                                                                <select class="form-control" id="goods_code" name="goods_code">
+                                                                    <option disabled="" selected=""></option>                                                                    
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Packing Type <small>(requird)</small></label>
+                                                                <select class="form-control">
+                                                                    <option disabled="" selected=""></option>
+                                                                    <option>1</option>
+                                                                    <option>2</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">No. of Packages <small>(requird)</small></label>
+                                                                <input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group label-floating">
+                                                                        <label class="control-label">Length <small>(requird)</small></label>
+                                                                        <input type="text" class="form-control" name="package_details[0].pkg_ln">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group label-floating">
+                                                                        <label class="control-label">Breadth <small>(requird)</small></label>
+                                                                        <input type="text" class="form-control" name="package_details[0].pkg_ln">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group label-floating">
+                                                                        <label class="control-label">Height <small>(requird)</small></label>
+                                                                        <input type="text" class="form-control" name="package_details[0].pkg_ln">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group label-floating">
+                                                                        <label class="control-label">Weight <small>(requird)</small></label>
+                                                                        <input type="text" class="form-control" name="package_details[0].pkg_ln">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Shipment value <small>(requird)</small></label>
+                                                                <input type="text" class="form-control" name="shipment_value">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">Risk <small>(requird)</small></label>
+                                                                <select class="form-control" name="risk">
+                                                                    <option disabled="" selected=""></option>
+                                                                    <option value="CR">Gati</option>
+																	<option value="OR">Owner</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label" name="volume">Volume <small>(requird)</small></label>
+                                                                <input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">UOM <small>(requird)</small></label>
+                                                                <select class="form-control" name="uom">
+                                                                    <option disabled="" selected=""></option>
+                                                                    <option value="1">1</option>
+																	<option value="2">2</option>
+																	<option value="3">3</option>
+																	<option value="4">4</option>
+																	<option value="5">5</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">ACT.WT <small>(requird)</small></label>
+                                                                <input type="text" class="form-control" name="actual_weight">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">COD/DOD Flag <small>(requird)</small></label>
+                                                                <select class="form-control" name="cod_flag" id="cod_flag">
+                                                                    <option disabled="" selected=""></option>
+                                                                    <option value="Y">Yes</option>
+																	<option value="N">No</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab4">
+                                                <div class="row" id="slim4">
+                                                    <div class="col-sm-10 col-sm-offset-1">
+                                                        <div class="ibox float-e-margins">
+                                                            <div class="ibox-title">
+                                                                <h5>Receivers Details </h5>
+                                                                <div class="ibox-tools">
+                                                                    <a class="collapse-link">
+                                                                        <i class="fa fa-chevron-up"></i>
+                                                                    </a>
+                                                                    <a class="close-link">
+                                                                        <i class="fa fa-times"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="ibox-content">
+                                                                <div>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-5 col-sm-offset-1 labels">
+                                                                            <label><strong>Receiver Code</strong> : 543213</label>
+                                                                            <label><strong>Name</strong> : Jonny Bravo</label>
+                                                                            <label><strong>Address Line 1</strong> : lorem ipsum dolor sit amet</label>
+                                                                            <label><strong>Address Line 3</strong> : lorem ipsum dolor sit amet</label>
+                                                                            <label><strong>City</strong> : Bangalore</label>
+                                                                            <label><strong>Email</strong> : jonny@gmail.com</label>
+                                                                        </div>
+                                                                        <div class="col-sm-5 labels">
+                                                                            <label><strong>Mobile</strong> : 985 214 5002</label>
+                                                                            <label><strong>Phone</strong> : 620 521 220</label>
+                                                                            <label><strong>Address Line 2</strong> : lorem ipsum</label>
+                                                                            <label><strong>Address Line 4</strong> : lorem ipsum dolor sit amet</label>
+                                                                            <label><strong>Pin Code</strong> : 124 523</label>
+                                                                            <label><strong>VAT/TIN</strong> : -</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ibox float-e-margins">
+                                                            <div class="ibox-title">
+                                                                <h5>Shippers Details</h5>
+                                                                <div class="ibox-tools">
+                                                                    <a class="collapse-link">
+                                                                        <i class="fa fa-chevron-up"></i>
+                                                                    </a>
+                                                                    <a class="close-link">
+                                                                        <i class="fa fa-times"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="ibox-content">
+                                                                <div>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-5 col-sm-offset-1 labels">
+                                                                            <label><strong>Shipper Code</strong> : 543213</label>
+                                                                            <label><strong>Name</strong> : Jonny Bravo</label>
+                                                                            <label><strong>Address Line 1</strong> : lorem ipsum dolor sit amet</label>
+                                                                            <label><strong>Address Line 3</strong> : lorem ipsum dolor sit amet</label>
+                                                                            <label><strong>City</strong> : Bangalore</label>
+                                                                            <label><strong>Email</strong> : jonny@gmail.com</label>
+                                                                        </div>
+                                                                        <div class="col-sm-5 labels">
+                                                                            <label><strong>Mobile</strong> : 985 214 5002</label>
+                                                                            <label><strong>Phone</strong> : 620 521 220</label>
+                                                                            <label><strong>Address Line 2</strong> : lorem ipsum</label>
+                                                                            <label><strong>Address Line 4</strong> : lorem ipsum dolor sit amet</label>
+                                                                            <label><strong>Pin Code</strong> : 124 523</label>
+                                                                            <label><strong>VAT/TIN</strong> : -</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ibox float-e-margins">
+                                                            <div class="ibox-title">
+                                                                <h5>Shipment Details</h5>
+                                                                <div class="ibox-tools">
+                                                                    <a class="collapse-link">
+                                                                        <i class="fa fa-chevron-up"></i>
+                                                                    </a>
+                                                                    <a class="close-link">
+                                                                        <i class="fa fa-times"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="ibox-content">
+                                                                <div>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-5 col-sm-offset-1 labels">
+                                                                            <label><strong>Docket No</strong> : 543213</label>
+                                                                            <label><strong>BKG. Basis</strong> : lorem ipsum</label>
+                                                                            <label><strong>Receiver Code</strong> : 543213</label>
+                                                                            <label><strong>BKG Pin Code</strong> : 543213</label>
+                                                                            <label><strong>No Of Packages</strong> : 5</label>
+                                                                            <label><strong>Shipment Value</strong> : $ 100</label>
+                                                                            <label><strong>Volume</strong> : 121 LBS</label>
+                                                                            <label><strong>ACT. WT</strong> : 150 KG</label>
+                                                                            <label><strong>COD/DOD in Fav</strong> : lorem ipsum</label>
+                                                                        </div>
+                                                                        <div class="col-sm-5 labels">
+                                                                            <label><strong>Product</strong> : ABCD</label>
+                                                                            <label><strong>Shipper Code</strong> : 12423</label>
+                                                                            <label><strong>Goods Type</strong> : lorem ipsum</label>
+                                                                            <label><strong>DLY Pin Code</strong> : 54321</label>
+                                                                            <label><strong>Packing Type</strong> : lorem ipsum</label>
+                                                                            <label><strong>UOM</strong> : Feet</label>
+                                                                            <label><strong>COD/DOD Flag</strong> : lorem ipsum</label>
+                                                                            <label><strong>ACT. WT</strong> : 150 KG</label>
+                                                                            <label><strong>COD/DOD Amt</strong> : $100</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-sm-5 labels">
-                                            <label><strong>Product</strong> : ABCD</label>
-                                            <label><strong>Shipper Code</strong> : 12423</label>
-                                            <label><strong>Goods Type</strong> : lorem ipsum</label>
-                                            <label><strong>DLY Pin Code</strong> : 54321</label>
-                                            <label><strong>Packing Type</strong> : lorem ipsum</label>
-                                            <label><strong>UOM</strong> : Feet</label>
-                                            <label><strong>COD/DOD Flag</strong> : lorem ipsum</label>
-                                            <label><strong>ACT. WT</strong> : 150 KG</label>
-                                            <label><strong>COD/DOD Amt</strong> : $100</label>
+                                        <div class="wizard-footer">
+                                            <div class="pull-right">
+                                                <input type='button' class='btn btn-next btn-fill btn-info btn-wd' name='next' value='Next' />
+                                                <input type='button' class='btn btn-finish btn-fill btn-primary btn-wd' name='finish' value='Finish' />
+                                            </div>
+                                            <div class="pull-left">
+                                                <input type='button' class='btn btn-previous btn-fill btn-default btn-wd' name='previous' value='Previous' />
+                                            </div>
+                                            <div class="clearfix"></div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
-                                <div class="clearfix"></div>
-                                <div class="row m-t-lg">
-                                    <div class="col-sm-10 col-sm-offset-1 m-b-sm">
-                                        <div class="header-strip">
-                                            <h3>Shipper Details</h3>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-5 col-sm-offset-2 labels">
-                                            <label><strong>Shipper Code</strong> : 543213</label>
-                                            <label><strong>Name</strong> : Jonny Bravo</label>
-                                            <label><strong>Address Line 1</strong> : lorem ipsum dolor sit amet</label>
-                                            <label><strong>Address Line 3</strong> : lorem ipsum dolor sit amet</label>
-                                            <label><strong>City</strong> : Bangalore</label>
-                                            <label><strong>Email</strong> : jonny@gmail.com</label>
-                                        </div>
-                                        <div class="col-sm-5 labels">
-                                            <label><strong>Mobile</strong> : 985 214 5002</label>
-                                            <label><strong>Phone</strong> : 620 521 220</label>
-                                            <label><strong>Address Line 2</strong> : lorem ipsum</label>
-                                            <label><strong>Address Line 4</strong> : lorem ipsum dolor sit amet</label>
-                                            <label><strong>Pin Code</strong> : 124 523</label>
-                                            <label><strong>VAT/TIN</strong> : -</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="clearfix"></div>
-                                <div class="row m-t-lg">
-                                    <div class="col-sm-10 col-sm-offset-1 m-b-sm">
-                                        <div class="header-strip">
-                                            <h3>Receivers Address</h3>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-5 col-sm-offset-2 labels">
-                                            <label><strong>Receiver Code</strong> : 543213</label>
-                                            <label><strong>Name</strong> : Jonny Bravo</label>
-                                            <label><strong>Address Line 1</strong> : lorem ipsum dolor sit amet</label>
-                                            <label><strong>Address Line 3</strong> : lorem ipsum dolor sit amet</label>
-                                            <label><strong>City</strong> : Bangalore</label>
-                                            <label><strong>Email</strong> : jonny@gmail.com</label>
-                                        </div>
-                                        <div class="col-sm-5 labels">
-                                            <label><strong>Mobile</strong> : 985 214 5002</label>
-                                            <label><strong>Phone</strong> : 620 521 220</label>
-                                            <label><strong>Address Line 2</strong> : lorem ipsum</label>
-                                            <label><strong>Address Line 4</strong> : lorem ipsum dolor sit amet</label>
-                                            <label><strong>Pin Code</strong> : 124 523</label>
-                                            <label><strong>VAT/TIN</strong> : -</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-t-lg"></div>
-                            </section>							
-						</div>
-						</form>
+                            </div> <!-- wizard container -->
+                        </div>
+                    </div> <!-- row -->
+
+                </div>
+                <div class="footer">
+                    <div class="pull-right">
+                        10GB of <strong>250GB</strong> Free.
                     </div>
-                </section>
+                    <div>
+                        <strong>Copyright</strong> Gati KWE &copy; 2016-2017
+                    </div>
+                </div>
+
             </div>
         </div>
-        <script type="text/javascript">
-        $( function() {
-        	
-        	$("#cod_flag").change(function(){
-           		$("#cod_dod_amount").val('');
-           		if($("#cod_flag").val()=='Y'){
-           			$("#cod_dod_amount").attr("readonly",false);
-           		}else{                            			
-           			$("#cod_dod_amount").attr("readonly",true);           			
-           		}
-           	});
-        	
-        	 function fillGoodType(){
-        		 $("#goods_code").html="";
-	       		 $.ajax( {
-		              method:"get",
-		              headers: {
-		            	    Accept: "application/json"
-		            	  },
-		              url: "${get}getGoodType",
-		              success: function( data ) {
-		            	  $.each(data.items, function(index, element) {		            	  
-		            	  	$("#goods_code").append("<option value='"+element.good_code+"'>"+element.good_name+"</option>");
-		            	  });		            	  		                  
-		              },
-		              error: function() {
-		                  alert("Failed to load Good Type");
-		              }
-		              
-		            } );
-        	 }
-        	 
-        	 function getEsscode(receiver_pincode){
-        		 console.log("Function Call getEsscode:"+receiver_pincode);
-        		 $("#esscode").val="";        		 
-	       		 $.ajax( {
-		              method:"get",
-		              headers: {
-		            	    Accept: "application/json"
-		            	  },
-		              url: "${get}getEsscode/"+receiver_pincode,
-		              success: function( data ) {
-		            	  console.log(data.ess_code);
-		            	  $("#ess_code").val(data.ess_code);		            	  		                  
-		              },
-		              error: function() {
-		                  alert("Failed to load Esscode");
-		              }		              
-		            });
-        	 }
-        	 
-        	 fillGoodType();
-	        
-		      $( "#shipper_code" ).autocomplete({
-			        minLength: 3,
-			        source: function( request, response ) {
-			            $.ajax( {
-			              method:"get",
-			              headers: {
-			            	    Accept: "application/json"
-			            	  },
-			              url: "${get}getCustomerDetails/"+request.term,
-			              success: function( data ) {
-			                response( data.customers );
-			              }
-			            } );
-			          },       
-			        focus: function( event, ui ) {
-			          $("#shipper_code").val( ui.item.custCode );
-			          return false;
-			        },
-			        select: function( event, ui ) {
-			        	$("#shipper_code").val( ui.item.custCode );
-			        	$("#shipper_name").val( ui.item.custName );
-			        	$("#shipper_address1").val( ui.item.custAdd1 );
-			        	$("#shipper_address2").val( ui.item.custAdd2 );
-			        	$("#shipper_address3").val( ui.item.custAdd3 );
-			        	$("#shipper_address4").val( ui.item.custAdd4 );
-			        	$("#shipper_city").val( ui.item.custCity );
-			        	$("#shipper_pincode").val( ui.item.custPincode );
-			        	$("#shipper_phone").val( ui.item.custPhone );
-			        	$("#shipper_mobile").val( ui.item.custMobile );
-			        	$("#shipper_email").val( ui.item.custEmail );
-			        	$("#shipper_tin").val( ui.item.custTIN );
-			        	
-			        	$("#shipper_code1").val( ui.item.custCode );
-			        	$("#shipper_pincode1").val( ui.item.custPincode );
-			        	$("#shipper_tin1").val( ui.item.custTIN );
-			        	$("#booking_ou").val( ui.item.custTIN );
-			          return false;
-			        }
-			      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
-			        return $( "<li>" )
-			          .append( "<span class='list-custcode'>"+ item.custCode + "</span>" + item.custName )
-			          .appendTo( ul );
-			      };
-		      
-		      $( "#receiver_code" ).autocomplete({
-		        minLength: 3,
-		        source: function( request, response ) {
-		            $.ajax( {
-		              method:"get",
-		              headers: {
-		            	    Accept: "application/json"
-		            	  },
-		              url: "${get}getCustomerDetails/"+request.term,
-		              success: function( data ) {
-		                response( data.customers );
-		              }
-		            } );
-		          },       
-		        focus: function( event, ui ) {
-		          $("#receiver_code").val( ui.item.custCode );
-		          return false;
-		        },
-		        select: function( event, ui ) {
-		        	$("#receiver_code").val( ui.item.custCode );
-		        	$("#receiver_name").val( ui.item.custName );
-		        	$("#receiver_address1").val( ui.item.custAdd1 );
-		        	$("#receiver_address2").val( ui.item.custAdd2 );
-		        	$("#receiver_address3").val( ui.item.custAdd3 );
-		        	$("#receiver_address4").val( ui.item.custAdd4 );
-		        	$("#receiver_city").val( ui.item.custCity );
-		        	$("#receiver_pincode").val( ui.item.custPincode );
-		        	$("#receiver_phone").val( ui.item.custPhone );
-		        	$("#receiver_mobile").val( ui.item.custMobile );
-		        	$("#receiver_email").val( ui.item.custEmail );
-		        	$("#receiver_tin").val( ui.item.custTIN );
-		        	
-		        	$("#receiver_code1").val( ui.item.custCode );
-		        	$("#receiver_pincode1").val( ui.item.custPincode );
-		        	$("#receiver_tin1").val( ui.item.custTIN );
-		        	$("#delivery_ou").val( ui.item.custTIN );
-		          return false;
-		        }
-		      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
-		        return $( "<li>" )
-		          .append( "<span class='list-custcode'>"+ item.custCode + "</span>" + item.custName )
-		          .appendTo( ul );
-		      };
-			      
-		      $( "#shipper_pincode" ).autocomplete({
-		        minLength: 3,
-		        source: function( request, response ) {
-		            $.ajax( {
-		              method:"get",
-		              headers: {
-		            	    Accept: "application/json"
-		            	  },
-		              url: "${home}getPinCodes/"+request.term,
-		              success: function( data ) {
-		            	  response(data.items);
-		              }
-		            } );
-		          },
-		        focus: function( event, ui ) {
-		          $( "#shipper_pincode" ).val( ui.item.pincode );
-		          return false;
-		        },
-		        select: function( event, ui ) {
-		          $( "#shipper_pincode" ).val( ui.item.pincode );
-		          $( "#shipper_tin" ).val( ui.item.ou_code );
-		          $( "#shipper_pincode1" ).val( ui.item.pincode );
-		          $( "#shipper_tin1" ).val( ui.item.ou_code );
-		          $( "#booking_ou" ).val( ui.item.ou_code );
-		          return false;
-		        }
-		      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
-		        return $( "<li>" )
-		          .append( "<span class='list-pin'>"+ item.pincode +"</span>"+item.location+"<span class='list-ou'>"+item.ou_code + "</span>" )
-		          .appendTo( ul );
-		      };
-		      
-		      $( "#receiver_pincode" ).autocomplete({
-			        minLength: 3,
-			        source: function( request, response ) {
-			            $.ajax( {
-			              method:"get",
-			              headers: {
-			            	    Accept: "application/json"
-			            	  },
-			              url: "${home}getPinCodes/"+request.term,
-			              success: function( data ) {
-			            	  response(data.items);
-			              }
-			            } );
-			          },
-			        focus: function( event, ui ) {
-			          $( "#receiver_pincode" ).val( ui.item.pincode );			          
-			          return false;
-			        },
-			        select: function( event, ui ) {
-			          $( "#receiver_pincode" ).val( ui.item.pincode );
-			          $( "#receiver_tin" ).val( ui.item.ou_code );
-			          $( "#receiver_pincode1" ).val( ui.item.pincode );
-			          $( "#receiver_tin1" ).val( ui.item.ou_code );
-			          $( "#delivery_ou" ).val( ui.item.ou_code );
-			          getEsscode(ui.item.pincode);
-			          return false;
-			        }
-			      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
-			        return $( "<li>" )
-			          .append( "<span class='list-pin'>"+ item.pincode +"</span>"+item.location+"<span class='list-ou'>"+item.ou_code + "</span>" )
-			          .appendTo( ul );
-			      };
-        });        
+
+        <!-- Mainly scripts -->
+        <script src="<c:url value="/resources/js/jquery-2.2.4.min.js"/>" ></script>
+        <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+        <script src="<c:url value="/resources/js/jquery.bootstrap.js"/>" type="text/javascript"></script>
+        <script src="<c:url value="/resources/js/metisMenu/jquery.metisMenu.js"/>"></script>
+        <script src="<c:url value="/resources/js/slimscroll/jquery.slimscroll.min.js"/>"></script>
+
+        <!-- Custom and plugin javascript -->
+        <script src="<c:url value="/resources/js/inspinia.js"/>"></script>
+        <script src="<c:url value="/resources/js/pace/pace.min.js"/>" type="text/javascript"></script>
+        <script src="<c:url value="/resources/js/wizard/material-bootstrap-wizard.js"/>" type="text/javascript"></script>
+        <script src="<c:url value="/resources/js/wizard/jquery.validate.min.js"/>" type="text/javascript"></script>
+        <script src="<c:url value="/resources/js/jquery-ui.min.js"/>" type="text/javascript"></script>
+        <script>
+            $(function () {
+                $('#slim, #slim2, #slim3, #slim4').slimScroll({
+                    height: '380px'
+                });
+                
+                $("#cod_flag").change(function(){
+               		$("#cod_dod_amount").val('');
+               		if($("#cod_flag").val()=='Y'){
+               			$("#cod_dod_amount").attr("readonly",false);
+               		}else{                            			
+               			$("#cod_dod_amount").attr("readonly",true);           			
+               		}
+               	});
+            	
+            	 function fillGoodType(){
+            		 $("#goods_code").html="";
+    	       		 $.ajax( {
+    		              method:"get",
+    		              headers: {
+    		            	    Accept: "application/json"
+    		            	  },
+    		              url: "${get}getGoodType",
+    		              success: function( data ) {
+    		            	  $.each(data.items, function(index, element) {		            	  
+    		            	  	$("#goods_code").append("<option value='"+element.good_code+"'>"+element.good_name+"</option>");
+    		            	  });		            	  		                  
+    		              },
+    		              error: function() {
+    		                  alert("Failed to load Good Type");
+    		              }
+    		              
+    		            } );
+            	 }
+            	 
+            	 function getEsscode(receiver_pincode){
+            		 console.log("Function Call getEsscode:"+receiver_pincode);
+            		 $("#esscode").val="";        		 
+    	       		 $.ajax( {
+    		              method:"get",
+    		              headers: {
+    		            	    Accept: "application/json"
+    		            	  },
+    		              url: "${get}getEsscode/"+receiver_pincode,
+    		              success: function( data ) {
+    		            	  console.log(data.ess_code);
+    		            	  $("#ess_code").val(data.ess_code);		            	  		                  
+    		              },
+    		              error: function() {
+    		                  alert("Failed to load Esscode");
+    		              }		              
+    		            });
+            	 }
+            	 
+            	 fillGoodType();
+    	        
+    		      $( "#shipper_code" ).autocomplete({
+    			        minLength: 3,
+    			        source: function( request, response ) {
+    			            $.ajax( {
+    			              method:"get",
+    			              headers: {
+    			            	    Accept: "application/json"
+    			            	  },
+    			              url: "${get}getCustomerDetails/"+request.term,
+    			              success: function( data ) {
+    			                response( data.customers );
+    			              }
+    			            } );
+    			          },       
+    			        focus: function( event, ui ) {
+    			          $("#shipper_code").val( ui.item.custCode );
+    			          return false;
+    			        },
+    			        change: function(){
+          		        	$("#shipper_name").val('');    		        	
+          		        	$("#shipper_address1").val('');
+          		        	$("#shipper_address2").val('');
+          		        	$("#shipper_address3").val('');
+          		        	$("#shipper_address4").val('');
+          		        	$("#shipper_city").val('');
+          		        	$("#shipper_pincode").val('');
+          		        	$("#shipper_phone").val('');
+          		        	$("#shipper_mobile").val('');
+          		        	$("#shipper_email").val('');
+          		        	$("#shipper_tin").val('');
+          		        	$("#shipper_ou").val('');
+          		        	
+          		        },
+    			        select: function( event, ui ) {
+    			        	$("#shipper_code").val( ui.item.custCode );
+    			        	$("#shipper_name").val( ui.item.custName );
+    			        	$("#shipper_address1").val( ui.item.custAdd1 );
+    			        	$("#shipper_address2").val( ui.item.custAdd2 );
+    			        	$("#shipper_address3").val( ui.item.custAdd3 );
+    			        	$("#shipper_address4").val( ui.item.custAdd4 );
+    			        	$("#shipper_city").val( ui.item.custCity );
+    			        	$("#shipper_pincode").val( ui.item.custPincode );
+    			        	$("#shipper_phone").val( ui.item.custPhone );
+    			        	$("#shipper_mobile").val( ui.item.custMobile );
+    			        	$("#shipper_email").val( ui.item.custEmail );
+    			        	$("#shipper_tin").val( ui.item.custTIN ); 
+    			        	$("#booking_ou").val( ui.item.custTIN );
+    			        	
+    			        	$("#shipper_name").trigger("change");
+        		        	$("#shipper_address1").trigger("change");
+        		        	$("#shipper_address2").trigger("change");
+        		        	$("#shipper_address3").trigger("change");
+        		        	$("#shipper_address4").trigger("change");
+        		        	$("#shipper_city").trigger("change");
+        		        	$("#shipper_pincode").trigger("change");
+        		        	$("#shipper_phone").trigger("change");
+        		        	$("#shipper_mobile").trigger("change");
+        		        	$("#shipper_email").trigger("change");
+        		        	$("#shipper_tin").trigger("change");
+    			          return false;
+    			        }
+    			      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+    			        return $( "<li>" )
+    			          .append( "<span class='list-custcode'>"+ item.custCode + "</span>" + item.custName )
+    			          .appendTo( ul );
+    			      };
+    		      
+    		      $( "#receiver_code" ).autocomplete({
+    		        minLength: 3,
+    		        source: function( request, response ) {
+    		            $.ajax( {
+    		              method:"get",
+    		              headers: {
+    		            	    Accept: "application/json"
+    		            	  },
+    		              url: "${get}getCustomerDetails/"+request.term,
+    		              success: function( data ) {
+    		                response( data.customers );
+    		              }
+    		            } );
+    		          },       
+    		        focus: function( event, ui ) {
+    		          $("#receiver_code").val( ui.item.custCode );
+    		          return false;
+    		        },
+    		        change: function(){
+    		        	$("#receiver_name").val('');    		        	
+    		        	$("#receiver_address1").val('');
+    		        	$("#receiver_address2").val('');
+    		        	$("#receiver_address3").val('');
+    		        	$("#receiver_address4").val('');
+    		        	$("#receiver_city").val('');
+    		        	$("#receiver_pincode").val('');
+    		        	$("#receiver_phone").val('');
+    		        	$("#receiver_mobile").val('');
+    		        	$("#receiver_email").val('');
+    		        	$("#receiver_tin").val('');
+    		        	$("#delivery_ou").val('');
+    		        	
+    		        	$("#receiver_name").trigger("change");
+    		        	$("#receiver_address1").trigger("change");
+    		        	$("#receiver_address2").trigger("change");
+    		        	$("#receiver_address3").trigger("change");
+    		        	$("#receiver_address4").trigger("change");
+    		        	$("#receiver_city").trigger("change");
+    		        	$("#receiver_pincode").trigger("change");
+    		        	$("#receiver_phone").trigger("change");
+    		        	$("#receiver_mobile").trigger("change");
+    		        	$("#receiver_email").trigger("change");
+    		        	$("#receiver_tin").trigger("change");
+    		        },    		        
+    		        select: function( event, ui ) {
+    		        	$("#receiver_code").val( ui.item.custCode );
+    		        	$("#receiver_name").val( ui.item.custName );    		        	
+    		        	$("#receiver_address1").val( ui.item.custAdd1 );
+    		        	$("#receiver_address2").val( ui.item.custAdd2 );
+    		        	$("#receiver_address3").val( ui.item.custAdd3 );
+    		        	$("#receiver_address4").val( ui.item.custAdd4 );
+    		        	$("#receiver_city").val( ui.item.custCity );
+    		        	$("#receiver_pincode").val( ui.item.custPincode );
+    		        	$("#receiver_phone").val( ui.item.custPhone );
+    		        	$("#receiver_mobile").val( ui.item.custMobile );
+    		        	$("#receiver_email").val( ui.item.custEmail );
+    		        	$("#receiver_tin").val( ui.item.custTIN );
+    		        	$("#delivery_ou").val( ui.item.custTIN );
+    		        	
+    		        	$("#receiver_name").trigger("change");
+    		        	$("#receiver_address1").trigger("change");
+    		        	$("#receiver_address2").trigger("change");
+    		        	$("#receiver_address3").trigger("change");
+    		        	$("#receiver_address4").trigger("change");
+    		        	$("#receiver_city").trigger("change");
+    		        	$("#receiver_pincode").trigger("change");
+    		        	$("#receiver_phone").trigger("change");
+    		        	$("#receiver_mobile").trigger("change");
+    		        	$("#receiver_email").trigger("change");
+    		        	$("#receiver_tin").trigger("change");
+    		          return false;
+    		        }
+    		      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+    		        return $( "<li>" )
+    		          .append( "<span class='list-custcode'>"+ item.custCode + "</span>" + item.custName )
+    		          .appendTo( ul );
+    		      };
+    			      
+    		      $( "#shipper_pincode" ).autocomplete({
+    		        minLength: 3,
+    		        source: function( request, response ) {
+    		            $.ajax( {
+    		              method:"get",
+    		              headers: {
+    		            	    Accept: "application/json"
+    		            	  },
+    		              url: "${home}getPinCodes/"+request.term,
+    		              success: function( data ) {
+    		            	  response(data.items);
+    		              }
+    		            } );
+    		          },
+    		        change: function(){
+    		        	$( "#shipper_tin" ).val('');
+    		        	$( "#booking_ou" ).val('');
+    		        	
+    		        	$("#shipper_tin").trigger("change");  
+    		        },
+    		        focus: function( event, ui ) {
+    		          $( "#shipper_pincode" ).val( ui.item.pincode );
+    		          return false;
+    		        },
+    		        select: function( event, ui ) {
+    		          $( "#shipper_pincode" ).val( ui.item.pincode );
+    		          $( "#shipper_tin" ).val( ui.item.ou_code );
+    		          $( "#booking_ou" ).val( ui.item.ou_code );
+    		          
+    		          $("#shipper_tin").trigger("change");
+    		          return false;
+    		        }
+    		      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+    		        return $( "<li>" )
+    		          .append( "<span class='list-pin'>"+ item.pincode +"</span>"+item.location+"<span class='list-ou'>"+item.ou_code + "</span>" )
+    		          .appendTo( ul );
+    		      };
+    		      
+    		      $( "#receiver_pincode" ).autocomplete({
+    			        minLength: 3,
+    			        source: function( request, response ) {
+    			            $.ajax( {
+    			              method:"get",
+    			              headers: {
+    			            	    Accept: "application/json"
+    			            	  },
+    			              url: "${home}getPinCodes/"+request.term,
+    			              success: function( data ) {
+    			            	  response(data.items);
+    			              }
+    			            } );
+    			          },
+   			          change: function(){
+   	    		        	$( "#receiver_tin" ).val('');
+   	    		        	$( "#delivery_ou" ).val('');
+   	    		        	
+   	    		        	$("#receiver_tin").trigger("change");  
+   	    		        },
+    			        focus: function( event, ui ) {
+    			          $( "#receiver_pincode" ).val( ui.item.pincode );			          
+    			          return false;
+    			        },
+    			        select: function( event, ui ) {
+    			          $( "#receiver_pincode" ).val( ui.item.pincode );
+    			          $( "#receiver_tin" ).val( ui.item.ou_code );
+    			          $( "#delivery_ou" ).val( ui.item.ou_code );
+    			          
+    			          $("#receiver_tin").trigger("change");
+    			          getEsscode(ui.item.pincode);
+    			          return false;
+    			        }
+    			      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+    			        return $( "<li>" )
+    			          .append( "<span class='list-pin'>"+ item.pincode +"</span>"+item.location+"<span class='list-ou'>"+item.ou_code + "</span>" )
+    			          .appendTo( ul );
+    			      };
+                
+                
+            });
         </script>
     </body>
+
 </html>
+
