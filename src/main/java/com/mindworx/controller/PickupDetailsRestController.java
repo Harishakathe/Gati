@@ -7,11 +7,13 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +37,11 @@ public class PickupDetailsRestController {
 	
 	@Autowired
     private PickupDetailsDao pickupDetailsDao;
+	
+	
+	@Autowired
+	@Qualifier("pickupDetailsValidator")
+	private Validator validator;
 	
 	private static final Logger logger = Logger.getLogger(PickupDetailsRestController.class);
 	
@@ -86,7 +93,6 @@ public class PickupDetailsRestController {
 		
 		JsonResponse res = new JsonResponse();
 		
-		PickupDetailsValidator validator=new PickupDetailsValidator();
 		validator.validate(pickupDetails, result);
 						
 		if(!result.hasErrors()){

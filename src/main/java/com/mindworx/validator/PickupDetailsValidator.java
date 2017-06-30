@@ -1,13 +1,14 @@
 package com.mindworx.validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.mindworx.model.PickupDetails;
-
-
 public class PickupDetailsValidator implements Validator{
 	
 	@Autowired
@@ -22,67 +23,67 @@ public class PickupDetailsValidator implements Validator{
 	@Qualifier("stringValidator")
 	StringValidator stringValidator;
 	
-	
+	@Autowired
+	private Environment env;	
 	
 	public boolean supports(Class<?> class_ob) {
 		return PickupDetails.class.equals(class_ob);
 	}
 
 	public void validate(Object target, Errors errors) {
-		PickupDetails details = (PickupDetails) target;
 		
+		PickupDetails details = (PickupDetails) target;
 		//ValidationUtils.rejectIfEmptyOrWhitespace(errors, "docket_no", "NotEmpty.docket_no");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "docket_type", "Docket Type Requird!");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "docket_category", "NotEmpty.Docket Category Requird!");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "product", "Product is Requied!");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "booking_basis", "Booking Basis is Requied!");
-		/*ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_code", "NotEmpty.shipper_code");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_name", "NotEmpty.shipper_name");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_address1", "NotEmpty.shipper_address1");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_address2", "NotEmpty.shipper_address2");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_address3", "NotEmpty.shipper_address3");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_address4", "NotEmpty.shipper_address4");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_city", "NotEmpty.shipper_city");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_pincode", "NotEmpty.shipper_pincode");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_oucode", "NotEmpty.shipper_oucode");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_phone", "NotEmpty.shipper_phone");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_mobile", "NotEmpty.shipper_mobile");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_email", "NotEmpty.shipper_email");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_tin", "NotEmpty.shipper_tin");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_code", "NotEmpty.receiver_code");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_mobile", "NotEmpty.receiver_mobile");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_name", "NotEmpty.receiver_name");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_address1", "NotEmpty.receiver_address1");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_address2", "NotEmpty.receiver_address2");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_address3", "NotEmpty.receiver_address3");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_address4", "NotEmpty.receiver_address4");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_city", "NotEmpty.receiver_city");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_pincode", "NotEmpty.receiver_pincode");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_oucode", "NotEmpty.receiver_oucode");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_phone", "NotEmpty.receiver_phone");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_email", "NotEmpty.receiver_email");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_tin", "NotEmpty.receiver_tin");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "goods_code", "NotEmpty.goods_code");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "goods_desc", "NotEmpty.goods_desc");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "booking_ou", "NotEmpty.booking_oucode");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "delivery_ou", "NotEmpty.delivery_oucode");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "no_of_packages", "NotEmpty.no_of_packages");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "package_number_from", "NotEmpty.package_number_from");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "package_number_to", "NotEmpty.package_number_to");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "package_type", "NotEmpty.package_type");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipment_value", "NotEmpty.shipment_value");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "risk", "NotEmpty.risk");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "volume", "NotEmpty.volume");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "uom", "NotEmpty.uom");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "actual_weight", "NotEmpty.actual_weight");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cod_flag", "NotEmpty.cod_flag");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cod_dod_in_favor", "NotEmpty.cod_dod_in_favor");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cod_dod_amount", "NotEmpty.cod_dod_amount");         */
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "docket_type", env.getProperty("NotEmpty.docket_type"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "docket_category", env.getProperty("NotEmpty.docket_category"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "product", env.getProperty("NotEmpty.product"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "booking_basis", env.getProperty("NotEmpty.booking_basis"));
+		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_code", env.getProperty("NotEmpty.shipper_code"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_name", env.getProperty("NotEmpty.shipper_name"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_address1", env.getProperty("NotEmpty.shipper_address1"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_address2", env.getProperty("NotEmpty.shipper_address2"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_address3", env.getProperty("NotEmpty.shipper_address3"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_city", env.getProperty("NotEmpty.shipper_city"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_pincode", env.getProperty("NotEmpty.shipper_pincode"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_phone", env.getProperty("NotEmpty.shipper_phone"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_mobile", env.getProperty("NotEmpty.shipper_mobile"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_email", env.getProperty("NotEmpty.shipper_email"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipper_tin", env.getProperty("NotEmpty.shipper_tin"));
+		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_code", env.getProperty("NotEmpty.receiver_code"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_mobile", env.getProperty("NotEmpty.receiver_mobile"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_name", env.getProperty("NotEmpty.receiver_name"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_address1", env.getProperty("NotEmpty.receiver_address1"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_address2", env.getProperty("NotEmpty.receiver_address2"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_address3", env.getProperty("NotEmpty.receiver_address3"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_city", env.getProperty("NotEmpty.receiver_city"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_pincode", env.getProperty("NotEmpty.receiver_pincode"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_phone", env.getProperty("NotEmpty.receiver_phone"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_email", env.getProperty("NotEmpty.receiver_email"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "receiver_tin", env.getProperty("NotEmpty.receiver_tin"));
+		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "goods_code", env.getProperty("NotEmpty.goods_code"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "booking_ou", env.getProperty("NotEmpty.booking_oucode"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "delivery_ou", env.getProperty("NotEmpty.delivery_oucode"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "no_of_packages", env.getProperty("NotEmpty.no_of_packages"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "package_number_from", env.getProperty("NotEmpty.package_number_from"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "package_number_to", env.getProperty("NotEmpty.package_number_to"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "package_type", env.getProperty("NotEmpty.package_type"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipment_value", env.getProperty("NotEmpty.shipment_value"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "risk", env.getProperty("NotEmpty.risk"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "volume", env.getProperty("NotEmpty.volume"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "uom", env.getProperty("NotEmpty.uom"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "actual_weight", env.getProperty("NotEmpty.actual_weight"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cod_flag", env.getProperty("NotEmpty.cod_flag"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cod_dod_in_favor", env.getProperty("NotEmpty.cod_dod_in_favor"));
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cod_dod_amount", env.getProperty("NotEmpty.cod_dod_amount"));
 		
 		/*if(!numberValidator.validDocket(details.getDocket_No())){
 			errors.rejectValue("docket_no", "Docket No Must be Valid 9 digit Number");
 		}*/
-		/*if(!numberValidator.valid(details.getBooking_basis())){
+		
+		if(!numberValidator.valid(details.getBooking_basis())){
 			errors.rejectValue("booking_basis", "Booking Basis Must be Valid");
 		}
 		
@@ -98,13 +99,13 @@ public class PickupDetailsValidator implements Validator{
 			errors.rejectValue("no_of_packages", "No of Packages Must be Number");
 		}
 		
-		if(!numberValidator.valid(details.getPackage_number_from())){
+		/*if(!numberValidator.valid(details.getPackage_number_from())){
 			errors.rejectValue("package_number_from", "Package Number From Must be Number");
 		}
 		
 		if(!numberValidator.valid(details.getPackage_number_to())){
 			errors.rejectValue("package_number_to", "Package Number To Must be Number");
-		}
+		}*/
 		
 		if(!numberValidator.valid(details.getShipment_value())){
 			errors.rejectValue("shipment_value", "Shipment Value To Must be Number");			
@@ -149,8 +150,7 @@ public class PickupDetailsValidator implements Validator{
 		
 		if(!emailValidator.valid(details.getReceiver_email())){
 			errors.rejectValue("receiver_email", "Receiver Email must Be Valid");
-		}*/
-		
+		}	
 		
 	}
 

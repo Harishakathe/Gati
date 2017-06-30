@@ -105,7 +105,6 @@
                                 </a>
                             </li>
                         </ul>
-
                     </nav>
                 </div>
 
@@ -266,6 +265,7 @@
                                                             <div class="form-group label-floating">
                                                                 <label class="control-label">Pin Code <small>(requird)</small></label>
                                                                 <input type="text" class="form-control" name="shipper_pincode" id="shipper_pincode" >
+                                                                 <input type="hidden" id="booking_ou" name="booking_ou">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
@@ -302,14 +302,14 @@
 																	<option value="14_2">Premium Plus-12 hrs</option>
 																	<option value="14_3">Premium Plus-24 hrs</option>
                                                                 </select>
-                                                                <input type="hidden" name="docket_type" value="NR"  >
-																<input type="hidden" name="docket_category" value="D"  >
+                                                                <input type="hidden" name="docket_type" id="docket_type" value="NR"  >
+																<input type="hidden" name="docket_category" id="docket_category" value="D"  >
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
                                                                 <label class="control-label">BKG Basis <small>(requird)</small></label>
-                                                                <select class="form-control" name="booking_basis">
+                                                                <select class="form-control" name="booking_basis" id="booking_basis">
                                                                     <option disabled="" selected=""></option>
                                                                     <option value="1">PAID</option>
 																	<option value="2">TBB</option>
@@ -329,7 +329,7 @@
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
                                                                 <label class="control-label">Packing Type <small>(requird)</small></label>
-                                                                <select class="form-control">
+                                                                <select class="form-control" id="package_type" name="package_type">
                                                                     <option disabled="" selected=""></option>
                                                                     <option>1</option>
                                                                     <option>2</option>
@@ -339,7 +339,7 @@
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
                                                                 <label class="control-label">No. of Packages <small>(requird)</small></label>
-                                                                <input type="text" class="form-control">
+                                                                <input type="text" class="form-control" name="no_of_packages" id="no_of_packages">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -381,13 +381,13 @@
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
                                                                 <label class="control-label">Shipment value <small>(requird)</small></label>
-                                                                <input type="text" class="form-control" name="shipment_value">
+                                                                <input type="text" class="form-control" name="shipment_value" id="shipment_value">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
                                                                 <label class="control-label">Risk <small>(requird)</small></label>
-                                                                <select class="form-control" name="risk">
+                                                                <select class="form-control" name="risk" id="risk">
                                                                     <option disabled="" selected=""></option>
                                                                     <option value="CR">Gati</option>
 																	<option value="OR">Owner</option>
@@ -396,14 +396,14 @@
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label" name="volume">Volume <small>(requird)</small></label>
-                                                                <input type="text" class="form-control">
+                                                                <label class="control-label" >Volume <small>(requird)</small></label>
+                                                                <input type="text" class="form-control" name="volume" id="volume">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
                                                                 <label class="control-label">UOM <small>(requird)</small></label>
-                                                                <select class="form-control" name="uom">
+                                                                <select class="form-control" name="uom" id="uom">
                                                                     <option disabled="" selected=""></option>
                                                                     <option value="1">1</option>
 																	<option value="2">2</option>
@@ -416,7 +416,7 @@
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
                                                                 <label class="control-label">ACT.WT <small>(requird)</small></label>
-                                                                <input type="text" class="form-control" name="actual_weight">
+                                                                <input type="text" class="form-control" name="actual_weight" id="actual_weight">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5">
@@ -427,6 +427,22 @@
                                                                     <option value="Y">Yes</option>
 																	<option value="N">No</option>
                                                                 </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">COD/DOD in Fav <small>(requird)</small></label>
+                                                                <select class="form-control" name="cod_dod_in_favor" id="cod_dod_in_favor">
+                                                                    <option disabled="" selected=""></option>
+                                                                    <option value="G">Gati</option>
+																	<option value="S">Shipper</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group label-floating">
+                                                                <label class="control-label">COD/DOD Amt <small>(requird)</small></label>
+                                                                <input type="text" class="form-control" id="cod_dod_amount" name="cod_dod_amount">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -451,20 +467,20 @@
                                                                 <div>
                                                                     <div class="row">
                                                                         <div class="col-sm-5 col-sm-offset-1 labels">
-                                                                            <label><strong>Receiver Code</strong> : 543213</label>
-                                                                            <label><strong>Name</strong> : Jonny Bravo</label>
-                                                                            <label><strong>Address Line 1</strong> : lorem ipsum dolor sit amet</label>
-                                                                            <label><strong>Address Line 3</strong> : lorem ipsum dolor sit amet</label>
-                                                                            <label><strong>City</strong> : Bangalore</label>
-                                                                            <label><strong>Email</strong> : jonny@gmail.com</label>
+                                                                            <label><strong>Receiver Code</strong> : <span id="lbl_receiver_code"></span></label>
+                                                                            <label><strong>Name</strong> : <span id="lbl_receiver_name"></span></label>
+                                                                            <label><strong>Address Line 1</strong> : <span id="lbl_receiver_address1"></span></label>
+                                                                            <label><strong>Address Line 3</strong> : <span id="lbl_receiver_address3"></span></label>
+                                                                            <label><strong>City</strong> : <span id="lbl_receiver_city"></span></label>
+                                                                            <label><strong>Email</strong> : <span id="lbl_receiver_email"></span></label>
                                                                         </div>
                                                                         <div class="col-sm-5 labels">
-                                                                            <label><strong>Mobile</strong> : 985 214 5002</label>
-                                                                            <label><strong>Phone</strong> : 620 521 220</label>
-                                                                            <label><strong>Address Line 2</strong> : lorem ipsum</label>
-                                                                            <label><strong>Address Line 4</strong> : lorem ipsum dolor sit amet</label>
-                                                                            <label><strong>Pin Code</strong> : 124 523</label>
-                                                                            <label><strong>VAT/TIN</strong> : -</label>
+                                                                            <label><strong>Mobile</strong> : <span id="lbl_receiver_mobile"></span></label>
+                                                                            <label><strong>Phone</strong> : <span id="lbl_receiver_phone"></span></label>
+                                                                            <label><strong>Address Line 2</strong> : <span id="lbl_receiver_address2"></span></label>
+                                                                            <label><strong>Address Line 4</strong> : <span id="lbl_receiver_address4"></span></label>
+                                                                            <label><strong>Pin Code</strong> : <span id="lbl_receiver_pincode"></span></label>
+                                                                            <label><strong>VAT/TIN</strong> : <span id="lbl_receiver_tin"></span></label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -486,20 +502,20 @@
                                                                 <div>
                                                                     <div class="row">
                                                                         <div class="col-sm-5 col-sm-offset-1 labels">
-                                                                            <label><strong>Shipper Code</strong> : 543213</label>
-                                                                            <label><strong>Name</strong> : Jonny Bravo</label>
-                                                                            <label><strong>Address Line 1</strong> : lorem ipsum dolor sit amet</label>
-                                                                            <label><strong>Address Line 3</strong> : lorem ipsum dolor sit amet</label>
-                                                                            <label><strong>City</strong> : Bangalore</label>
-                                                                            <label><strong>Email</strong> : jonny@gmail.com</label>
+                                                                            <label><strong>Shipper Code</strong> : <span id="lbl_shipper_code"></span></label>
+                                                                            <label><strong>Name</strong> : <span id="lbl_shipper_name"></span></label>
+                                                                            <label><strong>Address Line 1</strong> : <span id="lbl_shipper_address1"></span></label>
+                                                                            <label><strong>Address Line 3</strong> : <span id="lbl_shipper_address3"></span></label>
+                                                                            <label><strong>City</strong> : <span id="lbl_shipper_city"></span></label>
+                                                                            <label><strong>Email</strong> : <span id="lbl_shipper_email"></span></label>
                                                                         </div>
                                                                         <div class="col-sm-5 labels">
-                                                                            <label><strong>Mobile</strong> : 985 214 5002</label>
-                                                                            <label><strong>Phone</strong> : 620 521 220</label>
-                                                                            <label><strong>Address Line 2</strong> : lorem ipsum</label>
-                                                                            <label><strong>Address Line 4</strong> : lorem ipsum dolor sit amet</label>
-                                                                            <label><strong>Pin Code</strong> : 124 523</label>
-                                                                            <label><strong>VAT/TIN</strong> : -</label>
+                                                                            <label><strong>Mobile</strong> : <span id="lbl_shipper_mobile"></span></label>
+                                                                            <label><strong>Phone</strong> : <span id="lbl_shipper_phone"></span></label>
+                                                                            <label><strong>Address Line 2</strong> : <span id="lbl_shipper_address2"></span></label>
+                                                                            <label><strong>Address Line 4</strong> : <span id="lbl_shipper_address4"></span></label>
+                                                                            <label><strong>Pin Code</strong> : <span id="lbl_shipper_pincode"></span></label>
+                                                                            <label><strong>VAT/TIN</strong> : <span id="lbl_shipper_tin"></span></label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -521,26 +537,24 @@
                                                                 <div>
                                                                     <div class="row">
                                                                         <div class="col-sm-5 col-sm-offset-1 labels">
-                                                                            <label><strong>Docket No</strong> : 543213</label>
-                                                                            <label><strong>BKG. Basis</strong> : lorem ipsum</label>
-                                                                            <label><strong>Receiver Code</strong> : 543213</label>
-                                                                            <label><strong>BKG Pin Code</strong> : 543213</label>
-                                                                            <label><strong>No Of Packages</strong> : 5</label>
-                                                                            <label><strong>Shipment Value</strong> : $ 100</label>
-                                                                            <label><strong>Volume</strong> : 121 LBS</label>
-                                                                            <label><strong>ACT. WT</strong> : 150 KG</label>
-                                                                            <label><strong>COD/DOD in Fav</strong> : lorem ipsum</label>
+                                                                            <label><strong>Docket No</strong> : Not Avaliable</label>
+                                                                            <label><strong>BKG. Basis</strong> : <span id="lbl_booking_basis"></span></label>
+                                                                            <label><strong>BKG Pin Code</strong> : <span id="lbl_booking_pincode"></span></label>
+                                                                            <label><strong>No Of Packages</strong> : <span id="lbl_no_of_packages"></span></label>
+                                                                            <label><strong>Shipment Value</strong> : <span id="lbl_shipment_value"></span></label>
+                                                                            <label><strong>Risk </strong> : <span id="lbl_risk"></span></label>
+                                                                            <label><strong>ACT. WT</strong> : <span id="lbl_actual_weight"> KG</span></label>
+                                                                            <label><strong>COD/DOD in Fav</strong> : <span id="lbl_cod_dod_in_favor"></span></label>
                                                                         </div>
                                                                         <div class="col-sm-5 labels">
-                                                                            <label><strong>Product</strong> : ABCD</label>
-                                                                            <label><strong>Shipper Code</strong> : 12423</label>
-                                                                            <label><strong>Goods Type</strong> : lorem ipsum</label>
-                                                                            <label><strong>DLY Pin Code</strong> : 54321</label>
-                                                                            <label><strong>Packing Type</strong> : lorem ipsum</label>
-                                                                            <label><strong>UOM</strong> : Feet</label>
-                                                                            <label><strong>COD/DOD Flag</strong> : lorem ipsum</label>
-                                                                            <label><strong>ACT. WT</strong> : 150 KG</label>
-                                                                            <label><strong>COD/DOD Amt</strong> : $100</label>
+                                                                            <label><strong>Product</strong> : <span id="lbl_product"></span></label>
+                                                                            <label><strong>Goods Type</strong> : <span id="lbl_goods_code"></span></label>
+                                                                            <label><strong>DLY Pin Code</strong> : <span id="lbl_delivery_pincode"></span></label>                                                                            
+                                                                            <label><strong>Packing Type</strong> : <span id="lbl_package_type"></span></label>
+                                                                            <label><strong>Volume</strong> : <span id="lbl_volume"> LBS</span></label>
+                                                                            <label><strong>UOM</strong> : <span id="lbl_uom"></span></label>
+                                                                            <label><strong>COD/DOD Flag</strong> : <span id="lbl_cod_flag"></span></label>
+                                                                            <label><strong>COD/DOD Amt</strong> : <span id="lbl_cod_dod_amount"></span></label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -666,19 +680,36 @@
     			          $("#shipper_code").val( ui.item.custCode );
     			          return false;
     			        },
-    			        change: function(){
-          		        	$("#shipper_name").val('');    		        	
-          		        	$("#shipper_address1").val('');
-          		        	$("#shipper_address2").val('');
-          		        	$("#shipper_address3").val('');
-          		        	$("#shipper_address4").val('');
-          		        	$("#shipper_city").val('');
-          		        	$("#shipper_pincode").val('');
-          		        	$("#shipper_phone").val('');
-          		        	$("#shipper_mobile").val('');
-          		        	$("#shipper_email").val('');
-          		        	$("#shipper_tin").val('');
-          		        	$("#shipper_ou").val('');
+    			        change: function(event, ui){
+    			        	if(ui.item == null){
+    			        		$("#shipper_name").val('');    		        	
+              		        	$("#shipper_address1").val('');
+              		        	$("#shipper_address2").val('');
+              		        	$("#shipper_address3").val('');
+              		        	$("#shipper_address4").val('');
+              		        	$("#shipper_city").val('');
+              		        	$("#shipper_pincode").val('');
+              		        	$("#shipper_phone").val('');
+              		        	$("#shipper_mobile").val('');
+              		        	$("#shipper_email").val('');
+              		        	$("#shipper_tin").val('');
+              		        	$("#shipper_ou").val('');
+              		        	
+              		        	$("#shipper_name").trigger("change");
+            		        	$("#shipper_address1").trigger("change");
+            		        	$("#shipper_address2").trigger("change");
+            		        	$("#shipper_address3").trigger("change");
+            		        	$("#shipper_address4").trigger("change");
+            		        	$("#shipper_city").trigger("change");
+            		        	$("#shipper_pincode").trigger("change");
+            		        	$("#shipper_phone").trigger("change");
+            		        	$("#shipper_mobile").trigger("change");
+            		        	$("#shipper_email").trigger("change");
+            		        	$("#shipper_tin").trigger("change");
+    			        	}
+          		        	
+          		        	
+          		        	return false;
           		        	
           		        },
     			        select: function( event, ui ) {
@@ -733,31 +764,35 @@
     		          $("#receiver_code").val( ui.item.custCode );
     		          return false;
     		        },
-    		        change: function(){
-    		        	$("#receiver_name").val('');    		        	
-    		        	$("#receiver_address1").val('');
-    		        	$("#receiver_address2").val('');
-    		        	$("#receiver_address3").val('');
-    		        	$("#receiver_address4").val('');
-    		        	$("#receiver_city").val('');
-    		        	$("#receiver_pincode").val('');
-    		        	$("#receiver_phone").val('');
-    		        	$("#receiver_mobile").val('');
-    		        	$("#receiver_email").val('');
-    		        	$("#receiver_tin").val('');
-    		        	$("#delivery_ou").val('');
+    		        change: function(event, ui){
     		        	
-    		        	$("#receiver_name").trigger("change");
-    		        	$("#receiver_address1").trigger("change");
-    		        	$("#receiver_address2").trigger("change");
-    		        	$("#receiver_address3").trigger("change");
-    		        	$("#receiver_address4").trigger("change");
-    		        	$("#receiver_city").trigger("change");
-    		        	$("#receiver_pincode").trigger("change");
-    		        	$("#receiver_phone").trigger("change");
-    		        	$("#receiver_mobile").trigger("change");
-    		        	$("#receiver_email").trigger("change");
-    		        	$("#receiver_tin").trigger("change");
+    		        	if(ui.item == null){
+    		        		$("#receiver_name").val('');    		        	
+        		        	$("#receiver_address1").val('');
+        		        	$("#receiver_address2").val('');
+        		        	$("#receiver_address3").val('');
+        		        	$("#receiver_address4").val('');
+        		        	$("#receiver_city").val('');
+        		        	$("#receiver_pincode").val('');
+        		        	$("#receiver_phone").val('');
+        		        	$("#receiver_mobile").val('');
+        		        	$("#receiver_email").val('');
+        		        	$("#receiver_tin").val('');
+        		        	$("#delivery_ou").val('');
+        		        	
+        		        	$("#receiver_name").trigger("change");
+        		        	$("#receiver_address1").trigger("change");
+        		        	$("#receiver_address2").trigger("change");
+        		        	$("#receiver_address3").trigger("change");
+        		        	$("#receiver_address4").trigger("change");
+        		        	$("#receiver_city").trigger("change");
+        		        	$("#receiver_pincode").trigger("change");
+        		        	$("#receiver_phone").trigger("change");
+        		        	$("#receiver_mobile").trigger("change");
+        		        	$("#receiver_email").trigger("change");
+        		        	$("#receiver_tin").trigger("change");
+    		        	}    		        	
+    		        	return false;
     		        },    		        
     		        select: function( event, ui ) {
     		        	$("#receiver_code").val( ui.item.custCode );
@@ -807,11 +842,13 @@
     		              }
     		            } );
     		          },
-    		        change: function(){
-    		        	$( "#shipper_tin" ).val('');
-    		        	$( "#booking_ou" ).val('');
-    		        	
-    		        	$("#shipper_tin").trigger("change");  
+    		        change: function( event, ui ){
+    		        	if(ui.item == null){
+    		        		$( "#shipper_tin" ).val('');
+        		        	$( "#booking_ou" ).val('');
+        		        	
+        		        	$("#shipper_tin").trigger("change");
+    		        	}    		        	  
     		        },
     		        focus: function( event, ui ) {
     		          $( "#shipper_pincode" ).val( ui.item.pincode );
@@ -846,10 +883,15 @@
     			            } );
     			          },
    			          change: function(){
+   			        	if(ui.item == null){
    	    		        	$( "#receiver_tin" ).val('');
    	    		        	$( "#delivery_ou" ).val('');
+   	    		        	$("#ess_code").val('');
    	    		        	
-   	    		        	$("#receiver_tin").trigger("change");  
+   	    		        	$("#receiver_tin").trigger("change"); 
+   	    		        	return false;
+   			        	  }
+   	    		        	
    	    		        },
     			        focus: function( event, ui ) {
     			          $( "#receiver_pincode" ).val( ui.item.pincode );			          

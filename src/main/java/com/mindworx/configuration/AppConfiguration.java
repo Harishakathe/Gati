@@ -4,14 +4,16 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.codehaus.jackson.impl.ReaderBasedParser;
-import org.springframework.beans.factory.annotation.Value;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -21,6 +23,8 @@ import org.springframework.web.servlet.view.JstlView;
 
 import com.mindworx.dao.PickupDetailsDao;
 import com.mindworx.dao.PickupDetailsDaoImpl;
+import com.mindworx.validator.PickupDetailsValidator;
+import com.nimbusds.oauth2.sdk.Message;
 
 import oracle.jdbc.pool.OracleDataSource;
 
@@ -29,18 +33,12 @@ import oracle.jdbc.pool.OracleDataSource;
 @ComponentScan(basePackages = "com.mindworx")
 @PropertySources({
 	@PropertySource("classpath:config.properties"),
-	@PropertySource("classpath:validation.properties")
+	@PropertySource("classpath:messages.properties")
 })
 public class AppConfiguration extends WebMvcConfigurerAdapter{
 	
-	@Value("${url}")
-	private String url;
-	
-	@Value("${user}")
-	private String user;
-	
-	@Value("${password}")
-	private String password;
+	@Autowired
+	private Environment env;
 	
 	@Bean
 	public ViewResolver viewResolver(){
@@ -61,9 +59,9 @@ public class AppConfiguration extends WebMvcConfigurerAdapter{
 		OracleDataSource dataSource = null;
 		try {
 			dataSource = new OracleDataSource();		
-	        dataSource.setUser(user);
-	        dataSource.setPassword(password);
-	        dataSource.setURL(url);
+	        dataSource.setUser(env.getProperty("user"));
+	        dataSource.setPassword(env.getProperty("password"));
+	        dataSource.setURL(env.getProperty("url"));
 	        dataSource.setImplicitCachingEnabled(true);
 	        dataSource.setFastConnectionFailoverEnabled(true);
 		} catch (SQLException e) {
@@ -77,5 +75,18 @@ public class AppConfiguration extends WebMvcConfigurerAdapter{
     public PickupDetailsDao getPickupDetailsDao() {
         return new PickupDetailsDaoImpl(getDataSource());
     }
+    
+    @Bean
+    public PickupDetailsValidator pickupDetailsValidator() {
+        return new PickupDetailsValidator();
+    }
+           
+    /*@Bean
+    public MessageSource messageSource(){
+    	ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+    	messageSource.setBasename("classpath:messages");
+    	messageSource.setDefaultEncoding("UTF-8");
+    	return messageSource;
+    }*/
         
 }

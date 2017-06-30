@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -28,6 +29,14 @@ public class PickupDetailsController {
 	public String getIndex() {
 		return "index";
 	}
+	
+	@RequestMapping(value = "/printdocket",method = RequestMethod.GET)
+	public String getPrintInvoice(ModelMap map) {
+		//map.addAttribute(attributeValue)
+		return "dktprintintl_m_true";
+	}
+	
+	
 	
 	
 	//-------------------Create a Customer Requset --------------------------------------------------------

@@ -250,6 +250,54 @@ $(document).ready(function(){
             if($current >= $total) {
                 $($wizard).find('.btn-next').hide();
                 $($wizard).find('.btn-finish').show();
+                
+                $("#lbl_receiver_code").html( $("#receiver_code").val());
+                $("#lbl_receiver_name").html( $("#receiver_name").val());
+                $("#lbl_receiver_address1").html( $("#receiver_address1").val());
+                $("#lbl_receiver_address2").html( $("#receiver_address2").val());
+                $("#lbl_receiver_address3").html( $("#receiver_address3").val());
+                $("#lbl_receiver_address4").html( $("#receiver_address4").val());
+                $("#lbl_receiver_city").html( $("#receiver_city").val());
+                $("#lbl_receiver_pincode").html( $("#receiver_pincode").val());
+                $("#lbl_receiver_phone").html( $("#receiver_phone").val());
+                $("#lbl_receiver_mobile").html( $("#receiver_mobile").val());
+                $("#lbl_receiver_email").html( $("#receiver_email").val());
+                $("#lbl_receiver_tin").html( $("#receiver_tin").val());
+                $("#lbl_receiver_ou").html( $("#receiver_ou").val());
+                $("#lbl_shipper_code").html( $("#shipper_code").val());     
+                $("#lbl_shipper_name").html( $("#shipper_name").val());   		  	 	
+                $("#lbl_shipper_address1").html( $("#shipper_address1").val());
+                $("#lbl_shipper_address2").html( $("#shipper_address2").val());
+                $("#lbl_shipper_address3").html( $("#shipper_address3").val());
+                $("#lbl_shipper_address4").html( $("#shipper_address4").val());
+                $("#lbl_shipper_city").html( $("#shipper_city").val());
+                $("#lbl_shipper_pincode").html( $("#shipper_pincode").val());
+                $("#lbl_shipper_phone").html( $("#shipper_phone").val());
+                $("#lbl_shipper_mobile").html( $("#shipper_mobile").val());
+                $("#lbl_shipper_email").html( $("#shipper_email").val());
+                $("#lbl_shipper_tin").html( $("#shipper_tin").val());
+                $("#lbl_shipper_ou").html( $("#shipper_ou").val());
+                        
+                $("#lbl_docket_type").html( $("#docket_type").val());
+                $("#lbl_docket_category").html( $("#docket_category").val());
+                $("#lbl_product").html( $("#product option:selected").text());
+                $("#lbl_booking_basis").html( $("#booking_basis option:selected").text());
+                $("#lbl_goods_code").html( $("#goods_code option:selected").text());
+                $("#lbl_booking_pincode").html( $("#shipper_pincode").val());
+                $("#lbl_delivery_pincode").html( $("#receiver_pincode").val());
+                $("#lbl_no_of_packages").html( $("#no_of_packages").val());
+                $("#lbl_package_number_from").html( $("#package_number_from").val());
+                $("#lbl_package_number_to").html( $("#package_number_to").val());
+                $("#lbl_package_type").html( $("#package_type").val());
+                $("#lbl_shipment_value").html( $("#shipment_value").val());
+                $("#lbl_risk").html( $("#risk option:selected").text());
+                $("#lbl_volume").html( $("#volume").val());
+                $("#lbl_uom").html( $("#uom option:selected").text());
+                $("#lbl_actual_weight").html( $("#actual_weight").val());
+                $("#lbl_cod_flag").html( $("#cod_flag option:selected").text());
+                $("#lbl_cod_dod_in_favor").html( $("#cod_dod_in_favor option:selected").text());
+                $("#lbl_cod_dod_amount").html( $("#cod_dod_amount").val());  
+                
             } else {
                 $($wizard).find('.btn-next').show();
                 $($wizard).find('.btn-finish').hide();
@@ -277,76 +325,83 @@ $(document).ready(function(){
             }
 
             refreshAnimation($wizard, index);
-        },
-        onFinish: function(event, index){
-        	e.preventDefault();
-            var form = $("#PickupDetailsForm");
-            var xml = ConvertFormToXML(form);
-            var json = ConvertFormToJSON(form);
-            
-            console.log(JSON.stringify(json));
-            console.log(xml);
-            
-            $.ajax({
-                type: form.method,
-                url: form.action,
-                data: xml,
-                contentType: 'application/xml',
-                headers: {
-            	    Accept: "application/json"
-            	  },
-                success: function (data) {
-                	console.log(data);
-                	 if(data.status=='SUCCESS'){
-                		 alert("Inserting Success:" +data.result);
-                	 }
-                	 else{
-                		 if(data.message==='Inserting Error'){
-                			 alert(data.message+" : "+data.result);
-                		 }
-                		 if(data.message==='Docket Generation Error'){
-                			 alert(data.message+" : "+data.result);
-                		 }
-                		 if(data.message==='Validation XML Error'){
-                			 alert(data.message+" : "+data.result);
-                		 }
-                		 else{
-                			 console.log(data.result);
-                			 var validator = $( "#PickupDetailsForm" ).validate({
-                				 errorElement: "em",
-                				 errorPlacement: function ( error, element ) {
-										// Add the `help-block` class to the error element
-										error.addClass( "help-block" );         	
-										// Add `has-feedback` class to the parent div.form-group
-										// in order to add icons to inputs
-										element.parent().addClass( "has-feedback" );         	
-										if ( element.prop( "type" ) === "checkbox" ) {
-											error.insertAfter( element.parent( "label" ) );
-										} else {
-											error.insertAfter( element );
-										}
-										// Add the span element, if doesn't exists, and apply the icon classes to it.
-										if ( !element.next( "span" )[ 0 ] ) {
-											$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
-										}
-									},
-                				 highlight: function ( element, errorClass, validClass ) {                                            					 
-										$( element ).parent().addClass( "has-error" ).removeClass( "has-success" );
-										$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
-									}});
-                			 validator.showErrors(data.result);                                            			
-                		 }
-                	 }
-                },
-                error:function(e){
-                	alert(e);
-                }
-            });   
         }
+        
   	}); 	
 
     // Prepare the preview for profile picture    
     $('.set-full-height').css('height', 'auto');
+
+
+
+    $(".wizard-card input[name*='finish']").click(function(event){
+    	console.log("onFinish");
+    	event.preventDefault();
+        var form = $("#PickupDetailsForm");
+        var xml = ConvertFormToXML(form);
+        var json = ConvertFormToJSON(form);
+        
+        console.log(JSON.stringify(json));
+        console.log(xml);
+        $.ajax({
+        	method: form.attr('method'),
+            url: form.attr('action'),
+            data: xml,
+            contentType: 'application/xml',
+            headers: {
+        	    Accept: "application/json"
+        	  },
+            success: function (data) {
+            	console.log(data);
+            	 if(data.status=='SUCCESS'){
+            		 alert("Inserting Success:" +data.result);
+            	 }
+            	 else{
+            		 if(data.message==='Inserting Error'){
+            			 alert(data.message+" : "+data.result);
+            		 }
+            		 if(data.message==='Docket Generation Error'){
+            			 alert(data.message+" : "+data.result);
+            		 }
+            		 if(data.message==='Validation XML Error'){
+            			 alert(data.message+" : "+data.result);
+            		 }
+            		 else{
+            			 console.log(data.result);
+            			 var validator = $( "#PickupDetailsForm" ).validate({
+            				 errorElement: "em",
+            				 errorPlacement: function ( error, element ) {
+									// Add the `help-block` class to the error element
+									error.addClass( "help-block" );         	
+									// Add `has-feedback` class to the parent div.form-group
+									// in order to add icons to inputs
+									element.parent().addClass( "has-feedback" );         	
+									if ( element.prop( "type" ) === "checkbox" ) {
+										error.insertAfter( element.parent( "label" ) );
+									} else {
+										error.insertAfter( element );
+									}
+									// Add the span element, if doesn't exists, and apply the icon classes to it.
+									if ( !element.next( "span" )[ 0 ] ) {
+										$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+									}
+								},
+            				 highlight: function ( element, errorClass, validClass ) {                                            					 
+									$( element ).parent().addClass( "has-error" ).removeClass( "has-success" );
+									$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+								}});
+            			 validator.showErrors(data.result);                                            			
+            		 }
+            	 }
+            },
+            error:function(e){
+            	alert(e);
+            }
+        });   
+    });
+
+
+
 
 });
 
