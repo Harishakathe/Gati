@@ -49,6 +49,11 @@ public class PickupDetailsRestController {
     public void testConnection() {
     	 System.out.println("count : "+pickupDetailsDao.getGEMS_WS_CUST_AUTO_prod_vals());
     }
+	
+	@RequestMapping(value = "/testtable", method = RequestMethod.GET)
+    public void descTable() {
+    	 System.out.println("count : "+pickupDetailsDao.descTable());
+    }
     
     @RequestMapping(value = "/getBookingStation/{cust_code}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getBookingStation(@PathVariable String cust_code) {
@@ -112,8 +117,10 @@ public class PickupDetailsRestController {
 	        		o = parser.parse(output).getAsJsonObject();
 	        		
 	        		if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
+	        			logger.info("Docket Inserted Success. Your Docket No:"+o.get("Docket_No").getAsLong());
 	        			res.setStatus("SUCCESS");
-			        	res.setMessage("Docket Inserted Success");
+			        	res.setMessage("Docket Inserted Success. Your Docket No:"+o.get("Docket_No").getAsLong());
+			        	res.setResult(o.get("Docket_No").getAsLong());
 	        		}else{	        			
 			        	res.setStatus("FAIL");
 			        	res.setMessage("Inserting Error");

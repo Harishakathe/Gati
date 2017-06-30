@@ -3,6 +3,8 @@ package com.mindworx.controller;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
@@ -11,12 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-
-
+import com.mindworx.dao.PickupDetailsDao;
 import com.mindworx.model.PickupDetails;
 
 
@@ -30,61 +31,27 @@ public class PickupDetailsController {
 		return "index";
 	}
 	
-	@RequestMapping(value = "/printdocket",method = RequestMethod.GET)
-	public String getPrintInvoice(ModelMap map) {
-		//map.addAttribute(attributeValue)
-		return "dktprintintl_m_true";
+	
+	@Autowired
+    private PickupDetailsDao pickupDetailsDao;
+	
+	private static final Logger log = Logger.getLogger(PickupDetailsController.class);
+	
+	@RequestMapping(value = "/recipt/{docket_no}",method = RequestMethod.GET)
+	public String getPrintReceipt(@PathVariable("docket_no") int docket_no,ModelMap map) {
+		PickupDetails pickupDetails = pickupDetailsDao.getPickupDetails(docket_no);
+		log.info(pickupDetails);
+		map.addAttribute(pickupDetails);
+		return "recipt";
 	}
-	
-	
-	
 	
 	//-------------------Create a Customer Requset --------------------------------------------------------
      
     @RequestMapping(value = "/generate_xml", method = RequestMethod.POST)
     public ResponseEntity<PickupDetails> generateXml(@ModelAttribute("pickupDetails") @Valid PickupDetails pickupDetails,BindingResult result, Model model) {
-    	return new ResponseEntity<PickupDetails>(pickupDetails, HttpStatus.OK);
-    	/*// Create the JAXBContext
-        JAXBContext jc;
-		try {
-			
-			jc = JAXBContext.newInstance(PickupDetails.class);
-			// Create the Document
-	        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder db = dbf.newDocumentBuilder();
-	        Document document = db.newDocument();
-
-	        // Marshal the Object to a Document
-	        Marshaller marshaller = jc.createMarshaller();
-	        marshaller.marshal(pickupDetails, document);
-
-	        // Output the Document
-	        TransformerFactory tf = TransformerFactory.newInstance();
-	        Transformer t = tf.newTransformer();
-	        DOMSource source = new DOMSource(document);
-	        StreamResult streamResult = new StreamResult(System.out);
-	        t.transform(source, streamResult);
-	        
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-        
     	
-    	//return new ResponseEntity<PickupDetails>(pickupDetails, HttpStatus.OK);
-        if (result.hasErrors()) {
-    		System.out.println("error"); ;
-    	}*/
+    	
+    	return new ResponseEntity<PickupDetails>(pickupDetails, HttpStatus.OK);
     	
     }
     

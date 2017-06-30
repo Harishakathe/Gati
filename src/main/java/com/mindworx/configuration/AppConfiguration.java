@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +39,7 @@ public class AppConfiguration extends WebMvcConfigurerAdapter{
 	
 	@Autowired
 	private Environment env;
+	private static final Logger log = Logger.getLogger(AppConfiguration.class);
 	
 	@Bean
 	public ViewResolver viewResolver(){
@@ -56,12 +57,13 @@ public class AppConfiguration extends WebMvcConfigurerAdapter{
 	
 	@Bean
     public DataSource getDataSource() {
+		log.info("url:"+env.getProperty("url")+" user:"+env.getProperty("user")+" password:"+env.getProperty("password"));
 		OracleDataSource dataSource = null;
 		try {
-			dataSource = new OracleDataSource();		
+			dataSource = new OracleDataSource();
+			dataSource.setURL(env.getProperty("url"));
 	        dataSource.setUser(env.getProperty("user"));
-	        dataSource.setPassword(env.getProperty("password"));
-	        dataSource.setURL(env.getProperty("url"));
+	        dataSource.setPassword(env.getProperty("password"));	        
 	        dataSource.setImplicitCachingEnabled(true);
 	        dataSource.setFastConnectionFailoverEnabled(true);
 		} catch (SQLException e) {

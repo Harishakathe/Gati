@@ -35,6 +35,11 @@ $(document).ready(function(){
         return this.optional(element) || /^[0-9]{10}$/i.test(value);
     }, "It is not valid mobile number.input 10 digits number!");
 	
+	$.validator.addMethod("float", function(value, element) {
+        return this.optional(element) || /^\d*[0-9](|.\d*[0-9]|,\d*[0-9]){1,7}$/i.test(value);
+    }, "It is not valid number!");
+	
+	
     var $validator = $('.wizard-card form').validate({
 		  rules: {
 		    receiver_code: {
@@ -136,7 +141,7 @@ $(document).ready(function(){
 			shipper_tin: {
 				required: true,
 				minlength: 3,
-			},				
+			},			
 		    docket_type: {
 				required: true
 		    },
@@ -201,6 +206,28 @@ $(document).ready(function(){
             $(element).parent('div').addClass('has-error');
          }
 	});
+    
+    var template = jQuery.validator.format($.trim($("#template").val()));
+
+	function addRow() {
+		console.log("add row");
+		$(template(i++)).appendTo("#package_details_div");
+		$("#no_of_packages").val(i);
+		$("#no_of_packages").trigger("change");
+		$('.pkg').each(function () {
+	        $(this).rules("add", {
+	            required: true,
+	            float: true,
+	        });
+	    });
+	}
+
+	var i = 0;
+	// start with one row
+	addRow();
+	// add more rows on click
+	$("#add").click(addRow);
+    
 
     // Wizard Initialization
   	$('.wizard-card').bootstrapWizard({
@@ -354,7 +381,8 @@ $(document).ready(function(){
             success: function (data) {
             	console.log(data);
             	 if(data.status=='SUCCESS'){
-            		 alert("Inserting Success:" +data.result);
+            		alert(data.message);
+            		window.location = "recipt/"+data.result;
             	 }
             	 else{
             		 if(data.message==='Inserting Error'){

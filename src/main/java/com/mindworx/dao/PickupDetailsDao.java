@@ -7,7 +7,7 @@ import com.mindworx.model.PickupDetails;
 
 public interface PickupDetailsDao {
 	
-	public PickupDetails getPickupDetails();
+	public PickupDetails getPickupDetails(int Docket_no);
 	public long getGEMS_WS_CUST_AUTO_prod_vals();
 	public String getBookingStation(String cust_code);
 	public String getGoodType();
@@ -19,4 +19,5 @@ public interface PickupDetailsDao {
 	public String getContractNo(String cust_code);
 	public String generateDocketNo(PickupDetails p);
 	public String insertDocket(PickupDetails p);
+	public String descTable();
 }

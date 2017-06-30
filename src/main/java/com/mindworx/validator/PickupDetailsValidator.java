@@ -67,8 +67,6 @@ public class PickupDetailsValidator implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "booking_ou", env.getProperty("NotEmpty.booking_oucode"));
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "delivery_ou", env.getProperty("NotEmpty.delivery_oucode"));
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "no_of_packages", env.getProperty("NotEmpty.no_of_packages"));
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "package_number_from", env.getProperty("NotEmpty.package_number_from"));
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "package_number_to", env.getProperty("NotEmpty.package_number_to"));
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "package_type", env.getProperty("NotEmpty.package_type"));
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shipment_value", env.getProperty("NotEmpty.shipment_value"));
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "risk", env.getProperty("NotEmpty.risk"));
@@ -98,14 +96,6 @@ public class PickupDetailsValidator implements Validator{
 		if(!numberValidator.valid(details.getNo_of_packages())){
 			errors.rejectValue("no_of_packages", "No of Packages Must be Number");
 		}
-		
-		/*if(!numberValidator.valid(details.getPackage_number_from())){
-			errors.rejectValue("package_number_from", "Package Number From Must be Number");
-		}
-		
-		if(!numberValidator.valid(details.getPackage_number_to())){
-			errors.rejectValue("package_number_to", "Package Number To Must be Number");
-		}*/
 		
 		if(!numberValidator.valid(details.getShipment_value())){
 			errors.rejectValue("shipment_value", "Shipment Value To Must be Number");			

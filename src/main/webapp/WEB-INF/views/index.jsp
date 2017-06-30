@@ -339,43 +339,14 @@
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
                                                                 <label class="control-label">No. of Packages <small>(requird)</small></label>
-                                                                <input type="text" class="form-control" name="no_of_packages" id="no_of_packages">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-5 col-sm-offset-1">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group label-floating">
-                                                                        <label class="control-label">Length <small>(requird)</small></label>
-                                                                        <input type="text" class="form-control" name="package_details[0].pkg_ln">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group label-floating">
-                                                                        <label class="control-label">Breadth <small>(requird)</small></label>
-                                                                        <input type="text" class="form-control" name="package_details[0].pkg_ln">
-                                                                    </div>
-                                                                </div>
+                                                                <input type="text" class="form-control" name="no_of_packages" id="no_of_packages" readonly>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5">
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group label-floating">
-                                                                        <label class="control-label">Height <small>(requird)</small></label>
-                                                                        <input type="text" class="form-control" name="package_details[0].pkg_ln">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group label-floating">
-                                                                        <label class="control-label">Weight <small>(requird)</small></label>
-                                                                        <input type="text" class="form-control" name="package_details[0].pkg_ln">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            <button type="button" class="btn btn-primary" id="add"><i class="fa fa-plus"></i>&emsp;Add Packages</button>
                                                         </div>
+                                                    </div>
+                                                    <div class="row" id="package_details_div">                                                        
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-sm-5 col-sm-offset-1">
@@ -574,6 +545,40 @@
                                             </div>
                                             <div class="clearfix"></div>
                                         </div>
+                                        <textarea style="display:none" id="template">
+	                                       	<div class="col-sm-5 col-sm-offset-1">
+		                                         <div class="row">
+		                                             <div class="col-sm-6">
+		                                                 <div class="form-group label-floating is-empty">
+		                                                     <label class="control-label">Length <small>(requird)</small></label>
+		                                                     <input type="text" class="form-control pkg pkg_ln" name="package_details[{0}].pkg_ln">
+		                                                 </div>
+		                                             </div>
+		                                             <div class="col-sm-6">
+		                                                 <div class="form-group label-floating is-empty">
+		                                                     <label class="control-label">Breadth <small>(requird)</small></label>
+		                                                     <input type="text" class="form-control pkg pkg_br" name="package_details[{0}].pkg_br">
+		                                                 </div>
+		                                             </div>
+		                                         </div>
+		                                     </div>
+		                                     <div class="col-sm-5">
+		                                         <div class="row">
+		                                             <div class="col-sm-6">
+		                                                 <div class="form-group label-floating is-empty">
+		                                                     <label class="control-label">Height <small>(requird)</small></label>
+		                                                     <input type="text" class="form-control pkg pkg_ht" name="package_details[{0}].pkg_ht">
+		                                                 </div>
+		                                             </div>
+		                                             <div class="col-sm-6">
+		                                                 <div class="form-group label-floating is-empty">
+		                                                     <label class="control-label">Weight <small>(requird)</small></label>
+		                                                     <input type="text" class="form-control pkg pkg_wt " name="package_details[{0}].pkg_wt">
+		                                                 </div>
+		                                             </div>
+		                                         </div>
+		                                     </div>
+	                                     </textarea>
                                     </form>
                                 </div>
                             </div> <!-- wizard container -->

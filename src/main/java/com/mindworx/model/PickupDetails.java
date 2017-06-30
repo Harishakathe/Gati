@@ -47,8 +47,8 @@ public class PickupDetails {
 	private String booking_ou;
 	private String delivery_ou;
 	private String no_of_packages;
-	private String package_number_from;
-	private String package_number_to;
+	//private String package_number_from;
+	//private String package_number_to;
 	private String package_type;
 	private String Shipment_value;
 	private String risk;
@@ -355,7 +355,7 @@ public class PickupDetails {
 		this.no_of_packages = no_of_packages;
 	}
 
-	public String getPackage_number_from() {
+	/*public String getPackage_number_from() {
 		return package_number_from;
 	}
 
@@ -369,7 +369,7 @@ public class PickupDetails {
 
 	public void setPackage_number_to(String package_number_to) {
 		this.package_number_to = package_number_to;
-	}
+	}*/
 
 	public String getPackage_type() {
 		return package_type;
