@@ -39,7 +39,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	public PickupDetails getPickupDetails(int Docket_no) {
 		PickupDetails p = new PickupDetails();
 		
-		String sql = "SELECT DOCKET_NO,BOOKING_STN,DELIVERY_STN,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,ESS_CODE,consignor_tinno,consignee_tinno,created_date,UPLOAD_FLAG,STATUS FROM gemsprod.GEMS_GKE_DOCKET_UPLOAD WHERE DOCKET_NO = "+Docket_no;
+		String sql = "SELECT DOCKET_NO,BOOKING_STN,DELIVERY_STN,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,COD_AMT,ESS_CODE,consignor_tinno,consignee_tinno,created_date,UPLOAD_FLAG,STATUS FROM gemsprod.GEMS_GKE_DOCKET_UPLOAD WHERE DOCKET_NO = "+Docket_no;
 		//String sql = "SELECT * FROM GEMSPROD.GEMS_GKE_DOCKET_UPLOAD WHERE DOCKET_NO = "+Docket_no;
 		String sql1 = "SELECT PKG_NO,PKG_LN,PKG_BR,PKG_HT,PKG_WT FROM gemsprod.TEMP_DOCKET_ITEM_DTLS WHERE DOCKET_NO = "+Docket_no;
 		
@@ -90,10 +90,11 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 				p.setReceiver_email(rs.getString(34));
 				p.setCod_flag(rs.getString(35));
 				p.setCod_dod_in_favor(rs.getString(36));
-				p.setEss_code(rs.getString(37));
-				p.setShipper_tin(rs.getString(38));
-				p.setReceiver_tin(rs.getString(39));
-				p.setPickup_date(rs.getTimestamp(40));
+				p.setCod_dod_amount(rs.getString(37));
+				p.setEss_code(rs.getString(38));
+				p.setShipper_tin(rs.getString(39));
+				p.setReceiver_tin(rs.getString(40));
+				p.setPickup_date(rs.getTimestamp(41));
 				
 				st1 = connection.createStatement();
 				ResultSet rs1 = st1.executeQuery(sql1);
@@ -392,7 +393,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	//for Submit form and insert data
 	@Override
 	public String insertDocket(PickupDetails p){
-		String sql = "insert into gemsprod.GEMS_GKE_DOCKET_UPLOAD(LOAD_SEQ_NO,created_date,DOCKET_NO,BOOKING_STN,DELIVERY_STN,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,ESS_CODE,consignor_tinno,consignee_tinno,UPLOAD_FLAG,STATUS)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),sysdate,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'V')";
+		String sql = "insert into gemsprod.GEMS_GKE_DOCKET_UPLOAD(LOAD_SEQ_NO,created_date,DOCKET_NO,BOOKING_STN,DELIVERY_STN,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,COD_AMT,ESS_CODE,consignor_tinno,consignee_tinno,UPLOAD_FLAG,STATUS)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),sysdate,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'V')";
 		String sql1 = "insert into gemsprod.TEMP_DOCKET_ITEM_DTLS(LOAD_SEQNO,DOCKET_NO,PKG_LN,PKG_BR,PKG_HT,PKG_WT)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),?,?,?,?,?)";
 		
 		int maxBatchSize = 100;
@@ -439,10 +440,11 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			ps.setString(34,p.getReceiver_email());
 			ps.setString(35,p.getCod_flag());
 			ps.setString(36,p.getCod_dod_in_favor());
-			ps.setString(37,p.getEss_code());
-			ps.setString(38,p.getShipper_tin());
-			ps.setString(39,p.getReceiver_tin());
-			ps.setString(40,"W");
+			ps.setString(37, p.getCod_dod_amount());
+			ps.setString(38,p.getEss_code());
+			ps.setString(39,p.getShipper_tin());
+			ps.setString(40,p.getReceiver_tin());
+			ps.setString(41,"W");
 			ResultSet rs = ps.executeQuery();
 			
 			if(rs.next()){

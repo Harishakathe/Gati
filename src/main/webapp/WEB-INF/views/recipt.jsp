@@ -112,7 +112,14 @@
                         </tr>
                         <tr>
                            <td class="td1" height="20">
-                           	<span class="head">&nbsp;Basis : </span> ${pickupDetails.booking_basis}
+                           	<span class="head">&nbsp;Basis : </span>
+                           	<c:choose>
+                           		<c:when test="${pickupDetails.booking_basis=='1'}">PAID</c:when>
+                           		<c:when test="${pickupDetails.booking_basis=='2'}">TBB</c:when>
+                           		<c:when test="${pickupDetails.booking_basis=='4'}">FOD</c:when>
+                           		<c:when test="${pickupDetails.booking_basis=='6'}">BOD</c:when>                           		
+                           	</c:choose>
+                           	
                            </td>
                            <td class="td1" valign="top" width="130">
                            	<span class="head">&nbsp;No. of Pkgs : </span> ${pickupDetails.no_of_packages}
@@ -123,7 +130,7 @@
                            	<span class="head">&nbsp;COD : </span>${pickupDetails.cod_flag} 
                            </td>
                            <td class="td1">
-                           	<span class="head">&nbsp;COD in Fav : </span> ${pickupDetails.cod_dod_in_favor}
+                           	<span class="head">&nbsp;COD in Fav : </span> ${pickupDetails.cod_dod_in_favor=="G"?"Gati":"Shipper"}
                            </td>
                         </tr>
                         <tr>
@@ -195,7 +202,7 @@
                            <td class="td1" height="56" valign="top">
 	                           <span class="head">&nbsp;Booking Date :</span> ${pickupDetails.pickup_date} <br>
 	                           <span class="head">&nbsp;Assured Dly Date:</span> ${pickupDetails.pickup_date} <br>
-	                           <span class="head">&nbsp;Risk Coverage :</span> ${pickupDetails.risk}
+	                           <span class="head">&nbsp;Risk Coverage :</span> ${pickupDetails.risk=="CR"? "Gati" :"Owner"} Risk
                            </td>
                         </tr>
                         <tr>
@@ -272,7 +279,13 @@
                         </tr>
                         <tr>
                            <td class="td1" height="20">
-                           	<span class="head">&nbsp;Basis : </span> ${pickupDetails.booking_basis}
+                           	<span class="head">&nbsp;Basis : </span>
+                           	<c:choose>
+                           		<c:when test="${pickupDetails.booking_basis=='1'}">PAID</c:when>
+                           		<c:when test="${pickupDetails.booking_basis=='2'}">TBB</c:when>
+                           		<c:when test="${pickupDetails.booking_basis=='4'}">FOD</c:when>
+                           		<c:when test="${pickupDetails.booking_basis=='6'}">BOD</c:when>                           		
+                           	</c:choose>
                            </td>
                            <td class="td1" valign="top" width="130">
                            	<span class="head">&nbsp;No. of Pkgs : </span> ${pickupDetails.no_of_packages}
@@ -283,7 +296,7 @@
                            	<span class="head">&nbsp;COD : </span>${pickupDetails.cod_flag} 
                            </td>
                            <td class="td1">
-                           	<span class="head">&nbsp;COD in Fav : </span> ${pickupDetails.cod_dod_in_favor}
+                           	<span class="head">&nbsp;COD in Fav : </span> ${pickupDetails.cod_dod_in_favor=="G"?"Gati":"Shipper"}
                            </td>
                         </tr>
                         <tr>
@@ -355,7 +368,7 @@
                            <td class="td1" height="50" valign="top">
                                <span class="head">&nbsp;Booking Date :</span> ${pickupDetails.pickup_date} <br>
 	                           <span class="head">&nbsp;Assured Dly Date:</span> ${pickupDetails.pickup_date} <br>
-	                           <span class="head">&nbsp;Risk Coverage :</span> ${pickupDetails.risk}                           
+	                           <span class="head">&nbsp;Risk Coverage :</span> ${pickupDetails.risk=="CR"? "Gati" :"Owner"} Risk                           
                            </td>
                         </tr>
                         <tr>
@@ -430,7 +443,13 @@
                         </tr>
                         <tr>
                            <td class="td1" height="20">
-                           	<span class="head">&nbsp;Basis : </span> ${pickupDetails.booking_basis}
+                           	<span class="head">&nbsp;Basis : </span>
+                           	<c:choose>
+                           		<c:when test="${pickupDetails.booking_basis=='1'}">PAID</c:when>
+                           		<c:when test="${pickupDetails.booking_basis=='2'}">TBB</c:when>
+                           		<c:when test="${pickupDetails.booking_basis=='4'}">FOD</c:when>
+                           		<c:when test="${pickupDetails.booking_basis=='6'}">BOD</c:when>                           		
+                           	</c:choose>
                            </td>
                            <td class="td1" valign="top" width="130">
                            	<span class="head">&nbsp;No. of Pkgs : </span> ${pickupDetails.no_of_packages}
@@ -441,7 +460,7 @@
                            	<span class="head">&nbsp;COD : </span>${pickupDetails.cod_flag} 
                            </td>
                            <td class="td1">
-                           	<span class="head">&nbsp;COD in Fav : </span> ${pickupDetails.cod_dod_in_favor}
+                           	<span class="head">&nbsp;COD in Fav : </span> ${pickupDetails.cod_dod_in_favor=="G"?"Gati":"Shipper"}
                            </td>
                         </tr>
                         <tr>
@@ -512,7 +531,7 @@
                            <td class="td1" height="50" valign="top">
                                <span class="head">&nbsp;Booking Date :</span> ${pickupDetails.pickup_date} <br>
 	                           <span class="head">&nbsp;Assured Dly Date:</span> ${pickupDetails.pickup_date} <br>
-	                           <span class="head">&nbsp;Risk Coverage :</span> ${pickupDetails.risk}
+	                           <span class="head">&nbsp;Risk Coverage :</span> ${pickupDetails.risk=="CR"? "Gati" :"Owner"} Risk
                            </td>
                         </tr>
                         <tr>
