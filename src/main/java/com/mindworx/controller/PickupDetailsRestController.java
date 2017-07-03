@@ -22,15 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mindworx.dao.PickupDetailsDao;
 import com.mindworx.model.CustomerList;
 import com.mindworx.model.JsonResponse;
 import com.mindworx.model.PickupDetails;
-import com.mindworx.validator.PickupDetailsValidator;
 
 @RestController
 public class PickupDetailsRestController {
