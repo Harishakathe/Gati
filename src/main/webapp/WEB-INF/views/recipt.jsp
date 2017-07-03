@@ -1,6 +1,7 @@
 <%@page session="false"%>
 <%@page isELIgnored="false"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
@@ -200,8 +201,9 @@
                         </tr>
                         <tr>
                            <td class="td1" height="56" valign="top">
-	                           <span class="head">&nbsp;Booking Date :</span> ${pickupDetails.pickup_date} <br>
-	                           <span class="head">&nbsp;Assured Dly Date:</span> ${pickupDetails.pickup_date} <br>
+	                           <span class="head">&nbsp;Booking Date :</span> 
+	                           <fmt:formatDate pattern="dd-MMM-yyyy HH:mm" value="${pickupDetails.pickup_date}"/> <br>
+	                           <span class="head">&nbsp;Assured Dly Date:</span> <fmt:formatDate pattern="dd-MMM-yyyy HH:mm" value="${pickupDetails.pickup_date}"/> <br>
 	                           <span class="head">&nbsp;Risk Coverage :</span> ${pickupDetails.risk=="CR"? "Gati" :"Owner"} Risk
                            </td>
                         </tr>
@@ -366,8 +368,8 @@
                         </tr>
                         <tr>
                            <td class="td1" height="50" valign="top">
-                               <span class="head">&nbsp;Booking Date :</span> ${pickupDetails.pickup_date} <br>
-	                           <span class="head">&nbsp;Assured Dly Date:</span> ${pickupDetails.pickup_date} <br>
+                               <span class="head">&nbsp;Booking Date :</span> <fmt:formatDate pattern="dd-MMM-yyyy HH:mm" value="${pickupDetails.pickup_date}"/> <br>
+	                           <span class="head">&nbsp;Assured Dly Date:</span> <fmt:formatDate pattern="dd-MMM-yyyy HH:mm" value="${pickupDetails.pickup_date}"/> <br>
 	                           <span class="head">&nbsp;Risk Coverage :</span> ${pickupDetails.risk=="CR"? "Gati" :"Owner"} Risk                           
                            </td>
                         </tr>
@@ -529,8 +531,8 @@
                         </tr>
                         <tr>
                            <td class="td1" height="50" valign="top">
-                               <span class="head">&nbsp;Booking Date :</span> ${pickupDetails.pickup_date} <br>
-	                           <span class="head">&nbsp;Assured Dly Date:</span> ${pickupDetails.pickup_date} <br>
+                               <span class="head">&nbsp;Booking Date :</span> <fmt:formatDate pattern="dd-MMM-yyyy HH:mm" value="${pickupDetails.pickup_date}"/> <br>
+	                           <span class="head">&nbsp;Assured Dly Date:</span> <fmt:formatDate pattern="dd-MMM-yyyy HH:mm" value="${pickupDetails.pickup_date}"/> <br>
 	                           <span class="head">&nbsp;Risk Coverage :</span> ${pickupDetails.risk=="CR"? "Gati" :"Owner"} Risk
                            </td>
                         </tr>
