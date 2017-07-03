@@ -887,11 +887,11 @@
     			              }
     			            } );
     			          },
-   			          change: function(){
+   			          change: function(event, ui){
    			        	if(ui.item == null){
    	    		        	$( "#receiver_tin" ).val('');
    	    		        	$( "#delivery_ou" ).val('');
-   	    		        	$("#ess_code").val('');
+   	    		        	$( "#ess_code" ).val('');
    	    		        	
    	    		        	$("#receiver_tin").trigger("change"); 
    	    		        	return false;

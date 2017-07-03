@@ -39,7 +39,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	public PickupDetails getPickupDetails(int Docket_no) {
 		PickupDetails p = new PickupDetails();
 		
-		String sql = "SELECT DOCKET_NO,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,ESS_CODE,consignor_tinno,consignee_tinno,created_date,UPLOAD_FLAG,STATUS FROM gemsprod.GEMS_GKE_DOCKET_UPLOAD WHERE DOCKET_NO = "+Docket_no;
+		String sql = "SELECT DOCKET_NO,BOOKING_STN,DELIVERY_STN,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,ESS_CODE,consignor_tinno,consignee_tinno,created_date,UPLOAD_FLAG,STATUS FROM gemsprod.GEMS_GKE_DOCKET_UPLOAD WHERE DOCKET_NO = "+Docket_no;
 		//String sql = "SELECT * FROM GEMSPROD.GEMS_GKE_DOCKET_UPLOAD WHERE DOCKET_NO = "+Docket_no;
 		String sql1 = "SELECT PKG_NO,PKG_LN,PKG_BR,PKG_HT,PKG_WT FROM gemsprod.TEMP_DOCKET_ITEM_DTLS WHERE DOCKET_NO = "+Docket_no;
 		
@@ -55,44 +55,45 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 				log.info("Docket QUERY:"+sql);
 				p.setDocket_no(rs.getString(1));
 				log.info("Docket QUERY ss:"+rs.getString(1));
-				p.setProduct(rs.getString(2));
-				p.setBooking_basis(rs.getString(3));
-				p.setShipper_code(rs.getString(4));
-				p.setReceiver_code(rs.getString(5));
-				p.setGoods_code(rs.getString(6));
-				p.setShipper_pincode(rs.getString(7));
-				p.setReceiver_pincode(rs.getString(8));
-				p.setNo_of_packages(rs.getString(9));
-				p.setShipment_value(""+rs.getFloat(10));
-				p.setRisk(rs.getString(11));
-				p.setVolume(""+rs.getFloat(12));
-				p.setUom(rs.getString(13));
-				p.setActual_weight(""+rs.getFloat(14));
-				p.setShipper_name(rs.getString(15));
-				p.setShipper_address1(rs.getString(16));
-				p.setShipper_address2(rs.getString(17));
-				p.setShipper_address3(rs.getString(18));
-				p.setShipper_address4(rs.getString(19));
-				p.setShipper_city(rs.getString(20));
-				p.setShipper_mobile(rs.getString(21));
-				p.setShipper_phone(rs.getString(22));
-				p.setShipper_email(rs.getString(23));
-				p.setReceiver_name(rs.getString(24));
-				p.setReceiver_address1(rs.getString(25));
-				p.setReceiver_address2(rs.getString(26));
-				p.setReceiver_address3(rs.getString(27));
-				p.setReceiver_address4(rs.getString(28));
-				p.setReceiver_city(rs.getString(29));
-				p.setReceiver_mobile(rs.getString(30));
-				p.setReceiver_phone(rs.getString(31));
-				p.setReceiver_email(rs.getString(32));
-				p.setCod_flag(rs.getString(33));
-				p.setCod_dod_in_favor(rs.getString(34));
-				p.setEss_code(rs.getString(35));
-				p.setShipper_tin(rs.getString(36));
-				p.setReceiver_tin(rs.getString(37));
-				//p.setPickup_date(rs.getString(38));
-				
+				p.setBooking_ou(rs.getString(2));
+				p.setDelivery_ou(rs.getString(3));
+				p.setProduct(rs.getString(4));
+				p.setBooking_basis(rs.getString(5));
+				p.setShipper_code(rs.getString(6));
+				p.setReceiver_code(rs.getString(7));
+				p.setGoods_code(rs.getString(8));
+				p.setShipper_pincode(rs.getString(9));
+				p.setReceiver_pincode(rs.getString(10));
+				p.setNo_of_packages(rs.getString(11));
+				p.setShipment_value(""+rs.getFloat(12));
+				p.setRisk(rs.getString(13));
+				p.setVolume(""+rs.getFloat(14));
+				p.setUom(rs.getString(15));
+				p.setActual_weight(""+rs.getFloat(16));
+				p.setShipper_name(rs.getString(17));
+				p.setShipper_address1(rs.getString(18));
+				p.setShipper_address2(rs.getString(19));
+				p.setShipper_address3(rs.getString(20));
+				p.setShipper_address4(rs.getString(21));
+				p.setShipper_city(rs.getString(22));
+				p.setShipper_mobile(rs.getString(23));
+				p.setShipper_phone(rs.getString(24));
+				p.setShipper_email(rs.getString(25));
+				p.setReceiver_name(rs.getString(26));
+				p.setReceiver_address1(rs.getString(27));
+				p.setReceiver_address2(rs.getString(28));
+				p.setReceiver_address3(rs.getString(29));
+				p.setReceiver_address4(rs.getString(30));
+				p.setReceiver_city(rs.getString(31));
+				p.setReceiver_mobile(rs.getString(32));
+				p.setReceiver_phone(rs.getString(33));
+				p.setReceiver_email(rs.getString(34));
+				p.setCod_flag(rs.getString(35));
+				p.setCod_dod_in_favor(rs.getString(36));
+				p.setEss_code(rs.getString(37));
+				p.setShipper_tin(rs.getString(38));
+				p.setReceiver_tin(rs.getString(39));
+				p.setPickup_date(rs.getTimestamp(40));
 				
 				st1 = connection.createStatement();
 				ResultSet rs1 = st1.executeQuery(sql1);
@@ -391,7 +392,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	//for Submit form and insert data
 	@Override
 	public String insertDocket(PickupDetails p){
-		String sql = "insert into gemsprod.GEMS_GKE_DOCKET_UPLOAD(LOAD_SEQ_NO,created_date,DOCKET_NO,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,ESS_CODE,consignor_tinno,consignee_tinno,UPLOAD_FLAG,STATUS)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),sysdate,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'V')";
+		String sql = "insert into gemsprod.GEMS_GKE_DOCKET_UPLOAD(LOAD_SEQ_NO,created_date,DOCKET_NO,BOOKING_STN,DELIVERY_STN,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,ESS_CODE,consignor_tinno,consignee_tinno,UPLOAD_FLAG,STATUS)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),sysdate,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'V')";
 		String sql1 = "insert into gemsprod.TEMP_DOCKET_ITEM_DTLS(LOAD_SEQNO,DOCKET_NO,PKG_LN,PKG_BR,PKG_HT,PKG_WT)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),?,?,?,?,?)";
 		
 		int maxBatchSize = 100;
@@ -403,43 +404,45 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			
 			ps = connection.prepareStatement(sql, new String[]{"DOCKET_NO"});
 			ps.setInt(1,Integer.parseInt(p.getDocket_no()));
-			ps.setString(2,p.getProduct());
-			ps.setString(3,p.getBooking_basis());
-			ps.setString(4,p.getShipper_code());
-			ps.setString(5,p.getReceiver_code());
-			ps.setString(6,p.getGoods_code());
-			ps.setString(7,p.getShipper_pincode());
-			ps.setString(8,p.getReceiver_pincode());
-			ps.setInt(9,Integer.parseInt(p.getNo_of_packages()));
-			ps.setFloat(10,Float.parseFloat(p.getShipment_value()));
-			ps.setString(11,p.getRisk());
-			ps.setFloat(12,Float.parseFloat(p.getVolume()));
-			ps.setString(13,p.getUom());
-			ps.setFloat(14,Float.parseFloat(p.getActual_weight()));
-			ps.setString(15,p.getShipper_name());
-			ps.setString(16,p.getShipper_address1());
-			ps.setString(17,p.getShipper_address2());
-			ps.setString(18,p.getShipper_address3());
-			ps.setString(19,p.getShipper_address4());
-			ps.setString(20,p.getShipper_city());
-			ps.setString(21,p.getShipper_mobile());
-			ps.setString(22,p.getShipper_phone());
-			ps.setString(23,p.getShipper_email());
-			ps.setString(24,p.getReceiver_name());
-			ps.setString(25,p.getReceiver_address1());
-			ps.setString(26,p.getReceiver_address2());
-			ps.setString(27,p.getReceiver_address3());
-			ps.setString(28,p.getReceiver_address4());
-			ps.setString(29,p.getReceiver_city());
-			ps.setString(30,p.getReceiver_mobile());
-			ps.setString(31,p.getReceiver_phone());
-			ps.setString(32,p.getReceiver_email());
-			ps.setString(33,p.getCod_flag());
-			ps.setString(34,p.getCod_dod_in_favor());
-			ps.setString(35,p.getEss_code());
-			ps.setString(36,p.getShipper_tin());
-			ps.setString(37,p.getReceiver_tin());
-			ps.setString(38,"W");
+			ps.setString(2,p.getBooking_ou());  //Booking_stn
+			ps.setString(3,p.getDelivery_ou());	//Delivery_stn
+			ps.setString(4,p.getProduct());
+			ps.setString(5,p.getBooking_basis());
+			ps.setString(6,p.getShipper_code());
+			ps.setString(7,p.getReceiver_code());
+			ps.setString(8,p.getGoods_code());
+			ps.setString(9,p.getShipper_pincode());
+			ps.setString(10,p.getReceiver_pincode());
+			ps.setInt(11,Integer.parseInt(p.getNo_of_packages()));
+			ps.setFloat(12,Float.parseFloat(p.getShipment_value()));
+			ps.setString(13,p.getRisk());
+			ps.setFloat(14,Float.parseFloat(p.getVolume()));
+			ps.setString(15,p.getUom());
+			ps.setFloat(16,Float.parseFloat(p.getActual_weight()));
+			ps.setString(17,p.getShipper_name());
+			ps.setString(18,p.getShipper_address1());
+			ps.setString(19,p.getShipper_address2());
+			ps.setString(20,p.getShipper_address3());
+			ps.setString(21,p.getShipper_address4());
+			ps.setString(22,p.getShipper_city());
+			ps.setString(23,p.getShipper_mobile());
+			ps.setString(24,p.getShipper_phone());
+			ps.setString(25,p.getShipper_email());
+			ps.setString(26,p.getReceiver_name());
+			ps.setString(27,p.getReceiver_address1());
+			ps.setString(28,p.getReceiver_address2());
+			ps.setString(29,p.getReceiver_address3());
+			ps.setString(30,p.getReceiver_address4());
+			ps.setString(31,p.getReceiver_city());
+			ps.setString(32,p.getReceiver_mobile());
+			ps.setString(33,p.getReceiver_phone());
+			ps.setString(34,p.getReceiver_email());
+			ps.setString(35,p.getCod_flag());
+			ps.setString(36,p.getCod_dod_in_favor());
+			ps.setString(37,p.getEss_code());
+			ps.setString(38,p.getShipper_tin());
+			ps.setString(39,p.getReceiver_tin());
+			ps.setString(40,"W");
 			ResultSet rs = ps.executeQuery();
 			
 			if(rs.next()){
@@ -657,15 +660,29 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 
 	@Override
 	public String descTable() {
+		StringBuffer out = new StringBuffer();
 		try {
 			Statement st = connection.createStatement();
-			ResultSet resultSet = st.executeQuery("SELECT * FROM GEMSPROD.GEMS_GKE_DOCKET_UPLOAD");
+			ResultSet rs = st.executeQuery("SELECT * FROM GEMSPROD.GEMS_GKE_DOCKET_UPLOAD ");
 			
-			ResultSetMetaData metaData = resultSet.getMetaData();
+			ResultSetMetaData metaData = rs.getMetaData();
 			log.info("No of Column:"+metaData.getColumnCount());
 			log.info("..........table DESC.......");
 			for (int i = 1; i < metaData.getColumnCount(); i++) {
-				log.info("\n"+metaData.getColumnName(i)+"\t"+metaData.getColumnTypeName(i));
+				log.info(""+metaData.getColumnName(i)+"\t"+metaData.getColumnTypeName(i));
+			}
+			int i=0;
+			String comma="";
+			out.append("[");
+			while(rs.next()){
+				out.append(comma+"{\"LOAD_SEQ_NO\":\""+rs.getString(1)+"\",\"DOCKET_CATG\":\""+rs.getString(2)+"\",\"DOCKET_NO\":\""+rs.getString(3)+"\",\"DOCKET_TYPE\":\""+rs.getString(4)+"\",\"BKG_DT\":\""+rs.getString(5)+"\",\"RISK_COVERAGE\":\""+rs.getString(6)+"\",\"REF_DOCKET_NO\":\""+rs.getString(7)+"\",\"BOOKING_STN\":\""+rs.getString(8)+"\",\"DELIVERY_STN\":\""+rs.getString(9)+"\",\"PROD_SERV_CODE\":\""+rs.getString(10)+"\",\"ASSURED_DLY_DT\":\""+rs.getString(11)+"\",\"BILLING_OU\":\""+rs.getString(12)+"\",\"GATEWAY_CODE\":\""+rs.getString(13)+"\",\"NO_OF_PKGS\":\""+rs.getString(14)+"\",\"COMMERCIAL_FLAG\":\""+rs.getString(15)+"\",\"GOODS_CODE\":\""+rs.getString(16)+"\",\"CONSIGNMENT_TYPE\":\""+rs.getString(17)+"\",\"HARM_CODE\":\""+rs.getString(18)+"\",\"DECL_CARGO_VAL\":\""+rs.getString(19)+"\",\"DECL_CARGO_VAL_FC\":\""+rs.getString(20)+"\",\"ACTUAL_WT\":\""+rs.getString(21)+"\",\"VOLUME\":\""+rs.getString(22)+"\",\"UOM\":\""+rs.getString(23)+"\",\"CONV_FACTOR\":\""+rs.getString(24)+"\",\"CHARGED_WT\":\""+rs.getString(25)+"\",\"CTL_VEH_CATG\":\""+rs.getString(26)+"\",\"REQD_TEMP\":\""+rs.getString(27)+"\",\"MASS_MAIL_DOCKET_FLAG\":\""+rs.getString(28)+"\",\"DISTANCE_CTL\":\""+rs.getString(29)+"\",\"DOCS_ENCLOSED\":\""+rs.getString(30)+"\",\"INCOM_DKT_NUM_PART\":\""+rs.getString(31)+"\",\"CONTRACT_NO\":\""+rs.getString(32)+"\",\"CONSIGNOR_CODE\":\""+rs.getString(33)+"\",\"CONSIGNOR_NAME\":\""+rs.getString(34)+"\",\"CONSIGNOR_ADD1\":\""+rs.getString(35)+"\",\"CONSIGNOR_ADD2\":\""+rs.getString(36)+"\",\"CONSIGNOR_ADD3\":\""+rs.getString(37)+"\",\"CONSIGNOR_CITY\":\""+rs.getString(38)+"\",\"CONSIGNOR_ADD4\":\""+rs.getString(39)+"\",\"CONSIGNOR_PHONE_NO\":\""+rs.getString(40)+"\",\"CONSIGNOR_MOBILE_NO\":\""+rs.getString(41)+"\",\"CONSIGNOR_FAX\":\""+rs.getString(42)+"\",\"CONSIGNOR_EMAIL\":\""+rs.getString(43)+"\",\"CONSIGNOR_STATE\":\""+rs.getString(44)+"\",\"CONSIGNOR_COUNTRY\":\""+rs.getString(45)+"\",\"CONSIGNOR_PINCODE\":\""+rs.getString(46)+"\",\"CONSIGNEE_CODE\":\""+rs.getString(47)+"\",\"CONSIGNEE_NAME\":\""+rs.getString(48)+"\",\"CONSIGNEE_ADD1\":\""+rs.getString(49)+"\",\"CONSIGNEE_ADD2\":\""+rs.getString(50)+"\",\"CONSIGNEE_ADD3\":\""+rs.getString(51)+"\",\"CONSIGNEE_CITY\":\""+rs.getString(52)+"\",\"CONSIGNEE_ADD4\":\""+rs.getString(53)+"\",\"CONSIGNEE_PHONE_NO\":\""+rs.getString(54)+"\",\"CONSIGNEE_MOBILE_NO\":\""+rs.getString(55)+"\",\"CONSIGNEE_FAX\":\""+rs.getString(56)+"\",\"CONSIGNEE_EMAIL\":\""+rs.getString(57)+"\",\"CONSIGNEE_STATE\":\""+rs.getString(58)+"\",\"CONSIGNEE_COUNTRY\":\""+rs.getString(59)+"\",\"CONSIGNEE_PINCODE\":\""+rs.getString(60)+"\",\"DOCKET_STATUS\":\""+rs.getString(61)+"\",\"TC_DOCKET_PREPARED_BY\":\""+rs.getString(62)+"\",\"DOCKET_PREPARED_BY\":\""+rs.getString(63)+"\",\"DOCKET_PREPARED_TYPE\":\""+rs.getString(64)+"\",\"MODE_OF_PAYMENT\":\""+rs.getString(65)+"\",\"TAX_TYPE\":\""+rs.getString(66)+"\",\"STATUS\":\""+rs.getString(67)+"\",\"REMARKS\":\""+rs.getString(68)+"\",\"CREATED_BY\":\""+rs.getString(69)+"\",\"LAST_UPDATED_BY\":\""+rs.getString(70)+"\",\"LAST_UPDATED_DATE\":\""+rs.getString(71)+"\",\"CREATED_DATE\":\""+rs.getString(72)+"\",\"UPLOADED_DATA\":\""+rs.getString(73)+"\",\"BOOKING_BASIS\":\""+rs.getString(74)+"\",\"CTL_VEH_FLEET_NO\":\""+rs.getString(75)+"\",\"ORDER_NO\":\""+rs.getString(76)+"\",\"FROM_PKG_NO\":\""+rs.getString(77)+"\",\"TO_PKG_NO\":\""+rs.getString(78)+"\",\"COD_AMT\":\""+rs.getString(79)+"\",\"COD_IN_FAVOUR_OF\":\""+rs.getString(80)+"\",\"COD_INCLUDED\":\""+rs.getString(81)+"\",\"UPLOAD_FLAG\":\""+rs.getString(82)+"\",\"ERROR_UPLOAD_FLAG\":\""+rs.getString(83)+"\",\"ERROR_REASON\":\""+rs.getString(84)+"\",\"DOCKETS_UPDATION_FLAG\":\""+rs.getString(85)+"\",\"TRANSNO\":\""+rs.getString(86)+"\",\"ESS_FLAG\":\""+rs.getString(87)+"\",\"PKG_FLAG\":\""+rs.getString(88)+"\",\"ESS_CODE\":\""+rs.getString(89)+"\",\"CUST_SPECIAL_INSTRUCTION\":\""+rs.getString(90)+"\",\"CUST_REMARKS\":\""+rs.getString(91)+"\",\"CUST_MFG_COUNTRY\":\""+rs.getString(92)+"\",\"UPLOADED_rs.getString(\":\""+rs.getString(93)+"\",\"TRACK_STATUS\":\""+rs.getString(94)+"\",\"SCN_GOODS_CODE\":\""+rs.getString(95)+"\",\"CUST_DATE_DELIVERY\":\""+rs.getString(96)+"\",\"INTERFACE_rs.getString(\":\""+rs.getString(97)+"\",\"HOLD_FLAG\":\""+rs.getString(98)+"\",\"COD_DOD_FLAG\":\""+rs.getString(99)+"\",\"SCAN_DT\":\""+rs.getString(100)+"\",\"SCANNED_PKGS\":\""+rs.getString(101)+"\",\"SPL_SERV_MODE\":\""+rs.getString(102)+"\",\"GOODS_DESC\":\""+rs.getString(103)+"\",\"CONSIGNOR_TINNO\":\""+rs.getString(104)+"\"}");
+comma=",";	
+				i++;
+				
+				if(i==200){
+					out.append("]");
+					break;
+				}
 			}
 			
 			
@@ -674,7 +691,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			e.printStackTrace();
 			log.error("getContractNo SQLException:"+e.getMessage());
 		}
-		return null;
+		return out.toString();
 		
 	}
 	

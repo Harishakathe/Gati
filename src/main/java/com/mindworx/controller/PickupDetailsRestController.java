@@ -48,8 +48,9 @@ public class PickupDetailsRestController {
     }
 	
 	@RequestMapping(value = "/testtable", method = RequestMethod.GET)
-    public void descTable() {
-    	 System.out.println("count : "+pickupDetailsDao.descTable());
+    public ResponseEntity<String> descTable() {
+    	 
+    	 return new ResponseEntity<String>(pickupDetailsDao.descTable(), HttpStatus.OK);
     }
     
     @RequestMapping(value = "/getBookingStation/{cust_code}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)

@@ -208,7 +208,7 @@ $(document).ready(function(){
 	});
     
     var template = jQuery.validator.format($.trim($("#template").val()));
-
+    var i = 0;
 	function addRow() {
 		console.log("add row");
 		$(template(i++)).appendTo("#package_details_div");
@@ -222,7 +222,6 @@ $(document).ready(function(){
 	    });
 	}
 
-	var i = 0;
 	// start with one row
 	addRow();
 	// add more rows on click
