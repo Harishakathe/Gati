@@ -39,8 +39,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	public PickupDetails getPickupDetails(int Docket_no) {
 		PickupDetails p = new PickupDetails();
 		
-		String sql = "SELECT DOCKET_NO,BOOKING_STN,DELIVERY_STN,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,COD_AMT,ESS_CODE,consignor_tinno,consignee_tinno,created_date,UPLOAD_FLAG,STATUS FROM gemsprod.GEMS_GKE_DOCKET_UPLOAD WHERE DOCKET_NO = "+Docket_no;
-		//String sql = "SELECT * FROM GEMSPROD.GEMS_GKE_DOCKET_UPLOAD WHERE DOCKET_NO = "+Docket_no;
+		String sql = "SELECT DOCKET_NO,BOOKING_STN,DELIVERY_STN,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNMENT_TYPE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,COD_AMT,ESS_CODE,consignor_tinno,consignee_tinno,created_date,UPLOAD_FLAG,STATUS FROM gemsprod.GEMS_GKE_DOCKET_UPLOAD WHERE DOCKET_NO = "+Docket_no;
 		String sql1 = "SELECT PKG_NO,PKG_LN,PKG_BR,PKG_HT,PKG_WT FROM gemsprod.TEMP_DOCKET_ITEM_DTLS WHERE DOCKET_NO = "+Docket_no;
 		
 		PreparedStatement ps = null;
@@ -62,39 +61,40 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 				p.setShipper_code(rs.getString(6));
 				p.setReceiver_code(rs.getString(7));
 				p.setGoods_code(rs.getString(8));
-				p.setShipper_pincode(rs.getString(9));
-				p.setReceiver_pincode(rs.getString(10));
-				p.setNo_of_packages(rs.getString(11));
-				p.setShipment_value(""+rs.getFloat(12));
-				p.setRisk(rs.getString(13));
-				p.setVolume(""+rs.getFloat(14));
-				p.setUom(rs.getString(15));
-				p.setActual_weight(""+rs.getFloat(16));
-				p.setShipper_name(rs.getString(17));
-				p.setShipper_address1(rs.getString(18));
-				p.setShipper_address2(rs.getString(19));
-				p.setShipper_address3(rs.getString(20));
-				p.setShipper_address4(rs.getString(21));
-				p.setShipper_city(rs.getString(22));
-				p.setShipper_mobile(rs.getString(23));
-				p.setShipper_phone(rs.getString(24));
-				p.setShipper_email(rs.getString(25));
-				p.setReceiver_name(rs.getString(26));
-				p.setReceiver_address1(rs.getString(27));
-				p.setReceiver_address2(rs.getString(28));
-				p.setReceiver_address3(rs.getString(29));
-				p.setReceiver_address4(rs.getString(30));
-				p.setReceiver_city(rs.getString(31));
-				p.setReceiver_mobile(rs.getString(32));
-				p.setReceiver_phone(rs.getString(33));
-				p.setReceiver_email(rs.getString(34));
-				p.setCod_flag(rs.getString(35));
-				p.setCod_dod_in_favor(rs.getString(36));
-				p.setCod_dod_amount(rs.getString(37));
-				p.setEss_code(rs.getString(38));
-				p.setShipper_tin(rs.getString(39));
-				p.setReceiver_tin(rs.getString(40));
-				p.setPickup_date(rs.getTimestamp(41));
+				p.setPackage_type(rs.getString(9));
+				p.setShipper_pincode(rs.getString(10));
+				p.setReceiver_pincode(rs.getString(11));
+				p.setNo_of_packages(rs.getString(12));
+				p.setShipment_value(""+rs.getFloat(13));
+				p.setRisk(rs.getString(14));
+				p.setVolume(""+rs.getFloat(15));
+				p.setUom(rs.getString(16));
+				p.setActual_weight(""+rs.getFloat(17));
+				p.setShipper_name(rs.getString(18));
+				p.setShipper_address1(rs.getString(19));
+				p.setShipper_address2(rs.getString(20));
+				p.setShipper_address3(rs.getString(21));
+				p.setShipper_address4(rs.getString(22));
+				p.setShipper_city(rs.getString(23));
+				p.setShipper_mobile(rs.getString(24));
+				p.setShipper_phone(rs.getString(25));
+				p.setShipper_email(rs.getString(26));
+				p.setReceiver_name(rs.getString(27));
+				p.setReceiver_address1(rs.getString(28));
+				p.setReceiver_address2(rs.getString(29));
+				p.setReceiver_address3(rs.getString(30));
+				p.setReceiver_address4(rs.getString(31));
+				p.setReceiver_city(rs.getString(32));
+				p.setReceiver_mobile(rs.getString(33));
+				p.setReceiver_phone(rs.getString(34));
+				p.setReceiver_email(rs.getString(35));
+				p.setCod_flag(rs.getString(36));
+				p.setCod_dod_in_favor(rs.getString(37));
+				p.setCod_dod_amount(rs.getString(38));
+				p.setEss_code(rs.getString(39));
+				p.setShipper_tin(rs.getString(40));
+				p.setReceiver_tin(rs.getString(41));
+				p.setPickup_date(rs.getTimestamp(42));
 				
 				st1 = connection.createStatement();
 				ResultSet rs1 = st1.executeQuery(sql1);
@@ -245,7 +245,8 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 				cust.setCustPhone(rs.getString("CUST_PHONE_NO").trim());
 				cust.setCustMobile(rs.getString("CUST_MOBILE_NO").trim());
 				cust.setCustEmail(rs.getString("CUST_EMAIL").trim());
-				cust.setCustTIN(rs.getString("ATTACHED_OU"));
+				cust.setCustTIN("");
+				cust.setCustOU(rs.getString("ATTACHED_OU"));
 				out.add(cust);
 			}
 		} catch (SQLException e) {
@@ -393,7 +394,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	//for Submit form and insert data
 	@Override
 	public String insertDocket(PickupDetails p){
-		String sql = "insert into gemsprod.GEMS_GKE_DOCKET_UPLOAD(LOAD_SEQ_NO,created_date,DOCKET_NO,BOOKING_STN,DELIVERY_STN,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,COD_AMT,ESS_CODE,consignor_tinno,consignee_tinno,UPLOAD_FLAG,STATUS)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),sysdate,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'V')";
+		String sql = "insert into gemsprod.GEMS_GKE_DOCKET_UPLOAD(LOAD_SEQ_NO,created_date,DOCKET_NO,BOOKING_STN,DELIVERY_STN,PROD_SERV_CODE,BOOKING_BASIS,CONSIGNOR_CODE,CONSIGNEE_CODE,GOODS_CODE,CONSIGNMENT_TYPE,CONSIGNOR_PINCODE,CONSIGNEE_PINCODE,NO_OF_PKGS,DECL_CARGO_VAL,RISK_COVERAGE,VOLUME,UOM,ACTUAL_WT,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_ADD4,CONSIGNOR_CITY,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_ADD4,CONSIGNEE_CITY,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,COD_DOD_FLAG,COD_IN_FAVOUR_OF,COD_AMT,ESS_CODE,consignor_tinno,consignee_tinno,UPLOAD_FLAG,STATUS)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),sysdate,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'V')";
 		String sql1 = "insert into gemsprod.TEMP_DOCKET_ITEM_DTLS(LOAD_SEQNO,DOCKET_NO,PKG_LN,PKG_BR,PKG_HT,PKG_WT)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),?,?,?,?,?)";
 		
 		int maxBatchSize = 100;
@@ -412,39 +413,40 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			ps.setString(6,p.getShipper_code());
 			ps.setString(7,p.getReceiver_code());
 			ps.setString(8,p.getGoods_code());
-			ps.setString(9,p.getShipper_pincode());
-			ps.setString(10,p.getReceiver_pincode());
-			ps.setInt(11,Integer.parseInt(p.getNo_of_packages()));
-			ps.setFloat(12,Float.parseFloat(p.getShipment_value()));
-			ps.setString(13,p.getRisk());
-			ps.setFloat(14,Float.parseFloat(p.getVolume()));
-			ps.setString(15,p.getUom());
-			ps.setFloat(16,Float.parseFloat(p.getActual_weight()));
-			ps.setString(17,p.getShipper_name());
-			ps.setString(18,p.getShipper_address1());
-			ps.setString(19,p.getShipper_address2());
-			ps.setString(20,p.getShipper_address3());
-			ps.setString(21,p.getShipper_address4());
-			ps.setString(22,p.getShipper_city());
-			ps.setString(23,p.getShipper_mobile());
-			ps.setString(24,p.getShipper_phone());
-			ps.setString(25,p.getShipper_email());
-			ps.setString(26,p.getReceiver_name());
-			ps.setString(27,p.getReceiver_address1());
-			ps.setString(28,p.getReceiver_address2());
-			ps.setString(29,p.getReceiver_address3());
-			ps.setString(30,p.getReceiver_address4());
-			ps.setString(31,p.getReceiver_city());
-			ps.setString(32,p.getReceiver_mobile());
-			ps.setString(33,p.getReceiver_phone());
-			ps.setString(34,p.getReceiver_email());
-			ps.setString(35,p.getCod_flag());
-			ps.setString(36,p.getCod_dod_in_favor());
-			ps.setString(37, p.getCod_dod_amount());
-			ps.setString(38,p.getEss_code());
-			ps.setString(39,p.getShipper_tin());
-			ps.setString(40,p.getReceiver_tin());
-			ps.setString(41,"W");
+			ps.setString(9, p.getPackage_type());   //Consignment_type
+			ps.setString(10,p.getShipper_pincode());
+			ps.setString(11,p.getReceiver_pincode());
+			ps.setInt(12,Integer.parseInt(p.getNo_of_packages()));
+			ps.setFloat(13,Float.parseFloat(p.getShipment_value()));
+			ps.setString(14,p.getRisk());
+			ps.setFloat(15,Float.parseFloat(p.getVolume()));
+			ps.setString(16,p.getUom());
+			ps.setFloat(17,Float.parseFloat(p.getActual_weight()));
+			ps.setString(18,p.getShipper_name());
+			ps.setString(19,p.getShipper_address1());
+			ps.setString(20,p.getShipper_address2());
+			ps.setString(21,p.getShipper_address3());
+			ps.setString(22,p.getShipper_address4());
+			ps.setString(23,p.getShipper_city());
+			ps.setString(24,p.getShipper_mobile());
+			ps.setString(25,p.getShipper_phone());
+			ps.setString(26,p.getShipper_email());
+			ps.setString(27,p.getReceiver_name());
+			ps.setString(28,p.getReceiver_address1());
+			ps.setString(29,p.getReceiver_address2());
+			ps.setString(30,p.getReceiver_address3());
+			ps.setString(31,p.getReceiver_address4());
+			ps.setString(32,p.getReceiver_city());
+			ps.setString(33,p.getReceiver_mobile());
+			ps.setString(34,p.getReceiver_phone());
+			ps.setString(35,p.getReceiver_email());
+			ps.setString(36,p.getCod_flag());
+			ps.setString(37,p.getCod_dod_in_favor());
+			ps.setString(38, p.getCod_dod_amount());
+			ps.setString(39,p.getEss_code());
+			ps.setString(40,p.getShipper_tin());
+			ps.setString(41,p.getReceiver_tin());
+			ps.setString(42,"W");
 			ResultSet rs = ps.executeQuery();
 			
 			if(rs.next()){

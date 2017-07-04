@@ -88,7 +88,7 @@
 		                      <br/>&nbsp;PH:${pickupDetails.shipper_phone}, EMAIL: ${pickupDetails.shipper_email}
 		                      <br/>
                               <br>&nbsp;Policy No: 
-                              <br>&nbsp;GSTIN No: 
+                              <br>&nbsp;GSTIN No: ${pickupDetails.shipper_tin}
                            </td>
                         </tr>
                         <tr>
@@ -103,7 +103,7 @@
                         </tr>
                         <tr>
                            <td class="td1" height="18" colspan="2">
-                           	<span class="head">&nbsp;Contains : </span> Not Available 
+                           	<span class="head">&nbsp;Contains : </span> ${pickupDetails.goods_desc} 
                            </td>
                         </tr>
                         <tr>
@@ -167,7 +167,7 @@
                               <br>&nbsp;${pickupDetails.receiver_address3}, ${pickupDetails.receiver_address4}
                               <br>&nbsp;${pickupDetails.receiver_city}-${pickupDetails.receiver_pincode}, 
                               <br>&nbsp;PH: ${pickupDetails.receiver_phone},Email : ${pickupDetails.receiver_email}
-                              <br>&nbsp;GSTIN No: 
+                              <br>&nbsp;GSTIN No: ${pickupDetails.receiver_tin}
                            </td>
                         </tr>
                         <tr>
@@ -256,7 +256,7 @@
                            <br/>&nbsp;${pickupDetails.shipper_city}-${pickupDetails.shipper_pincode},
                            <br/>&nbsp;PH:${pickupDetails.shipper_phone}, EMAIL: ${pickupDetails.shipper_email}<br/>
                            <br>&nbsp;Policy No: 
-                           <br>&nbsp;GSTIN No: 
+                           <br>&nbsp;GSTIN No: ${pickupDetails.shipper_tin}
                            </td>
                         </tr>
                         <tr>
@@ -271,7 +271,7 @@
                         </tr>
                         <tr>
                            <td class="td1" height="18" colspan="2">
-                           	<span class="head">&nbsp;Contains : </span> Not Available 
+                           	<span class="head">&nbsp;Contains : </span> ${pickupDetails.goods_desc} 
                            </td>
                         </tr>
                         <tr>
@@ -334,7 +334,7 @@
                               <br>&nbsp;${pickupDetails.receiver_address3}, ${pickupDetails.receiver_address4}
                               <br>&nbsp;${pickupDetails.receiver_city}-${pickupDetails.receiver_pincode}, 
                               <br>&nbsp;PH: ${pickupDetails.receiver_phone},Email : ${pickupDetails.receiver_email}
-                              <br>&nbsp;GSTIN No:
+                              <br>&nbsp;GSTIN No: ${pickupDetails.receiver_tin}
                            </td>
                         </tr>
                         <tr>
@@ -420,7 +420,7 @@
 	                           &nbsp;${pickupDetails.shipper_city}-${pickupDetails.shipper_pincode}, <br/>
 	                           &nbsp;PH:${pickupDetails.shipper_phone}, EMAIL: ${pickupDetails.shipper_email}<br/>
                               <br>&nbsp;Policy No: 
-                              <br>&nbsp;GSTIN No:  
+                              <br>&nbsp;GSTIN No: ${pickupDetails.shipper_tin}
                            </td>
                         </tr>
                         <tr>
@@ -435,7 +435,7 @@
                         </tr>
                         <tr>
                            <td class="td1" height="18" colspan="2">
-                           	<span class="head">&nbsp;Contains : </span> Not Available 
+                           	<span class="head">&nbsp;Contains : </span> ${pickupDetails.goods_desc} 
                            </td>
                         </tr>
                         <tr>
@@ -498,7 +498,7 @@
                               <br>&nbsp;${pickupDetails.receiver_address3}, ${pickupDetails.receiver_address4}
                               <br>&nbsp;${pickupDetails.receiver_city}-${pickupDetails.receiver_pincode}, 
                               <br>&nbsp;PH: ${pickupDetails.receiver_phone},Email : ${pickupDetails.receiver_email}
-                              <br>&nbsp;GSTIN No:
+                              <br>&nbsp;GSTIN No: ${pickupDetails.receiver_tin}
                            </td>
                         </tr>
                         <tr>

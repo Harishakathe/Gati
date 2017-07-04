@@ -198,7 +198,7 @@
                                                     </div>
                                                     <div class="col-sm-5">
                                                         <div class="form-group label-floating">
-                                                            <label class="control-label">VAT / TIN <small>(requird)</small></label>
+                                                            <label class="control-label">GSTIN NO<small>(requird)</small></label>
                                                             <input type="text" class="form-control" name="receiver_tin" id="receiver_tin">                                                                
                                                         </div>
                                                     </div>
@@ -276,7 +276,7 @@
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">VAT / TIN <small>(requird)</small></label>
+                                                                <label class="control-label">GSTIN NO <small>(requird)</small></label>
                                                                 <input type="text" class="form-control" name="shipper_tin" id="shipper_tin" >                                                                    
                                                             </div>
                                                         </div>
@@ -324,6 +324,7 @@
                                                                 <select class="form-control" id="goods_code" name="goods_code">
                                                                     <option disabled="" selected=""></option>                                                                    
                                                                 </select>
+                                                                <input type="hidden" name="goods_desc" id="goods_desc"  >
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5">
@@ -331,8 +332,13 @@
                                                                 <label class="control-label">Packing Type <small>(requird)</small></label>
                                                                 <select class="form-control" id="package_type" name="package_type">
                                                                     <option disabled="" selected=""></option>
-                                                                    <option>1</option>
-                                                                    <option>2</option>
+                                                                    <option value="0">Package</option>
+                                                                    <option value="CV">Cover</option>
+                                                                    <option value="CB">Cartoon Box</option>
+                                                                    <option value="GB">Gunny Bag</option>
+                                                                    <option value="WB">Wooden Box</option>
+                                                                    <option value="WC">Wooden Crate</option>
+                                                                    <option value="PC">Plastic Crane</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -376,11 +382,10 @@
                                                                 <label class="control-label">UOM <small>(requird)</small></label>
                                                                 <select class="form-control" name="uom" id="uom">
                                                                     <option disabled="" selected=""></option>
-                                                                    <option value="1">1</option>
-																	<option value="2">2</option>
-																	<option value="3">3</option>
-																	<option value="4">4</option>
-																	<option value="5">5</option>
+                                                                    <option value="0">Unit</option>
+                                                                    <option value="ft">Feet</option>
+                                                                    <option value="in">Inches</option>
+                                                                    <option value="cmet">CentiMeter</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -451,7 +456,7 @@
                                                                             <label><strong>Address Line 2</strong> : <span id="lbl_receiver_address2"></span></label>
                                                                             <label><strong>Address Line 4</strong> : <span id="lbl_receiver_address4"></span></label>
                                                                             <label><strong>Pin Code</strong> : <span id="lbl_receiver_pincode"></span></label>
-                                                                            <label><strong>VAT/TIN</strong> : <span id="lbl_receiver_tin"></span></label>
+                                                                            <label><strong>GSTIN NO</strong> : <span id="lbl_receiver_tin"></span></label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -486,7 +491,7 @@
                                                                             <label><strong>Address Line 2</strong> : <span id="lbl_shipper_address2"></span></label>
                                                                             <label><strong>Address Line 4</strong> : <span id="lbl_shipper_address4"></span></label>
                                                                             <label><strong>Pin Code</strong> : <span id="lbl_shipper_pincode"></span></label>
-                                                                            <label><strong>VAT/TIN</strong> : <span id="lbl_shipper_tin"></span></label>
+                                                                            <label><strong>GSTIN NO</strong> : <span id="lbl_shipper_tin"></span></label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -625,6 +630,10 @@
                			$("#cod_dod_amount").attr("readonly",true);           			
                		}
                	});
+                
+                $("#goods_code").change(function(){
+               		$("#goods_desc").val($("#goods_code option:selected").text());
+               	});                
             	
             	 function fillGoodType(){
             		 $("#goods_code").html="";
@@ -668,6 +677,7 @@
             	 fillGoodType();
     	        
     		      $( "#shipper_code" ).autocomplete({
+    		    	  delay: 500,
     			        minLength: 3,
     			        source: function( request, response ) {
     			            $.ajax( {
@@ -730,7 +740,7 @@
     			        	$("#shipper_mobile").val( ui.item.custMobile );
     			        	$("#shipper_email").val( ui.item.custEmail );
     			        	$("#shipper_tin").val( ui.item.custTIN ); 
-    			        	$("#booking_ou").val( ui.item.custTIN );
+    			        	$("#booking_ou").val( ui.item.custOU );
     			        	
     			        	$("#shipper_name").trigger("change");
         		        	$("#shipper_address1").trigger("change");
@@ -752,6 +762,7 @@
     			      };
     		      
     		      $( "#receiver_code" ).autocomplete({
+    		    	  delay: 500,
     		        minLength: 3,
     		        source: function( request, response ) {
     		            $.ajax( {
@@ -812,7 +823,7 @@
     		        	$("#receiver_mobile").val( ui.item.custMobile );
     		        	$("#receiver_email").val( ui.item.custEmail );
     		        	$("#receiver_tin").val( ui.item.custTIN );
-    		        	$("#delivery_ou").val( ui.item.custTIN );
+    		        	$("#delivery_ou").val( ui.item.custOU );
     		        	
     		        	$("#receiver_name").trigger("change");
     		        	$("#receiver_address1").trigger("change");
@@ -834,6 +845,7 @@
     		      };
     			      
     		      $( "#shipper_pincode" ).autocomplete({
+    		    	  delay: 500,
     		        minLength: 3,
     		        source: function( request, response ) {
     		            $.ajax( {
@@ -849,10 +861,7 @@
     		          },
     		        change: function( event, ui ){
     		        	if(ui.item == null){
-    		        		$( "#shipper_tin" ).val('');
-        		        	$( "#booking_ou" ).val('');
-        		        	
-        		        	$("#shipper_tin").trigger("change");
+    		        		$( "#booking_ou" ).val('');
     		        	}    		        	  
     		        },
     		        focus: function( event, ui ) {
@@ -861,10 +870,7 @@
     		        },
     		        select: function( event, ui ) {
     		          $( "#shipper_pincode" ).val( ui.item.pincode );
-    		          $( "#shipper_tin" ).val( ui.item.ou_code );
     		          $( "#booking_ou" ).val( ui.item.ou_code );
-    		          
-    		          $("#shipper_tin").trigger("change");
     		          return false;
     		        }
     		      }).autocomplete( "instance" )._renderItem = function( ul, item ) {
@@ -874,6 +880,7 @@
     		      };
     		      
     		      $( "#receiver_pincode" ).autocomplete({
+    		    	  	delay: 500,
     			        minLength: 3,
     			        source: function( request, response ) {
     			            $.ajax( {
@@ -889,11 +896,8 @@
     			          },
    			          change: function(event, ui){
    			        	if(ui.item == null){
-   	    		        	$( "#receiver_tin" ).val('');
    	    		        	$( "#delivery_ou" ).val('');
    	    		        	$( "#ess_code" ).val('');
-   	    		        	
-   	    		        	$("#receiver_tin").trigger("change"); 
    	    		        	return false;
    			        	  }
    	    		        	
@@ -903,11 +907,8 @@
     			          return false;
     			        },
     			        select: function( event, ui ) {
-    			          $( "#receiver_pincode" ).val( ui.item.pincode );
-    			          $( "#receiver_tin" ).val( ui.item.ou_code );
-    			          $( "#delivery_ou" ).val( ui.item.ou_code );
-    			          
-    			          $("#receiver_tin").trigger("change");
+    			          $( "#receiver_pincode" ).val( ui.item.pincode );    			          
+    			          $( "#delivery_ou" ).val( ui.item.ou_code );    			          
     			          getEsscode(ui.item.pincode);
     			          return false;
     			        }

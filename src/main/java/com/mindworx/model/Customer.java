@@ -14,6 +14,7 @@ public class Customer {
 	private String custMobile;
 	private String custEmail;
 	private String custTIN;
+	private String custOU;
 	
 	public Customer() {
 		// TODO Auto-generated constructor stub
@@ -113,11 +114,21 @@ public class Customer {
 
 	public void setCustTIN(String custTIN) {
 		this.custTIN = custTIN;
+	}	
+	
+	public String getCustOU() {
+		return custOU;
 	}
-
+	
+	public void setCustOU(String custOU) {
+		this.custOU = custOU;
+	}
+	
 	@Override
 	public String toString() {
 		return new com.google.gson.Gson().toJson(this);
 	}
+
+	
 	
 }
