@@ -306,7 +306,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}	
 		String contract_no =  this.getContractNo(cust_code);
 		log.info("call generated Contract No:"+contract_no);
-		String Sql = "{call gemsprod.gems_docket_pack.Gems_DOCKET_VALIDATE_proc(0,'"+p.getShipper_tin()+"','"+p.getDocket_category()+"','"+p.getDocket_type()+"',trunc(SYSDATE),'"+contract_no+"','"+p.getShipper_code()+"','"+p.getReceiver_code()+"','"+p.getBooking_basis()+"','"+p.getProduct()+"','"+p.getReceiver_tin()+"',?,?)}";
+		String Sql = "{call gemsprod.gems_docket_pack.Gems_DOCKET_VALIDATE_proc(0,'"+p.getBooking_ou()+"','"+p.getDocket_category()+"','"+p.getDocket_type()+"',trunc(SYSDATE),'"+contract_no+"','"+p.getShipper_code()+"','"+p.getReceiver_code()+"','"+p.getBooking_basis()+"','"+p.getProduct()+"','"+p.getReceiver_tin()+"',?,?)}";
 		log.info("call Sql:"+Sql);
 		CallableStatement cstmt = null;
 		StringBuffer out = new StringBuffer();
@@ -625,7 +625,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	public String generateDocketNo(PickupDetails p) {
 		
 		CallableStatement cstmt = null;
-		String sp = "{call gemsprod.gems_proc_dkt_generate_java('"+p.getShipper_tin()+"','BAL_30811','"+ p.getBooking_basis()+"',?,?,?)}";
+		String sp = "{call gemsprod.gems_proc_dkt_generate_java('"+p.getBooking_ou()+"','BAL_30811','"+ p.getBooking_basis()+"',?,?,?)}";
 		//String sp = "{call gemsprod.gems_proc_dkt_generate_java(?,?,?,?,?,?)}";
 		StringBuffer out = new StringBuffer();
 		try {
