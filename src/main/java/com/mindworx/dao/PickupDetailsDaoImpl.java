@@ -15,13 +15,10 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
-import org.springframework.validation.annotation.Validated;
-
 import com.mindworx.model.PickupDetails;
 import com.mindworx.model.Customer;
 import com.mindworx.model.PackageDetails;
 
-@Validated
 public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	
 	
@@ -155,7 +152,9 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		finally {
 			try {
+				if(rs!=null)
 				rs.close();
+				if(ps!=null)
 				ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -183,7 +182,9 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		finally {
 			try {
+				if(rs!=null)
 				rs.close();
+				if(ps!=null)
 				ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -213,8 +214,10 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		finally {
 			try {
-				rs.close();
-				ps.close();
+				if(rs!=null)
+					rs.close();
+				if(ps!=null)
+					ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}					
@@ -254,8 +257,10 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		finally {
 			try {
-				rs.close();
-				ps.close();
+				if(rs!=null)
+					rs.close();
+				if(ps!=null)
+					ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}					
@@ -287,8 +292,10 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		finally {
 			try {
-				rs.close();
-				ps.close();
+				if(rs!=null)
+					rs.close();
+				if(ps!=null)
+					ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}					
@@ -554,7 +561,8 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		finally {
 			try {
-				ps.close();
+				if(ps!=null)
+					ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}					
@@ -581,8 +589,10 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		finally {
 			try {
-				rs.close();
-				ps.close();
+				if(rs!=null)
+					rs.close();
+				if(ps!=null)
+					ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}					
@@ -613,8 +623,10 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		}
 		finally {
 			try {
-				rs.close();
-				ps.close();
+				if(rs!=null)
+					rs.close();
+				if(ps!=null)
+					ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}					

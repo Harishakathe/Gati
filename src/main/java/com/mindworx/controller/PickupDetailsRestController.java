@@ -146,8 +146,7 @@ public class PickupDetailsRestController {
             JsonObject obj = new JsonObject();
             for (FieldError objectError : allErrors) {
             	obj.addProperty(objectError.getField(), objectError.getCode());
-            }
-            
+            }            
             Gson gson = new Gson();            
             res.setResult(gson.fromJson(obj,Object.class));
             

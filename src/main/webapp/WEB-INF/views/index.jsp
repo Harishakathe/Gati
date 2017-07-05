@@ -18,6 +18,19 @@
 		<link href="<c:url value="/resources/css/jquery-ui.min.css" />" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
         <link href="<c:url value="/resources/css/wizard/material-bootstrap-wizard.css" />" rel="stylesheet" type="text/css"/>
+        <style type="text/css">
+        .success_header{
+        	border-radius: 3px;
+		    background-color: #00bcd4;
+		    color: #ffffff;
+        }
+        .error_header{
+        	border-radius: 3px;
+		    background-color: #f55145;
+		    color: #ffffff;
+        }
+	        
+        </style>
     </head>
 
     <body class="md-skin">
@@ -602,6 +615,24 @@
 
             </div>
         </div>
+        
+		
+<!-- Sart Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					<i class="fa fa-times"></i>
+				</button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<div class="modal-body">
+			</div>
+		</div>
+	</div>
+</div>
+<!--  End Modal -->
 
         <!-- Mainly scripts -->
         <script src="<c:url value="/resources/js/jquery-2.2.4.min.js"/>" ></script>

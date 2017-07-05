@@ -6,13 +6,11 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -24,7 +22,6 @@ import org.springframework.web.servlet.view.JstlView;
 import com.mindworx.dao.PickupDetailsDao;
 import com.mindworx.dao.PickupDetailsDaoImpl;
 import com.mindworx.validator.PickupDetailsValidator;
-import com.nimbusds.oauth2.sdk.Message;
 
 import oracle.jdbc.pool.OracleDataSource;
 
@@ -72,7 +69,8 @@ public class AppConfiguration extends WebMvcConfigurerAdapter{
         return dataSource;
         
     }
- 
+	
+	@Autowired
     @Bean
     public PickupDetailsDao getPickupDetailsDao() {
         return new PickupDetailsDaoImpl(getDataSource());

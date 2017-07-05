@@ -363,6 +363,9 @@ $(document).ready(function(){
     $(".wizard-card input[name*='finish']").click(function(event){
     	console.log("onFinish");
     	event.preventDefault();
+    	var finish_btn = $(this);
+    	finish_btn.attr("disabled", true);
+    	
         var form = $("#PickupDetailsForm");
         var xml = ConvertFormToXML(form);
         var json = ConvertFormToJSON(form);
@@ -379,19 +382,25 @@ $(document).ready(function(){
         	  },
             success: function (data) {
             	console.log(data);
-            	 if(data.status=='SUCCESS'){
-            		alert(data.message);
-            		window.location = "recipt/"+data.result;
+            	var mymodal = $('#myModal');
+                                
+            	if(data.status=='SUCCESS'){
+            		mymodal.find('.modal-title').html("<i class='fa fa-check' aria-hidden='true'></i> SUCCESS ALERT: Docket Generated");
+            		mymodal.find('.modal-header').removeClass("error_header");
+            		mymodal.find('.modal-header').addClass("success_header");
+            		mymodal.find('.modal-body').text(data.message);
+            		mymodal.modal('show');
+            		$('#myModal').on('hidden.bs.modal', function (e) {
+            			window.location = "recipt/"+data.result;
+        			});
+            		//
             	 }
             	 else{
-            		 if(data.message==='Inserting Error'){
-            			 alert(data.message+" : "+data.result);
-            		 }
-            		 if(data.message==='Docket Generation Error'){
-            			 alert(data.message+" : "+data.result);
-            		 }
-            		 if(data.message==='Validation XML Error'){
-            			 alert(data.message+" : "+data.result);
+            		 mymodal.find('.modal-title').html("<i class='fa fa-exclamation-triangle'></i> ERROR ALERT:"+data.message);
+            		 mymodal.find('.modal-header').addClass("error_header");
+            		 mymodal.find('.modal-body').text(data.result);
+             		 if(data.message==='Inserting Error' || data.message==='Docket Generation Error' || data.message==='Validation XML Error'){
+            		
             		 }
             		 else{
             			 console.log(data.result);
@@ -419,10 +428,13 @@ $(document).ready(function(){
 								}});
             			 validator.showErrors(data.result);                                            			
             		 }
+             		mymodal.modal('show');
+             		finish_btn.attr("disabled", false);
             	 }
             },
             error:function(e){
             	alert(e);
+            	finish_btn.attr("disabled", false);
             }
         });   
     });
