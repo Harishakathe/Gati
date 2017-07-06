@@ -342,10 +342,9 @@
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Packing Type <small>(requird)</small></label>
+                                                                <label class="control-label">Package Type <small>(requird)</small></label>
                                                                 <select class="form-control" id="package_type" name="package_type">
                                                                     <option disabled="" selected=""></option>
-                                                                    <option value="0">Package</option>
                                                                     <option value="CV">Cover</option>
                                                                     <option value="CB">Cartoon Box</option>
                                                                     <option value="GB">Gunny Bag</option>
@@ -392,10 +391,9 @@
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">UOM <small>(requird)</small></label>
+                                                                <label class="control-label">UOM <small>(Unit requird)</small></label>
                                                                 <select class="form-control" name="uom" id="uom">
                                                                     <option disabled="" selected=""></option>
-                                                                    <option value="0">Unit</option>
                                                                     <option value="ft">Feet</option>
                                                                     <option value="in">Inches</option>
                                                                     <option value="cmet">CentiMeter</option>
