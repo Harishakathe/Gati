@@ -22,17 +22,15 @@ import com.mindworx.model.PackageDetails;
 public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	
 	
-	private Connection connection = null;
+	private Connection connection;
+	private DataSource dataSource;
+	
 	private static final Logger log = Logger.getLogger(PickupDetailsDaoImpl.class);
 	
 	public PickupDetailsDaoImpl(DataSource dataSource) {
-		try {
-			connection = dataSource.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		this.dataSource = dataSource;
 	}
-
+	
 	public PickupDetails getPickupDetails(int Docket_no) {
 		PickupDetails p = new PickupDetails();
 		
@@ -42,6 +40,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		PreparedStatement ps = null;
 		Statement st1 = null;
 		try {
+			connection = dataSource.getConnection();
 			connection.setAutoCommit(false);
 			log.info("Docket QUERY:"+sql);
 			ps = connection.prepareStatement(sql);
@@ -107,7 +106,10 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 					list.add(packageDetails);
 				}
 				p.setPackage_details(list);
-				
+				rs1.close();
+				st1.close();
+				rs.close();
+				ps.close();
 			}
 			else
 			{
@@ -117,20 +119,11 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			log.error("SQLException: " + e.getMessage());
 			try {
 				connection.rollback();
+				connection.close();
 			} catch (SQLException e1) {
-				log.error("connection SQLException: " + e1.getMessage());
+				log.error("SQLException: " + e1.getMessage());
 			}
-		}
-		finally {
-			try {	
-				if(st1!=null)
-					st1.close();
-				if(ps!=null)
-					ps.close();				
-			} catch (SQLException e) {
-				log.error("connection SQLException: " + e.getMessage());
-			}					
-		}				
+		}						
 		return p;		
 	}
 	
@@ -141,25 +134,25 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
+			connection = dataSource.getConnection();
 			ps = connection.prepareStatement(sql);
 			rs = ps.executeQuery();
 			if(rs.next()){
 				
 				count = (int) rs.getInt(1);
 			}
+			rs.close();
+			ps.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("SQLException: " + e.getMessage());
 		}
 		finally {
-			try {
-				if(rs!=null)
-				rs.close();
-				if(ps!=null)
-				ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}					
-		}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
+			}
+		}		
 		return count;
 		
 	}	
@@ -171,24 +164,24 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
+			connection = dataSource.getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setString(0, cust_code);
 			rs = ps.executeQuery();
 			if(rs.next()){
 				out = rs.getString(1);
 			}
+			rs.close();
+			ps.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("SQLException: " + e.getMessage());
 		}
 		finally {
-			try {
-				if(rs!=null)
-				rs.close();
-				if(ps!=null)
-				ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}					
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
+			}
 		}
 		return out;
 	}
@@ -201,6 +194,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		ResultSet rs = null;
 		String comm = "";
 		try {
+			connection = dataSource.getConnection();
 			ps = connection.prepareStatement(sql);
 			rs = ps.executeQuery();
 			out.append("{\"items\":[");
@@ -209,18 +203,17 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 				comm=",";
 			}
 			out.append("]}");
+			rs.close();
+			ps.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("SQLException: " + e.getMessage());
 		}
 		finally {
-			try {
-				if(rs!=null)
-					rs.close();
-				if(ps!=null)
-					ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}					
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
+			}
 		}
 		return out.toString();
 	}
@@ -232,6 +225,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
+			connection = dataSource.getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setString(1,customerid+"%");
 			rs = ps.executeQuery();
@@ -252,19 +246,19 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 				cust.setCustOU(rs.getString("ATTACHED_OU"));
 				out.add(cust);
 			}
+			rs.close();
+			ps.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("SQLException: " + e.getMessage());
 		}
 		finally {
-			try {
-				if(rs!=null)
-					rs.close();
-				if(ps!=null)
-					ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}					
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
+			}
 		}
+		
 		return out;
 	}
 	
@@ -278,6 +272,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		ResultSet rs = null;
 		String comm = "";
 		try {
+			connection = dataSource.getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setString(1,pincode+"%");
 			rs = ps.executeQuery();
@@ -287,19 +282,19 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 				comm=",";
 			}
 			out.append("]}");
+			rs.close();
+			ps.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("SQLException: " + e.getMessage());
 		}
 		finally {
-			try {
-				if(rs!=null)
-					rs.close();
-				if(ps!=null)
-					ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}					
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
+			}
 		}
+		
 		return out.toString();
 	}
 	
@@ -318,7 +313,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		CallableStatement cstmt = null;
 		StringBuffer out = new StringBuffer();
 		try {
-			
+			connection = dataSource.getConnection();
 			//cstmt = connection.prepareCall("{call gemsprod.gems_docket_pack.Gems_DOCKET_VALIDATE_proc(?,?,?,?,trunc(SYSDATE),?,?,?,?,?,?,?,?)}");
 			cstmt = connection.prepareCall(Sql);
 			
@@ -344,60 +339,20 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			
 			out.append("{\"error_flag\":\""+Flag+"\",\"error_msg\":\""+Msg+"\"}");
 			log.info("call CallableStatement:"+out.toString());
-			
+			cstmt.close();
 		} catch (SQLException ex) {
-			 for (Throwable e : ex) {
-			        if (e instanceof SQLException) {
-			            if (ignoreSQLException(
-			                ((SQLException)e).
-			                getSQLState()) == false) {
-
-			                e.printStackTrace(System.err);
-			                log.error("SQLState: " +
-			                    ((SQLException)e).getSQLState());
-
-			                log.error("Error Code: " +
-			                    ((SQLException)e).getErrorCode());
-
-			                log.error("Message: " + e.getMessage());
-
-			                Throwable t = ex.getCause();
-			                while(t != null) {
-			                    System.out.println("Cause: " + t);
-			                    t = t.getCause();
-			                }
-			            }
-			        }
-			    } 			
+			log.error("SQLException: " + ex.getMessage());			  			
 		}
 		finally {
-			try {
-				cstmt.close();
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-			}					
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
+			}
 		}
+		
 		return out.toString();
 	}
-	
-	private boolean ignoreSQLException(String sqlState) {
-		if (sqlState == null) {
-	        System.out.println("The SQL state is not defined!");
-	        return false;
-	    }
-
-	    // X0Y32: Jar file already exists in schema
-	    if (sqlState.equalsIgnoreCase("X0Y32"))
-	        return true;
-
-	    // 42Y55: Table already exists in schema
-	    if (sqlState.equalsIgnoreCase("42Y55"))
-	        return true;
-
-	    return false;
-	}
-
 	//for Submit form and insert data
 	@Override
 	public String insertDocket(PickupDetails p){
@@ -409,6 +364,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		PreparedStatement ps = null;
 		PreparedStatement ps1 = null;
 		try {
+			connection = dataSource.getConnection();
 			connection.setAutoCommit(false);
 			
 			ps = connection.prepareStatement(sql, new String[]{"DOCKET_NO"});
@@ -480,6 +436,9 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			{
 				out.append("{\"error_flag\":\"Y\",\"error_msg\":\"Docket Does Not Inserted\"}");
 			}
+			ps1.close();
+			rs.close();
+			ps.close();
 		} catch (SQLException e) {
 			out.append("{\"error_flag\":\"Y\",\"error_msg\":\""+e.getMessage()+"\"}");
 			log.error("SQLException: " + e.getMessage());
@@ -490,16 +449,12 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			}
 		}
 		finally {
-			try {	
-				if(ps!=null)
-					ps.close();
-				if(ps1!=null)
-					ps1.close();
-			} catch (SQLException e) {
-				log.error("connection SQLException: " + e.getMessage());
-			}					
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
+			}
 		}
-		
 		return out.toString();
 	}
 	
@@ -512,6 +467,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		StringBuffer out = new StringBuffer();
 		PreparedStatement ps = null;
 		try {
+			connection = dataSource.getConnection();
 			ps = connection.prepareStatement(sql);
 						
 			ps.setString(1,p.getProduct());
@@ -555,18 +511,18 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			int k = ps.executeUpdate();
 			if(k > 0) 
 				out.append("Docket Updated Successfully");
-
+			ps.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("SQLException: " + e.getMessage());
 		}
 		finally {
-			try {
-				if(ps!=null)
-					ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}					
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
+			}
 		}
+		
 		return out.toString();
 	}
 
@@ -578,24 +534,24 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
+			connection = dataSource.getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setString(1,receiver_pincode);
 			rs = ps.executeQuery();
 			if(rs.next()){
 				out.append("{\"ess_code\":\""+rs.getString(1)+"\",\"attachedou_code\":\""+rs.getString(2)+"\"}");
 			}
+			rs.close();
+			ps.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("SQLException: " + e.getMessage());
 		}
 		finally {
-			try {
-				if(rs!=null)
-					rs.close();
-				if(ps!=null)
-					ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}					
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
+			}
 		}
 		return out.toString();
 	}
@@ -609,6 +565,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		ResultSet rs = null;
 		String Contract_No = "";
 		try {
+			connection = dataSource.getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setString(1,cust_code);
 			ps.setDate(2,new java.sql.Date(new Date().getTime()));		//gems_docket_mst.bkg_dt
@@ -617,19 +574,20 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			while(rs.next()){
 				Contract_No=rs.getString(1);
 			}
+			if(rs!=null)
+				rs.close();
+			if(ps!=null)
+				ps.close();
 		} catch (SQLException e) {
-			log.error("getContractNo SQLException:"+e.getMessage());
-			e.printStackTrace();
+			log.error("SQLException: " + e.getMessage());
+			//e.printStackTrace();
 		}
 		finally {
-			try {
-				if(rs!=null)
-					rs.close();
-				if(ps!=null)
-					ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}					
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
+			}
 		}
 		return Contract_No;
 	}
@@ -643,6 +601,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		StringBuffer out = new StringBuffer();
 		try {
 			log.info("call generateDocketNo CallableStatement :"+sp);
+			connection = dataSource.getConnection();
 			cstmt = connection.prepareCall(sp);
 			
 			//inparams
@@ -661,17 +620,17 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			String Flag = cstmt.getString(3);
 			
 			out.append("{\"Docket_No\":"+Docket_No+",\"error_flag\":\""+Flag+"\",\"error_msg\":\""+Msg+"\"}");
-			
+			cstmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("SQLException: " + e.getMessage());
 		}
 		finally {
-			try {
-				cstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}					
-		}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
+			}
+		}		
 		return out.toString();
 	}
 
@@ -679,6 +638,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	public String descTable() {
 		StringBuffer out = new StringBuffer();
 		try {
+			connection = dataSource.getConnection();
 			Statement st = connection.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM GEMSPROD.GEMS_GKE_DOCKET_UPLOAD ");
 			
@@ -701,12 +661,18 @@ comma=",";
 					break;
 				}
 			}
-			
-			
+			rs.close();
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			log.error("getContractNo SQLException:"+e.getMessage());
+			log.error("SQLException: " + e.getMessage());
+		}
+		finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
+			}
 		}
 		return out.toString();
 		
