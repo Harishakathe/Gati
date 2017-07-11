@@ -54,13 +54,17 @@ public class AppConfiguration extends WebMvcConfigurerAdapter{
 	
 	@Bean
     public DataSource getDataSource() {
-		log.info("url:"+env.getProperty("url")+" user:"+env.getProperty("user")+" password:"+env.getProperty("password"));
+		log.info("from config: url:"+env.getProperty("url")+" user:"+env.getProperty("user")+" password:"+env.getProperty("password"));
+		log.info("hard code: url:jdbc:oracle:thin:@172.31.28.222:1515:gemstest user:itagwebdb password:web_1d2b");
 		OracleDataSource dataSource = null;
 		try {
 			dataSource = new OracleDataSource();
-			dataSource.setURL(env.getProperty("url"));
+			/*dataSource.setURL(env.getProperty("url"));
 	        dataSource.setUser(env.getProperty("user"));
-	        dataSource.setPassword(env.getProperty("password"));	        
+	        dataSource.setPassword(env.getProperty("password"));*/
+			dataSource.setURL("jdbc:oracle:thin:@172.31.28.222:1515:gemstest");
+	        dataSource.setUser("itagwebdb");
+	        dataSource.setPassword("web_1d2b");
 	        dataSource.setImplicitCachingEnabled(true);
 	        dataSource.setFastConnectionFailoverEnabled(true);
 		} catch (SQLException e) {
@@ -80,13 +84,6 @@ public class AppConfiguration extends WebMvcConfigurerAdapter{
     public PickupDetailsValidator pickupDetailsValidator() {
         return new PickupDetailsValidator();
     }
-           
-    /*@Bean
-    public MessageSource messageSource(){
-    	ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-    	messageSource.setBasename("classpath:messages");
-    	messageSource.setDefaultEncoding("UTF-8");
-    	return messageSource;
-    }*/
+     
         
 }

@@ -1,6 +1,7 @@
 package com.mindworx.controller;
 
 
+import java.io.StringReader;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -24,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import com.mindworx.dao.PickupDetailsDao;
 import com.mindworx.model.CustomerList;
 import com.mindworx.model.JsonResponse;
@@ -102,6 +104,7 @@ public class PickupDetailsRestController {
 			logger.info("My Validation success Start ValidateXML Procedure");
 			String str = pickupDetailsDao.validateXML(pickupDetails);			
 	        JsonParser parser = new JsonParser();
+	       
 	        JsonObject o = parser.parse(str).getAsJsonObject();
 	        if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
 	        	String output = pickupDetailsDao.generateDocketNo(pickupDetails);
@@ -112,8 +115,9 @@ public class PickupDetailsRestController {
 	        		pickupDetails.setDocket_no(o.get("Docket_No").getAsString());
 	        		
 	        		output = pickupDetailsDao.insertDocket(pickupDetails);
-	        		o = parser.parse(output).getAsJsonObject();
-	        		
+	        		JsonReader reader = new JsonReader(new StringReader(output));
+	        		reader.setLenient(true);
+	        		o = parser.parse(reader).getAsJsonObject();	        		
 	        		if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
 	        			logger.info("Docket Inserted Success. Your Docket No:"+o.get("Docket_No").getAsLong());
 	        			res.setStatus("SUCCESS");

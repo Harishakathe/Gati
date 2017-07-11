@@ -22,7 +22,7 @@ import com.mindworx.model.PackageDetails;
 public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	
 	
-	private Connection connection;
+	private Connection connection = null;
 	private DataSource dataSource;
 	
 	private static final Logger log = Logger.getLogger(PickupDetailsDaoImpl.class);
@@ -440,7 +440,8 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			rs.close();
 			ps.close();
 		} catch (SQLException e) {
-			out.append("{\"error_flag\":\"Y\",\"error_msg\":\""+e.getMessage()+"\"}");
+			String me = e.getMessage();
+			out.append("{\"error_flag\":\"Y\",\"error_msg\":\""+me.replace("\"", "'")+"\"}");
 			log.error("SQLException: " + e.getMessage());
 			try {
 				connection.rollback();
