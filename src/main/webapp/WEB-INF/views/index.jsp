@@ -648,7 +648,8 @@
         <script>
             $(function () {
                 $('#slim, #slim2, #slim3, #slim4').slimScroll({
-                    height: '380px'
+                    height: '380px',
+                    alwaysVisible: true
                 });
                 
                 $("#cod_flag").change(function(){
