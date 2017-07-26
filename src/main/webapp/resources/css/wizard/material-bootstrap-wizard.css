@@ -708,7 +708,7 @@ label.control-label {
   .form-group label.control-label {
     font-size: 11px;
     line-height: 1.07143;
-    color: #AAAAAA;
+    color: #666;
     font-weight: 400;
     margin: 16px 0 0 0; }
   .form-group .help-block {
@@ -716,7 +716,7 @@ label.control-label {
     font-size: 11px; }
   .form-group.label-floating label.control-label, .form-group.label-placeholder label.control-label {
     top: -7px;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.42857; 
     font-weight: 300;
   }
@@ -1054,7 +1054,7 @@ select.form-control {
 
 /*            Navigation menu                */
 .nav-pills {
-  background-color: rgba(200, 200, 200, 0.2); }
+  background-color: rgba(200, 200, 200, 0.4); }
   .nav-pills > li + li {
     margin-left: 0; }
   .nav-pills > li > a {

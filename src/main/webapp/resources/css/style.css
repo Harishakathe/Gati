@@ -4023,7 +4023,7 @@ table.table-mail tr td {
 /* BACKGROUNDS */
 .gray-bg,
 .bg-muted {
-  background-color: #f3f3f4;
+  background-color: #e7eaec;
 }
 .white-bg {
   background-color: #ffffff;
@@ -8109,7 +8109,7 @@ body.skin-3 {
 }
 body.md-skin {
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: #ffffff;
+  background-color: #f1f1f1;
 }
 .md-skin .nav-header {
 /*  background: url("patterns/4.png") no-repeat;*/
@@ -8191,14 +8191,14 @@ body.md-skin {
   font-family: 'Roboto', helvetica, arial, sans-serif;
 }
 .md-skin .nav > li > a {
-  color: #676a6c;
+  color: #333;
   padding: 14px 20px 14px 25px;
 }
 .md-skin .nav.navbar-right > li > a {
   color: #ffffff;
 }
 .md-skin .nav > li.active > a {
-  color: #5b5d5f;
+  color: #333;
   font-weight: 700;
 }
 .md-skin .navbar-default .nav > li > a:hover,
@@ -8221,7 +8221,7 @@ body.md-skin {
   transition: all 0.4s;
 }
 .md-skin .nav > li.active {
-  background: #f8f8f9;
+  background-color: transparent;
 }
 .md-skin .nav-second-level li a {
   padding: 7px 10px 7px 52px;
@@ -8280,8 +8280,16 @@ body.md-skin {
 }
 .md-skin .navbar-fixed-top,
 .md-skin .navbar-static-top {
-  background-color: none !important;
-/*  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);*/
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…IgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -moz-linear-gradient(-65deg,#008fe2 0,#00b29c 100%);
+    background: -webkit-gradient(linear,left top,right bottom,color-stop(0%,#008fe2),color-stop(100%,#00b29c));
+    background: -webkit-linear-gradient(-65deg,#008fe2 0,#00b29c 100%);
+    background: -o-linear-gradient(-65deg,#008fe2 0,#00b29c 100%);
+    background: -ms-linear-gradient(-65deg,#008fe2 0,#00b29c 100%);
+    background: linear-gradient(154deg,#008fe2 0,#00b29c 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#008fe2', endColorstr='#00b29c', GradientType=1);
+ 	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+ 
 }
 .md-skin .navbar-static-side {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);

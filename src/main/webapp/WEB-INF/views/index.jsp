@@ -106,14 +106,14 @@
                 <div class="row border-bottom">
                     <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
                         <div class="navbar-header">
-                            <a class="navbar-minimalize minimalize-styl-2 btn btn-link " href="#"><i class="fa fa-bars"></i> </a>
+                            <a class="navbar-minimalize minimalize-styl-2 btn text-white btn-link " href="#"><i class="fa fa-bars"></i> </a>
                         </div>
                         <ul class="nav navbar-top-links navbar-right">
                             <li>
-                                <span class="m-r-sm text-light welcome-message"><i class="fa fa-phone"></i> 1800-180-4284</span>
+                                <span class="m-r-sm text-white welcome-message"><i class="fa fa-phone"></i> 1800-180-4284</span>
                             </li>
                             <li>
-                                <a href="login.html" class="text-light">
+                                <a href="login.html" class="text-white">
                                     <i class="fa fa-power-off"></i> Log out
                                 </a>
                             </li>
@@ -143,43 +143,43 @@
                                                 <div class="row" id="slim">
                                                     <div class="col-sm-5 col-sm-offset-1">
                                                         <div class="form-group label-floating">
-                                                            <label class="control-label">Receiver Code <small>(requird)</small></label>
+                                                            <label class="control-label">Receiver Code <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="receiver_code" id="receiver_code">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-5">
                                                         <div class="form-group label-floating">
-                                                            <label class="control-label">Name <small>(requird)</small></label>
+                                                            <label class="control-label">Name <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="receiver_name" id="receiver_name" >
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-5 col-sm-offset-1">
                                                         <div class="form-group label-floating">
-                                                            <label class="control-label">Phone No <small>(requird)</small></label>
+                                                            <label class="control-label">Phone No <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="receiver_phone" id="receiver_phone">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-5">
                                                         <div class="form-group label-floating">
-                                                            <label class="control-label">Mobile No <small>(requird)</small></label>
+                                                            <label class="control-label">Mobile No <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="receiver_mobile" id="receiver_mobile">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-5 col-sm-offset-1">
                                                         <div class="form-group label-floating">
-                                                            <label class="control-label">Address Line 1 <small>(requird)</small></label>
+                                                            <label class="control-label">Address Line 1 <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="receiver_address1" id="receiver_address1">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-5">
                                                         <div class="form-group label-floating">
-                                                            <label class="control-label">Address Line 2 <small>(requird)</small></label>
+                                                            <label class="control-label">Address Line 2 <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="receiver_address2" id="receiver_address2">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-5 col-sm-offset-1">
                                                         <div class="form-group label-floating">
-                                                            <label class="control-label">Address Line 3 <small>(requird)</small></label>
+                                                            <label class="control-label">Address Line 3 <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="receiver_address3" id="receiver_address3">
                                                         </div>
                                                     </div>
@@ -191,13 +191,13 @@
                                                     </div>
                                                     <div class="col-sm-5 col-sm-offset-1">
                                                         <div class="form-group label-floating">
-                                                            <label class="control-label">City <small>(requird)</small></label>
+                                                            <label class="control-label">City <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="receiver_city" id="receiver_city">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-5">
                                                         <div class="form-group label-floating">
-                                                            <label class="control-label">Pin Code <small>(requird)</small></label>
+                                                            <label class="control-label">Pin Code <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="receiver_pincode" id="receiver_pincode">
                                                             <input type="hidden" id="delivery_ou" name="delivery_ou">
 															<input type="hidden" id="ess_code" name="ess_code">
@@ -205,13 +205,13 @@
                                                     </div>
                                                     <div class="col-sm-5 col-sm-offset-1">
                                                         <div class="form-group label-floating">
-                                                            <label class="control-label">Email <small>(requird)</small></label>
+                                                            <label class="control-label">Email <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="receiver_email" id="receiver_email">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-5">
                                                         <div class="form-group label-floating">
-                                                            <label class="control-label">GSTIN NO<small>(requird)</small></label>
+                                                            <label class="control-label">GSTIN NO<span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="receiver_tin" id="receiver_tin">                                                                
                                                         </div>
                                                     </div>
@@ -222,43 +222,43 @@
                                                     <div class="row" id="slim2">
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Shipper Code <small>(requird)</small></label>
+                                                                <label class="control-label">Shipper Code <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="shipper_code" id="shipper_code">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Name <small>(requird)</small></label>
+                                                                <label class="control-label">Name <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control"name="shipper_name" id="shipper_name" >
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Phone No <small>(requird)</small></label>
+                                                                <label class="control-label">Phone No <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="shipper_phone" id="shipper_phone" >
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Mobile No <small>(requird)</small></label>
+                                                                <label class="control-label">Mobile No <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control"name="shipper_mobile" id="shipper_mobile">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Address Line 1 <small>(requird)</small></label>
+                                                                <label class="control-label">Address Line 1 <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="shipper_address1" id="shipper_address1">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Address Line 2 <small>(requird)</small></label>
+                                                                <label class="control-label">Address Line 2 <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="shipper_address2" id="shipper_address2">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Address Line 3 <small>(requird)</small></label>
+                                                                <label class="control-label">Address Line 3 <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="shipper_address3" id="shipper_address3">
                                                             </div>
                                                         </div>
@@ -270,26 +270,26 @@
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">City <small>(requird)</small></label>
+                                                                <label class="control-label">City <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="shipper_city" id="shipper_city" >
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Pin Code <small>(requird)</small></label>
+                                                                <label class="control-label">Pin Code <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="shipper_pincode" id="shipper_pincode" >
                                                                  <input type="hidden" id="booking_ou" name="booking_ou">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Email <small>(requird)</small></label>
+                                                                <label class="control-label">Email <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="shipper_email" id="shipper_email" >
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">GSTIN NO <small>(requird)</small></label>
+                                                                <label class="control-label">GSTIN NO <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="shipper_tin" id="shipper_tin" >                                                                    
                                                             </div>
                                                         </div>
@@ -301,7 +301,7 @@
                                                     <div class="row">
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Product <small>(requird)</small></label>
+                                                                <label class="control-label">Product <span class="text-danger">*</span></label>
                                                                 <select class="form-control" name="product" id="product">
                                                                     <option disabled="" selected=""></option>
                                                                     <option value="25">Surface Express</option>
@@ -321,7 +321,7 @@
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">BKG Basis <small>(requird)</small></label>
+                                                                <label class="control-label">BKG Basis <span class="text-danger">*</span></label>
                                                                 <select class="form-control" name="booking_basis" id="booking_basis">
                                                                     <option disabled="" selected=""></option>
                                                                     <option value="1">PAID</option>
@@ -333,7 +333,7 @@
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Goods Type <small>(requird)</small></label>
+                                                                <label class="control-label">Goods Type <span class="text-danger">*</span></label>
                                                                 <select class="form-control" id="goods_code" name="goods_code">
                                                                     <option disabled="" selected=""></option>                                                                    
                                                                 </select>
@@ -342,7 +342,7 @@
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Package Type <small>(requird)</small></label>
+                                                                <label class="control-label">Package Type <span class="text-danger">*</span></label>
                                                                 <select class="form-control" id="package_type" name="package_type">
                                                                     <option disabled="" selected=""></option>
                                                                     <option value="CV">Cover</option>
@@ -356,7 +356,7 @@
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">No. of Packages <small>(requird)</small></label>
+                                                                <label class="control-label">No. of Packages <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="no_of_packages" id="no_of_packages" readonly>
                                                             </div>
                                                         </div>
@@ -369,13 +369,13 @@
                                                     <div class="row">
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Shipment value <small>(requird)</small></label>
+                                                                <label class="control-label">Shipment value <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="shipment_value" id="shipment_value">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">Risk <small>(requird)</small></label>
+                                                                <label class="control-label">Risk <span class="text-danger">*</span></label>
                                                                 <select class="form-control" name="risk" id="risk">
                                                                     <option disabled="" selected=""></option>
                                                                     <option value="CR">Gati</option>
@@ -385,7 +385,7 @@
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label" >Volume <small>(requird)</small></label>
+                                                                <label class="control-label" >Volume <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="volume" id="volume">
                                                             </div>
                                                         </div>
@@ -402,13 +402,13 @@
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">ACT.WT <small>(requird)</small></label>
+                                                                <label class="control-label">ACT.WT <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="actual_weight" id="actual_weight">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">COD/DOD Flag <small>(requird)</small></label>
+                                                                <label class="control-label">COD/DOD Flag <span class="text-danger">*</span></label>
                                                                 <select class="form-control" name="cod_flag" id="cod_flag">
                                                                     <option disabled="" selected=""></option>
                                                                     <option value="Y">Yes</option>
@@ -418,7 +418,7 @@
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">COD/DOD in Fav <small>(requird)</small></label>
+                                                                <label class="control-label">COD/DOD in Fav <span class="text-danger">*</span></label>
                                                                 <select class="form-control" name="cod_dod_in_favor" id="cod_dod_in_favor">
                                                                     <option disabled="" selected=""></option>
                                                                     <option value="G">Gati</option>
@@ -428,7 +428,7 @@
                                                         </div>
                                                         <div class="col-sm-5">
                                                             <div class="form-group label-floating">
-                                                                <label class="control-label">COD/DOD Amt <small>(requird)</small></label>
+                                                                <label class="control-label">COD/DOD Amt <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" id="cod_dod_amount" name="cod_dod_amount">
                                                             </div>
                                                         </div>
@@ -566,13 +566,13 @@
 		                                         <div class="row">
 		                                             <div class="col-sm-6">
 		                                                 <div class="form-group label-floating is-empty">
-		                                                     <label class="control-label">Length <small>(requird)</small></label>
+		                                                     <label class="control-label">Length <span class="text-danger">*</span></label>
 		                                                     <input type="text" class="form-control pkg pkg_ln" name="package_details[{0}].pkg_ln">
 		                                                 </div>
 		                                             </div>
 		                                             <div class="col-sm-6">
 		                                                 <div class="form-group label-floating is-empty">
-		                                                     <label class="control-label">Breadth <small>(requird)</small></label>
+		                                                     <label class="control-label">Breadth <span class="text-danger">*</span></label>
 		                                                     <input type="text" class="form-control pkg pkg_br" name="package_details[{0}].pkg_br">
 		                                                 </div>
 		                                             </div>
@@ -582,13 +582,13 @@
 		                                         <div class="row">
 		                                             <div class="col-sm-6">
 		                                                 <div class="form-group label-floating is-empty">
-		                                                     <label class="control-label">Height <small>(requird)</small></label>
+		                                                     <label class="control-label">Height <span class="text-danger">*</span></label>
 		                                                     <input type="text" class="form-control pkg pkg_ht" name="package_details[{0}].pkg_ht">
 		                                                 </div>
 		                                             </div>
 		                                             <div class="col-sm-6">
 		                                                 <div class="form-group label-floating is-empty">
-		                                                     <label class="control-label">Weight <small>(requird)</small></label>
+		                                                     <label class="control-label">Weight <span class="text-danger">*</span></label>
 		                                                     <input type="text" class="form-control pkg pkg_wt " name="package_details[{0}].pkg_wt">
 		                                                 </div>
 		                                             </div>

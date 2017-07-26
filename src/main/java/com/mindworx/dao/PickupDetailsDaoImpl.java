@@ -129,18 +129,27 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	
 	//for Test Connection
 	public long getGEMS_WS_CUST_AUTO_prod_vals() {
-		String sql = "select count(*) from gemsprod.GEMS_WS_CUST_AUTO_prod_vals";
+		//String sql = "select count(*) from gemsprod.GEMS_WS_CUST_AUTO_prod_vals";
+		String sql = "SELECT table_name, owner, tablespace_name FROM user_tables";
 		int count = 0;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		StringBuffer out = new StringBuffer();
+		String comma="";
 		try {
 			connection = dataSource.getConnection();
 			ps = connection.prepareStatement(sql);
 			rs = ps.executeQuery();
-			if(rs.next()){
+			/*if(rs.next()){
 				
 				count = (int) rs.getInt(1);
+			}*/
+			out.append("[");
+			while(rs.next()){				
+				out.append(comma+"{\"table_name\":\""+rs.getString(1)+"\",\"owner\":\""+rs.getString(2)+"\",\"tablespace_name\":\""+rs.getString(3)+"\"}");
+				comma=",";
 			}
+			out.append("]");
 			rs.close();
 			ps.close();
 		} catch (SQLException e) {
@@ -153,8 +162,8 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
 			}
 		}		
-		return count;
-		
+		//return out.toString();
+		return 0;
 	}	
 	
 	//for getBookingStation
