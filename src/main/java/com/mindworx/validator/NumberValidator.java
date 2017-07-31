@@ -6,10 +6,11 @@ import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 @Component("numberValidator")
 public class NumberValidator {
-	private Pattern pattern,pattern_m,pattern_d;
+	private Pattern pattern,pattern_m,pattern_d,pattern_f;
 	private Matcher matcher;
 
 	String INTERGER_PATTERN = "[0-9]+";
+	String FLOAT_PATTERN = "[+-]?([0-9]*[.])?[0-9]+";
 	String MOBILE_PATTERN = "[0-9]{10}";
 	String DOCKET_PATTERN = "[0-9]{9}";
 	
@@ -17,6 +18,7 @@ public class NumberValidator {
 		pattern = Pattern.compile(INTERGER_PATTERN);
 		pattern_m = Pattern.compile(MOBILE_PATTERN);
 		pattern_d = Pattern.compile(DOCKET_PATTERN);
+		pattern_f = Pattern.compile(FLOAT_PATTERN);
 	}
 
 	public boolean valid(final String number) {
@@ -25,6 +27,10 @@ public class NumberValidator {
 	}
 	public boolean valid_mo(final String number) {
 		matcher = pattern_m.matcher(number);
+		return matcher.matches();
+	}
+	public boolean valid_float(final String number) {
+		matcher = pattern_f.matcher(number);
 		return matcher.matches();
 	}
 

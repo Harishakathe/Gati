@@ -11,7 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @XmlRootElement
 public class PickupDetails {
 	
-	private String docket_no;
+	private int docket_no;
 	private String docket_type;
 	private String docket_category;
 	private String product;
@@ -46,18 +46,19 @@ public class PickupDetails {
 	private String goods_desc;
 	private String booking_ou;
 	private String delivery_ou;
-	private String no_of_packages;
-	//private String package_number_from;
-	//private String package_number_to;
+	private int no_of_packages;
+	private int package_number_from;
+	private int package_number_to;
 	private String package_type;
-	private String Shipment_value;
+	private double Shipment_value;
 	private String risk;
-	private String volume;
+	private float volume;
 	private String uom;
-	private String actual_weight;
+	private String contract_no;
+	private float actual_weight;
 	private String cod_flag;
 	private String cod_dod_in_favor;
-	private String cod_dod_amount;
+	private int cod_dod_amount;
 	private String ess_code;
 	@DateTimeFormat(pattern = "MM-dd-yyyy")
 	private Date pickup_date;
@@ -66,12 +67,12 @@ public class PickupDetails {
 	
 	public PickupDetails() {
 	}
-		
-	public String getDocket_no() {
+	
+	public int getDocket_no() {
 		return docket_no;
 	}
 
-	public void setDocket_no(String docket_no) {
+	public void setDocket_no(int docket_no) {
 		this.docket_no = docket_no;
 	}
 
@@ -330,7 +331,7 @@ public class PickupDetails {
 	public void setGoods_desc(String goods_desc) {
 		this.goods_desc = goods_desc;
 	}
-	
+
 	public String getBooking_ou() {
 		return booking_ou;
 	}
@@ -347,29 +348,29 @@ public class PickupDetails {
 		this.delivery_ou = delivery_ou;
 	}
 
-	public String getNo_of_packages() {
+	public int getNo_of_packages() {
 		return no_of_packages;
 	}
 
-	public void setNo_of_packages(String no_of_packages) {
+	public void setNo_of_packages(int no_of_packages) {
 		this.no_of_packages = no_of_packages;
 	}
 
-	/*public String getPackage_number_from() {
+	public int getPackage_number_from() {
 		return package_number_from;
 	}
 
-	public void setPackage_number_from(String package_number_from) {
+	public void setPackage_number_from(int package_number_from) {
 		this.package_number_from = package_number_from;
 	}
 
-	public String getPackage_number_to() {
+	public int getPackage_number_to() {
 		return package_number_to;
 	}
 
-	public void setPackage_number_to(String package_number_to) {
+	public void setPackage_number_to(int package_number_to) {
 		this.package_number_to = package_number_to;
-	}*/
+	}
 
 	public String getPackage_type() {
 		return package_type;
@@ -379,11 +380,11 @@ public class PickupDetails {
 		this.package_type = package_type;
 	}
 
-	public String getShipment_value() {
+	public double getShipment_value() {
 		return Shipment_value;
 	}
 
-	public void setShipment_value(String shipment_value) {
+	public void setShipment_value(double shipment_value) {
 		Shipment_value = shipment_value;
 	}
 
@@ -395,11 +396,11 @@ public class PickupDetails {
 		this.risk = risk;
 	}
 
-	public String getVolume() {
+	public float getVolume() {
 		return volume;
 	}
 
-	public void setVolume(String volume) {
+	public void setVolume(float volume) {
 		this.volume = volume;
 	}
 
@@ -411,11 +412,19 @@ public class PickupDetails {
 		this.uom = uom;
 	}
 
-	public String getActual_weight() {
+	public String getContract_no() {
+		return contract_no;
+	}
+
+	public void setContract_no(String contract_no) {
+		this.contract_no = contract_no;
+	}
+
+	public float getActual_weight() {
 		return actual_weight;
 	}
 
-	public void setActual_weight(String actual_weight) {
+	public void setActual_weight(float actual_weight) {
 		this.actual_weight = actual_weight;
 	}
 
@@ -435,12 +444,20 @@ public class PickupDetails {
 		this.cod_dod_in_favor = cod_dod_in_favor;
 	}
 
-	public String getCod_dod_amount() {
+	public int getCod_dod_amount() {
 		return cod_dod_amount;
 	}
 
-	public void setCod_dod_amount(String cod_dod_amount) {
+	public void setCod_dod_amount(int cod_dod_amount) {
 		this.cod_dod_amount = cod_dod_amount;
+	}
+
+	public String getEss_code() {
+		return ess_code;
+	}
+
+	public void setEss_code(String ess_code) {
+		this.ess_code = ess_code;
 	}
 
 	public Date getPickup_date() {
@@ -466,20 +483,10 @@ public class PickupDetails {
 	public void setPackage_details(List<PackageDetails> package_details) {
 		this.package_details = package_details;
 	}
-	
-	public String getEss_code() {
-		return ess_code;
-	}
 
-	public void setEss_code(String ess_code) {
-		this.ess_code = ess_code;
-	}
-	
 	@Override
 	public String toString() {
 		return new com.google.gson.Gson().toJson(this);
 	}
-
-		
 	
 }

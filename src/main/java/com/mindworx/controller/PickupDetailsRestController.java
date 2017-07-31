@@ -101,10 +101,17 @@ public class PickupDetailsRestController {
 		validator.validate(pickupDetails, result);
 						
 		if(!result.hasErrors()){
+			String cust_code = pickupDetails.getShipper_code();
+			if(pickupDetails.getBooking_basis().equalsIgnoreCase("6")){
+				cust_code = pickupDetails.getReceiver_code();
+			}	
+			String contract_no =  pickupDetailsDao.getContractNo(cust_code);
+			pickupDetails.setContract_no(contract_no);
+			logger.info("Generated Contract No:"+contract_no);
+			
 			logger.info("My Validation success Start ValidateXML Procedure");
 			String str = pickupDetailsDao.validateXML(pickupDetails);			
-	        JsonParser parser = new JsonParser();
-	       
+	        JsonParser parser = new JsonParser();	       
 	        JsonObject o = parser.parse(str).getAsJsonObject();
 	        if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
 	        	String output = pickupDetailsDao.generateDocketNo(pickupDetails);
@@ -112,7 +119,7 @@ public class PickupDetailsRestController {
 	        	o = parser.parse(output).getAsJsonObject();
 	        	
 	        	if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
-	        		pickupDetails.setDocket_no(o.get("Docket_No").getAsString());
+	        		pickupDetails.setDocket_no(o.get("Docket_No").getAsInt());
 	        		
 	        		output = pickupDetailsDao.insertDocket(pickupDetails);
 	        		JsonReader reader = new JsonReader(new StringReader(output));
@@ -159,4 +166,79 @@ public class PickupDetailsRestController {
 	}
 	
 	
+	@RequestMapping(value = "/update_docket", method = RequestMethod.POST, consumes={MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<?> updateDocket(@RequestBody @Valid PickupDetails pickupDetails,UriComponentsBuilder ucBuilder, BindingResult result ) {
+		
+		logger.info("pickupDetails:"+pickupDetails);
+		
+		JsonResponse res = new JsonResponse();
+		
+		validator.validate(pickupDetails, result);
+						
+		if(!result.hasErrors()){
+			String cust_code = pickupDetails.getShipper_code();
+			if(pickupDetails.getBooking_basis().equalsIgnoreCase("6")){
+				cust_code = pickupDetails.getReceiver_code();
+			}	
+			String contract_no =  pickupDetailsDao.getContractNo(cust_code);
+			pickupDetails.setContract_no(contract_no);
+			logger.info("Generated Contract No:"+contract_no);
+			//generate contract_no;
+			logger.info("My Validation success Start ValidateXML Procedure");
+			String str = pickupDetailsDao.validateXML(pickupDetails);			
+	        JsonParser parser = new JsonParser();	        
+	        JsonObject o = parser.parse(str).getAsJsonObject();
+	        if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
+	        		
+        		String output = pickupDetailsDao.updateDocket(pickupDetails);
+        		JsonReader reader = new JsonReader(new StringReader(output));
+        		reader.setLenient(true);
+        		o = parser.parse(reader).getAsJsonObject();	        		
+        		if(o.get("error_flag").getAsString().equalsIgnoreCase("N")){
+        			logger.info("Docket Inserted Success. Your Docket No:"+o.get("Docket_No").getAsLong());
+        			res.setStatus("SUCCESS");
+		        	res.setMessage("Docket Inserted Success. Your Docket No:"+o.get("Docket_No").getAsLong());
+		        	res.setResult(o.get("Docket_No").getAsLong());
+        		}else{	        			
+		        	res.setStatus("FAIL");
+		        	res.setMessage("Update Error");
+		        	res.setResult(o.get("error_msg").getAsString());
+        		}
+        	}
+        	else{
+        		res.setStatus("FAIL");
+	        	res.setMessage("Validation XML Error");
+	        	res.setResult(o.get("error_msg").getAsString());
+        	}
+	    }
+		else {
+			res.setStatus("FAIL");
+			res.setMessage("Invalied Pickup Details.");
+			
+			logger.error("validation error:"+result.getAllErrors());
+			
+			List<FieldError> allErrors = result.getFieldErrors();
+            JsonObject obj = new JsonObject();
+            for (FieldError objectError : allErrors) {
+            	obj.addProperty(objectError.getField(), objectError.getCode());
+            }            
+            Gson gson = new Gson();            
+            res.setResult(gson.fromJson(obj,JsonObject.class));
+            
+		}		
+		return new ResponseEntity<JsonResponse>(res,HttpStatus.OK);
+	}
+	
+	
+	
+	 @RequestMapping(value = "/getDocketInfo/{docket_no}", method = RequestMethod.GET)
+	 public ResponseEntity<PickupDetails> getDocketInfo(@PathVariable int docket_no) {	
+		 PickupDetails pickupDetails = pickupDetailsDao.getPickupDetails(docket_no);
+	        if (pickupDetails == null) {
+	        	logger.error("Docket with id " + docket_no + " not found");
+	            return new ResponseEntity<PickupDetails>(HttpStatus.NOT_FOUND);
+	        }
+	        return new ResponseEntity<PickupDetails>(pickupDetails, HttpStatus.OK);
+    	 
+	 }	
 }

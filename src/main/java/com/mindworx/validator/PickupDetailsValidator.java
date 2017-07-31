@@ -85,31 +85,31 @@ public class PickupDetailsValidator implements Validator{
 			errors.rejectValue("booking_basis", "Booking Basis Must be Valid");
 		}
 		
-		if(!numberValidator.valid(details.getNo_of_packages())){
+		if(!numberValidator.valid(""+details.getNo_of_packages())){
 			errors.rejectValue("no_of_packages", "No of Packages Must be Number");
 		}
 		else{
-			int No_of_Packages = Integer.parseInt(details.getNo_of_packages());
+			int No_of_Packages = details.getNo_of_packages();
 			if(No_of_Packages<0 || No_of_Packages>100)
 				errors.rejectValue("no_of_packages", "No of Packages Beetween 1 to 99");
 		}
-		if(!numberValidator.valid(details.getNo_of_packages())){
+		if(!numberValidator.valid(""+details.getNo_of_packages())){
 			errors.rejectValue("no_of_packages", "No of Packages Must be Number");
 		}
 		
-		if(!numberValidator.valid(details.getShipment_value())){
+		if(!numberValidator.valid_float(""+details.getShipment_value())){
 			errors.rejectValue("shipment_value", "Shipment Value To Must be Number");			
 		}else{
-			long shipment_value = Long.parseLong(details.getShipment_value());
-			long mlimit = 9999999999L;
+			double shipment_value = details.getShipment_value();
+			double mlimit = 9999999999L;
 			if(shipment_value<0 || shipment_value > mlimit )
 				errors.rejectValue("shipment_value", "Shipment Value Beetween 1 to 9999999999");
 		}
 		
-		if(!numberValidator.valid(details.getVolume())){
+		if(!numberValidator.valid_float(""+details.getVolume())){
 			errors.rejectValue("volume", "Volume To Must be Number");			
 		}else{
-			int volume = Integer.parseInt(details.getShipment_value());
+			float volume = details.getVolume();
 			if(volume<0 || volume > 999999 )
 				errors.rejectValue("volume", "Volume Beetween 1 to 999999");
 		}
@@ -119,7 +119,7 @@ public class PickupDetailsValidator implements Validator{
 		}else{
 			int pincode = Integer.parseInt(details.getShipper_pincode());
 			if(pincode<99999 || pincode >= 999999 )
-				errors.rejectValue("volume", "Booking Pincode Must be 9 digit");
+				errors.rejectValue("volume", "Booking Pincode Must be 6 digit");
 		}
 
 		if(!numberValidator.valid(details.getReceiver_pincode())){
@@ -127,7 +127,7 @@ public class PickupDetailsValidator implements Validator{
 		}else{
 			int pincode = Integer.parseInt(details.getReceiver_pincode());
 			if(pincode<99999 || pincode >= 999999 )
-				errors.rejectValue("volume", "Delivery Pincode Must be 9 digit");
+				errors.rejectValue("volume", "Delivery Pincode Must be 6 digit");
 		}
 		
 		if (details.getPackage_details() == null || details.getPackage_details().size() < 0 || details.getPackage_details().size() > 100) {

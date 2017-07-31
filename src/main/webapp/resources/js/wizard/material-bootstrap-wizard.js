@@ -18,7 +18,49 @@
 var searchVisible = 0;
 var transparent = true;
 var mobile_device = false;
+var template;
 
+function calPackShipment(){    	
+	var tt=1,vv=0,ii=1;
+	$('#package_details_div .pkg-sv').each(function () {
+		tt *= parseFloat($(this).val()) || 0;
+		if(ii==3){    			
+			vv+=tt;
+			tt=1;ii=0;
+		}
+		ii++;
+    });
+	$('#shipment_value').val(vv);
+	$("#shipment_value").trigger("change");
+}
+
+function addRow() {		
+	$("#package_details_div").html('');
+	$('#shipment_value').val(0);
+	var NoOfPack = $("#no_of_packages").val();
+	var packNoFrom = parseInt($("#package_number_from").val()) || 0;
+	
+	var pacNo = 0 ;
+	for(var i=0 ; i<NoOfPack;i++){
+		pacNo = i + packNoFrom;
+		$(template(pacNo,i)).appendTo("#package_details_div");
+	}
+	if(packNoFrom!=0){
+		$("#package_number_to").val(pacNo);
+		$("#package_number_to").trigger("change");
+	}
+	$('#package_details_div .pkg').each(function () {
+        $(this).rules("add", {
+            required: true,
+            float: true,
+        });
+    });
+	$('#package_details_div .pkg-sv').each(function () {
+		$(this).keyup(function(event) {
+		    calPackShipment();
+		  });
+    });
+}
 $(document).ready(function(){
 
     $.material.init();
@@ -207,25 +249,12 @@ $(document).ready(function(){
          }
 	});
     
-    var template = jQuery.validator.format($.trim($("#template").val()));
-    var i = 0;
-	function addRow() {
-		console.log("add row");
-		$(template(i++)).appendTo("#package_details_div");
-		$("#no_of_packages").val(i);
-		$("#no_of_packages").trigger("change");
-		$('.pkg').each(function () {
-	        $(this).rules("add", {
-	            required: true,
-	            float: true,
-	        });
-	    });
-	}
-
-	// start with one row
-	addRow();
+    template = jQuery.validator.format($.trim($("#template").val()));
+    
 	// add more rows on click
-	$("#add").click(addRow);
+	$("#add").click(function(){
+		addRow();
+	});
     
 
     // Wizard Initialization
@@ -372,6 +401,8 @@ $(document).ready(function(){
         
         console.log(JSON.stringify(json));
         console.log(xml);
+        var url = form.attr('action');
+        var maction = url.contains("update_docket")?'Updated':'Generated';
         $.ajax({
         	method: form.attr('method'),
             url: form.attr('action'),
@@ -385,7 +416,7 @@ $(document).ready(function(){
             	var mymodal = $('#myModal');
                                 
             	if(data.status=='SUCCESS'){
-            		mymodal.find('.modal-title').html("<i class='fa fa-check' aria-hidden='true'></i> SUCCESS ALERT: Docket Generated");
+            		mymodal.find('.modal-title').html("<i class='fa fa-check' aria-hidden='true'></i> SUCCESS ALERT: Docket "+maction);
             		mymodal.find('.modal-header').removeClass("error_header");
             		mymodal.find('.modal-header').addClass("success_header");
             		mymodal.find('.modal-body').text(data.message);
