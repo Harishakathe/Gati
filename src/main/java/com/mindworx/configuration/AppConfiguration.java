@@ -55,16 +55,12 @@ public class AppConfiguration extends WebMvcConfigurerAdapter{
 	@Bean
     public DataSource getDataSource() {
 		log.info("from config: url:"+env.getProperty("url")+" user:"+env.getProperty("user")+" password:"+env.getProperty("password"));
-		log.info("hard code: url:jdbc:oracle:thin:@172.31.28.222:1515:gemstest user:itagwebdb password:web_1d2b");
 		OracleDataSource dataSource = null;
 		try {
 			dataSource = new OracleDataSource();
-			/*dataSource.setURL(env.getProperty("url"));
+			dataSource.setURL(env.getProperty("url"));
 	        dataSource.setUser(env.getProperty("user"));
-	        dataSource.setPassword(env.getProperty("password"));*/
-			dataSource.setURL("jdbc:oracle:thin:@172.31.28.222:1515:gemstest");
-	        dataSource.setUser("itagwebdb");
-	        dataSource.setPassword("web_1d2b");
+	        dataSource.setPassword(env.getProperty("password"));
 	        dataSource.setImplicitCachingEnabled(true);
 	        dataSource.setFastConnectionFailoverEnabled(true);
 		} catch (SQLException e) {

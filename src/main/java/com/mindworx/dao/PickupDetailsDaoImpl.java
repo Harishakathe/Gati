@@ -36,7 +36,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		PickupDetails p = null;
 		
 		String sql = "SELECT DOCKET_CATG,DOCKET_NO,DOCKET_TYPE,RISK_COVERAGE,BOOKING_STN,DELIVERY_STN,PROD_SERV_CODE,NO_OF_PKGS,GOODS_CODE,CONSIGNMENT_TYPE,DECL_CARGO_VAL,ACTUAL_WT,VOLUME,UOM,CONTRACT_NO,CONSIGNOR_CODE,CONSIGNOR_NAME,CONSIGNOR_ADD1,CONSIGNOR_ADD2,CONSIGNOR_ADD3,CONSIGNOR_CITY,CONSIGNOR_ADD4,CONSIGNOR_MOBILE_NO,CONSIGNOR_PHONE_NO,CONSIGNOR_EMAIL,CONSIGNOR_PINCODE,CONSIGNEE_CODE,CONSIGNEE_NAME,CONSIGNEE_ADD1,CONSIGNEE_ADD2,CONSIGNEE_ADD3,CONSIGNEE_CITY,CONSIGNEE_ADD4,CONSIGNEE_MOBILE_NO,CONSIGNEE_PHONE_NO,CONSIGNEE_EMAIL,CONSIGNEE_PINCODE,STATUS,CREATED_DATE,BOOKING_BASIS,FROM_PKG_NO,TO_PKG_NO,COD_AMT,COD_IN_FAVOUR_OF,UPLOAD_FLAG,ESS_CODE,COD_DOD_FLAG,GOODS_DESC,CONSIGNOR_TINNO,CONSIGNEE_TINNO FROM GEMSPROD.GEMS_GKE_DOCKET_UPLOAD WHERE DOCKET_NO = ?";
-		String sql1 = "SELECT PKG_NO,PKG_LN,PKG_BR,PKG_HT,PKG_WT FROM GEMSPROD.TEMP_DOCKET_ITEM_DTLS WHERE DOCKET_NO = "+Docket_no;
+		String sql1 = "SELECT PKG_NO,PKG_LN,PKG_BR,PKG_HT,PKG_WT FROM GEMSPROD.TEMP_DOCKET_ITEM_DTLS WHERE STATUS = 'V' AND DOCKET_NO = "+Docket_no;
 		
 		PreparedStatement ps = null;
 		Statement st1 = null;
@@ -381,7 +381,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			
 			int Package_number_from = p.getPackage_number_from();
 			log.info("Package_number_from is :"+Package_number_from);
-			if(Package_number_from==0){					
+			if(packageDetails.size()!=0 && Package_number_from==0){					
 				ps2 = connection.prepareStatement(sql2);
 				ResultSet rs2 = ps2.executeQuery();
 				if (rs2.next()) {
@@ -498,12 +498,13 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	
 	//for insert updateDocket
 	public String updateDocket(PickupDetails p){
-		//String sql = "UPDATE GEMSPROD.GEMS_GKE_DOCKET_UPLOAD SET ESS_CODE=? WHERE DOCKET_NO = ?";
 		
-		String sql = "UPDATE GEMSPROD.GEMS_GKE_DOCKET_UPLOAD SET DOCKET_CATG=?,DOCKET_TYPE=?,RISK_COVERAGE=?,BOOKING_STN=?,DELIVERY_STN=?,PROD_SERV_CODE=?,NO_OF_PKGS=?,GOODS_CODE=?,CONSIGNMENT_TYPE=?,DECL_CARGO_VAL=?,ACTUAL_WT=?,VOLUME=?,UOM=?,CONTRACT_NO=?,CONSIGNOR_CODE=?,CONSIGNOR_NAME=?,CONSIGNOR_ADD1=?,CONSIGNOR_ADD2=?,CONSIGNOR_ADD3=?,CONSIGNOR_CITY=?,CONSIGNOR_ADD4=?,CONSIGNOR_MOBILE_NO=?,CONSIGNOR_PHONE_NO=?,CONSIGNOR_EMAIL=?,CONSIGNOR_PINCODE=?,CONSIGNEE_CODE=?,CONSIGNEE_NAME=?,CONSIGNEE_ADD1=?,CONSIGNEE_ADD2=?,CONSIGNEE_ADD3=?,CONSIGNEE_CITY=?,CONSIGNEE_ADD4=?,CONSIGNEE_MOBILE_NO=?,CONSIGNEE_PHONE_NO=?,CONSIGNEE_EMAIL=?,CONSIGNEE_PINCODE=?,BOOKING_BASIS=?,FROM_PKG_NO=?,TO_PKG_NO=?,COD_AMT=?,COD_IN_FAVOUR_OF=?,ESS_CODE=?,COD_DOD_FLAG=?,GOODS_DESC=?,CONSIGNOR_TINNO=?,CONSIGNEE_TINNO=? WHERE DOCKET_NO = ?";
-		String sql1 = "UPDATE GEMSPROD.TEMP_DOCKET_ITEM_DTLS SET `PKG_LN`=?,`PKG_BR`=?,`PKG_HT`=?,`PKG_WT`=? WHERE DOCKET_NO = ? AND PKG_NO = ? ";
+		String sql = "UPDATE GEMSPROD.GEMS_GKE_DOCKET_UPLOAD SET DOCKET_CATG=?,DOCKET_TYPE=?,RISK_COVERAGE=?,BOOKING_STN=?,DELIVERY_STN=?,PROD_SERV_CODE=?,NO_OF_PKGS=?,GOODS_CODE=?,CONSIGNMENT_TYPE=?,DECL_CARGO_VAL=?,ACTUAL_WT=?,VOLUME=?,UOM=?,CONTRACT_NO=?,CONSIGNOR_CODE=?,CONSIGNOR_NAME=?,CONSIGNOR_ADD1=?,CONSIGNOR_ADD2=?,CONSIGNOR_ADD3=?,CONSIGNOR_CITY=?,CONSIGNOR_ADD4=?,CONSIGNOR_PHONE_NO=?,CONSIGNOR_MOBILE_NO=?,CONSIGNOR_EMAIL=?,CONSIGNOR_PINCODE=?,CONSIGNEE_CODE=?,CONSIGNEE_NAME=?,CONSIGNEE_ADD1=?,CONSIGNEE_ADD2=?,CONSIGNEE_ADD3=?,CONSIGNEE_CITY=?,CONSIGNEE_ADD4=?,CONSIGNEE_PHONE_NO=?,CONSIGNEE_MOBILE_NO=?,CONSIGNEE_EMAIL=?,CONSIGNEE_PINCODE=?,BOOKING_BASIS=?,FROM_PKG_NO=?,TO_PKG_NO=?,COD_AMT=?,COD_IN_FAVOUR_OF=?,ESS_CODE=?,COD_DOD_FLAG=?,GOODS_DESC=?,CONSIGNOR_TINNO=?,CONSIGNEE_TINNO=? WHERE DOCKET_NO = ?";
+		String sql1 = "UPDATE GEMSPROD.TEMP_DOCKET_ITEM_DTLS SET STATUS = 'I' WHERE DOCKET_NO = "+p.getDocket_no();
+		String sql2 = "INSERT INTO GEMSPROD.TEMP_DOCKET_ITEM_DTLS(LOAD_SEQNO,DOCKET_NO,PKG_NO,PKG_LN,PKG_BR,PKG_HT,PKG_WT)VALUES('AUTO/'||to_char(sysdate,'MON-YY/HH24MI'),?,?,?,?,?,?)";
+		
 		StringBuffer out = new StringBuffer();
-		PreparedStatement ps,ps1 = null;
+		PreparedStatement ps = null,ps1 = null,ps2 = null;
 		try {
 			connection = dataSource.getConnection();
 			ps = connection.prepareStatement(sql);						
@@ -556,26 +557,30 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			ps.setInt(47,p.getDocket_no());
 			int k = ps.executeUpdate();
 			if(k > 0){
+				
 				ps1 = connection.prepareStatement(sql1);
+				ps1.execute();
+				
+				ps2 = connection.prepareStatement(sql2);
 				List<PackageDetails> packageDetails = p.getPackage_details();
 				for (int i = 0; i < packageDetails.size();  i++) {
-					
-					ps1.setFloat(1,packageDetails.get(i).getPkg_ln());
-					ps1.setFloat(2,packageDetails.get(i).getPkg_br());
-					ps1.setFloat(3,packageDetails.get(i).getPkg_ht());
-					ps1.setFloat(4,packageDetails.get(i).getPkg_wt());
-					ps1.setInt(5,p.getDocket_no());
-					ps1.setInt(6,(p.getPackage_number_from()+i));
-					ps1.addBatch();
+					ps2.setInt(1,p.getDocket_no());
+					ps2.setInt(2,(p.getPackage_number_from()+i));
+					ps2.setFloat(3,packageDetails.get(i).getPkg_ln());
+					ps2.setFloat(4,packageDetails.get(i).getPkg_br());
+					ps2.setFloat(5,packageDetails.get(i).getPkg_ht());
+					ps2.setFloat(6,packageDetails.get(i).getPkg_wt());
+					ps2.addBatch();
 	                if ((i + 1) % maxBatchSize == 0 || (i + 1) == packageDetails.size()) {
-	                    ps1.executeBatch(); 
-	                    log.info("packageDetails batch is updated");
+	                	ps2.executeBatch(); 
+	                    log.info("packageDetails batch is inseted");
 	                    }
 	            } 
 				out.append("{\"error_flag\":\"N\",\"Docket_No\":"+p.getDocket_no()+"}");
 				log.info("Docket Package Inserted");
 			}
-				
+			ps2.close();
+			ps1.close();
 			ps.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -703,29 +708,40 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	public String descTable() {
 		StringBuffer out = new StringBuffer();
 		try {
+			//String sql = "SELECT * FROM GEMSPROD.GEMS_GKE_DOCKET_UPLOAD WHERE DOCKET_NO =125602795";
+			//String sql = "SELECT * FROM GEMSPROD.GEMS_MOBILE_LOGIN WHERE STATUS ='V'";
+			String sql = "SELECT * FROM GATI_COM.GW_CUSTOMERS_NEW ";
 			connection = dataSource.getConnection();
 			Statement st = connection.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM GEMSPROD.GEMS_GKE_DOCKET_UPLOAD WHERE DOCKET_NO =125602795");
+			ResultSet rs = st.executeQuery(sql);
 			
 			ResultSetMetaData metaData = rs.getMetaData();
-			log.info("No of Column:"+metaData.getColumnCount());
+			int columnSize = metaData.getColumnCount();
+			log.info("No of Column:"+columnSize);
 			log.info("..........table DESC.......");
-			for (int i = 1; i < metaData.getColumnCount(); i++) {
+			String[] columns = new String[(columnSize)];
+			for (int i = 1; i <= metaData.getColumnCount(); i++) {
+				columns[i-1]=metaData.getColumnName(i);
 				log.info(""+metaData.getColumnName(i)+"\t"+metaData.getColumnTypeName(i));
 			}
 			int i=0;
-			String comma="";
+			String c="";
 			out.append("[");
 			while(rs.next()){
-				out.append(comma+"{\"LOAD_SEQ_NO\":\""+rs.getString(1)+"\",\"DOCKET_CATG\":\""+rs.getString(2)+"\",\"DOCKET_NO\":\""+rs.getString(3)+"\",\"DOCKET_TYPE\":\""+rs.getString(4)+"\",\"BKG_DT\":\""+rs.getString(5)+"\",\"RISK_COVERAGE\":\""+rs.getString(6)+"\",\"REF_DOCKET_NO\":\""+rs.getString(7)+"\",\"BOOKING_STN\":\""+rs.getString(8)+"\",\"DELIVERY_STN\":\""+rs.getString(9)+"\",\"PROD_SERV_CODE\":\""+rs.getString(10)+"\",\"ASSURED_DLY_DT\":\""+rs.getString(11)+"\",\"BILLING_OU\":\""+rs.getString(12)+"\",\"GATEWAY_CODE\":\""+rs.getString(13)+"\",\"NO_OF_PKGS\":\""+rs.getString(14)+"\",\"COMMERCIAL_FLAG\":\""+rs.getString(15)+"\",\"GOODS_CODE\":\""+rs.getString(16)+"\",\"CONSIGNMENT_TYPE\":\""+rs.getString(17)+"\",\"HARM_CODE\":\""+rs.getString(18)+"\",\"DECL_CARGO_VAL\":\""+rs.getString(19)+"\",\"DECL_CARGO_VAL_FC\":\""+rs.getString(20)+"\",\"ACTUAL_WT\":\""+rs.getString(21)+"\",\"VOLUME\":\""+rs.getString(22)+"\",\"UOM\":\""+rs.getString(23)+"\",\"CONV_FACTOR\":\""+rs.getString(24)+"\",\"CHARGED_WT\":\""+rs.getString(25)+"\",\"CTL_VEH_CATG\":\""+rs.getString(26)+"\",\"REQD_TEMP\":\""+rs.getString(27)+"\",\"MASS_MAIL_DOCKET_FLAG\":\""+rs.getString(28)+"\",\"DISTANCE_CTL\":\""+rs.getString(29)+"\",\"DOCS_ENCLOSED\":\""+rs.getString(30)+"\",\"INCOM_DKT_NUM_PART\":\""+rs.getString(31)+"\",\"CONTRACT_NO\":\""+rs.getString(32)+"\",\"CONSIGNOR_CODE\":\""+rs.getString(33)+"\",\"CONSIGNOR_NAME\":\""+rs.getString(34)+"\",\"CONSIGNOR_ADD1\":\""+rs.getString(35)+"\",\"CONSIGNOR_ADD2\":\""+rs.getString(36)+"\",\"CONSIGNOR_ADD3\":\""+rs.getString(37)+"\",\"CONSIGNOR_CITY\":\""+rs.getString(38)+"\",\"CONSIGNOR_ADD4\":\""+rs.getString(39)+"\",\"CONSIGNOR_PHONE_NO\":\""+rs.getString(40)+"\",\"CONSIGNOR_MOBILE_NO\":\""+rs.getString(41)+"\",\"CONSIGNOR_FAX\":\""+rs.getString(42)+"\",\"CONSIGNOR_EMAIL\":\""+rs.getString(43)+"\",\"CONSIGNOR_STATE\":\""+rs.getString(44)+"\",\"CONSIGNOR_COUNTRY\":\""+rs.getString(45)+"\",\"CONSIGNOR_PINCODE\":\""+rs.getString(46)+"\",\"CONSIGNEE_CODE\":\""+rs.getString(47)+"\",\"CONSIGNEE_NAME\":\""+rs.getString(48)+"\",\"CONSIGNEE_ADD1\":\""+rs.getString(49)+"\",\"CONSIGNEE_ADD2\":\""+rs.getString(50)+"\",\"CONSIGNEE_ADD3\":\""+rs.getString(51)+"\",\"CONSIGNEE_CITY\":\""+rs.getString(52)+"\",\"CONSIGNEE_ADD4\":\""+rs.getString(53)+"\",\"CONSIGNEE_PHONE_NO\":\""+rs.getString(54)+"\",\"CONSIGNEE_MOBILE_NO\":\""+rs.getString(55)+"\",\"CONSIGNEE_FAX\":\""+rs.getString(56)+"\",\"CONSIGNEE_EMAIL\":\""+rs.getString(57)+"\",\"CONSIGNEE_STATE\":\""+rs.getString(58)+"\",\"CONSIGNEE_COUNTRY\":\""+rs.getString(59)+"\",\"CONSIGNEE_PINCODE\":\""+rs.getString(60)+"\",\"DOCKET_STATUS\":\""+rs.getString(61)+"\",\"TC_DOCKET_PREPARED_BY\":\""+rs.getString(62)+"\",\"DOCKET_PREPARED_BY\":\""+rs.getString(63)+"\",\"DOCKET_PREPARED_TYPE\":\""+rs.getString(64)+"\",\"MODE_OF_PAYMENT\":\""+rs.getString(65)+"\",\"TAX_TYPE\":\""+rs.getString(66)+"\",\"STATUS\":\""+rs.getString(67)+"\",\"REMARKS\":\""+rs.getString(68)+"\",\"CREATED_BY\":\""+rs.getString(69)+"\",\"LAST_UPDATED_BY\":\""+rs.getString(70)+"\",\"LAST_UPDATED_DATE\":\""+rs.getString(71)+"\",\"CREATED_DATE\":\""+rs.getString(72)+"\",\"UPLOADED_DATA\":\""+rs.getString(73)+"\",\"BOOKING_BASIS\":\""+rs.getString(74)+"\",\"CTL_VEH_FLEET_NO\":\""+rs.getString(75)+"\",\"ORDER_NO\":\""+rs.getString(76)+"\",\"FROM_PKG_NO\":\""+rs.getString(77)+"\",\"TO_PKG_NO\":\""+rs.getString(78)+"\",\"COD_AMT\":\""+rs.getString(79)+"\",\"COD_IN_FAVOUR_OF\":\""+rs.getString(80)+"\",\"COD_INCLUDED\":\""+rs.getString(81)+"\",\"UPLOAD_FLAG\":\""+rs.getString(82)+"\",\"ERROR_UPLOAD_FLAG\":\""+rs.getString(83)+"\",\"ERROR_REASON\":\""+rs.getString(84)+"\",\"DOCKETS_UPDATION_FLAG\":\""+rs.getString(85)+"\",\"TRANSNO\":\""+rs.getString(86)+"\",\"ESS_FLAG\":\""+rs.getString(87)+"\",\"PKG_FLAG\":\""+rs.getString(88)+"\",\"ESS_CODE\":\""+rs.getString(89)+"\",\"CUST_SPECIAL_INSTRUCTION\":\""+rs.getString(90)+"\",\"CUST_REMARKS\":\""+rs.getString(91)+"\",\"CUST_MFG_COUNTRY\":\""+rs.getString(92)+"\",\"UPLOADED_rs.getString(\":\""+rs.getString(93)+"\",\"TRACK_STATUS\":\""+rs.getString(94)+"\",\"SCN_GOODS_CODE\":\""+rs.getString(95)+"\",\"CUST_DATE_DELIVERY\":\""+rs.getString(96)+"\",\"INTERFACE_rs.getString(\":\""+rs.getString(97)+"\",\"HOLD_FLAG\":\""+rs.getString(98)+"\",\"COD_DOD_FLAG\":\""+rs.getString(99)+"\",\"SCAN_DT\":\""+rs.getString(100)+"\",\"SCANNED_PKGS\":\""+rs.getString(101)+"\",\"SPL_SERV_MODE\":\""+rs.getString(102)+"\",\"GOODS_DESC\":\""+rs.getString(103)+"\",\"CONSIGNOR_TINNO\":\""+rs.getString(104)+"\"}");
-comma=",";	
-				i++;
-				
-				if(i==200){
-					out.append("]");
+				out.append(c+"{");
+				String cc="";
+				for (int j = 1; j <= columnSize; j++) {
+					out.append(cc+"\""+columns[j-1]+"\":\""+rs.getString(j)+"\"");
+					cc=",";
+				}
+				c=",";
+				out.append("}");					
+				i++;				
+				if(i==200){					
 					break;
 				}
 			}
+			out.append("]");
 			rs.close();
 			st.close();
 		} catch (SQLException e) {

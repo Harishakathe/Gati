@@ -20,7 +20,7 @@ var transparent = true;
 var mobile_device = false;
 var template;
 
-function calPackShipment(){    	
+function calVolume(){    	
 	var tt=1,vv=0,ii=1;
 	$('#package_details_div .pkg-sv').each(function () {
 		tt *= parseFloat($(this).val()) || 0;
@@ -30,13 +30,13 @@ function calPackShipment(){
 		}
 		ii++;
     });
-	$('#shipment_value').val(vv);
-	$("#shipment_value").trigger("change");
+	$('#volume').val(vv);
+	$("#volume").trigger("change");
 }
 
 function addRow() {		
 	$("#package_details_div").html('');
-	$('#shipment_value').val(0);
+	$('#volume').val(0);
 	var NoOfPack = $("#no_of_packages").val();
 	var packNoFrom = parseInt($("#package_number_from").val()) || 0;
 	
@@ -57,7 +57,7 @@ function addRow() {
     });
 	$('#package_details_div .pkg-sv').each(function () {
 		$(this).keyup(function(event) {
-		    calPackShipment();
+			calVolume();
 		  });
     });
 }
@@ -210,7 +210,7 @@ $(document).ready(function(){
 		    },
 			no_of_packages:{
 				required: true,
-				range:[1,100],
+				range:[0,100],
 			},
 			shipment_value:{
 				required: true,
@@ -401,8 +401,9 @@ $(document).ready(function(){
         
         console.log(JSON.stringify(json));
         console.log(xml);
-        var url = form.attr('action');
-        var maction = url.contains("update_docket")?'Updated':'Generated';
+        var submitUrl = form.attr('action');
+        
+        var maction = submitUrl.includes("update_docket")?'Updated':'Generated';
         $.ajax({
         	method: form.attr('method'),
             url: form.attr('action'),
@@ -440,15 +441,12 @@ $(document).ready(function(){
             				 errorPlacement: function ( error, element ) {
 									// Add the `help-block` class to the error element
 									error.addClass( "help-block" );         	
-									// Add `has-feedback` class to the parent div.form-group
-									// in order to add icons to inputs
 									element.parent().addClass( "has-feedback" );         	
 									if ( element.prop( "type" ) === "checkbox" ) {
 										error.insertAfter( element.parent( "label" ) );
 									} else {
 										error.insertAfter( element );
 									}
-									// Add the span element, if doesn't exists, and apply the icon classes to it.
 									if ( !element.next( "span" )[ 0 ] ) {
 										$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
 									}

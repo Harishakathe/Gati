@@ -9,6 +9,7 @@
   <url>http://maven.apache.org</url>
   <properties>
       <springframework.version>4.3.0.RELEASE</springframework.version>
+      <spring.security.version>4.0.0.RELEASE</spring.security.version>
       <jackson.library>2.7.2</jackson.library>
       <log4j.version>1.2.17</log4j.version>
   </properties>
@@ -29,6 +30,27 @@
         <artifactId>spring-webmvc</artifactId>
         <version>${springframework.version}</version>
     </dependency>
+    
+    	<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
     
     <!-- jsr303 validation -->
      <dependency>
