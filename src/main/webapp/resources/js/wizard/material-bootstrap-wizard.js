@@ -423,7 +423,8 @@ $(document).ready(function(){
             		mymodal.find('.modal-body').text(data.message);
             		mymodal.modal('show');
             		$('#myModal').on('hidden.bs.modal', function (e) {
-            			window.location = "recipt/"+data.result;
+            			//window.location = "recipt/"+data.result;
+            			window.location.reload();
         			});
             		//
             	 }

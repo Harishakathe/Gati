@@ -44,8 +44,7 @@
 								src="<c:url value="/resources/img/a6.jpg" />" />
 							</span> <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<span class="clear text-grey text-center"> <span
-									class="block m-t-xs"> <strong class="font-bold">David
-											Williams</strong>
+									class="block m-t-xs"> <strong class="font-bold">${user.cusName!=null ? user.cusName : 'Guset User'}</strong>
 								</span> <span class="text-light text-xs block">Designation <b
 										class="caret"></b></span>
 							</span>

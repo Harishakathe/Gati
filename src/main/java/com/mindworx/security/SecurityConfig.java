@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Configuration
 @EnableWebSecurity
@@ -87,21 +86,20 @@ public class SecurityConfig {
 	 
 	    protected void configure(HttpSecurity http) throws Exception {
 	    	http.authorizeRequests().antMatchers("/", "/login","/user_logout").permitAll();
-	    	http.antMatcher("/user/**")
-		        .authorizeRequests()
-		        .anyRequest()
+	    	http.authorizeRequests()
+	    		.antMatchers("/user**","/user/**")
 		        .hasRole("USER")
 		         
 		        .and()
 		        .formLogin()
 		        .loginPage("/login")
-		        .loginProcessingUrl("/user/userlogin")
+		        .loginProcessingUrl("/user_login")
 		        .failureUrl("/login?error=loginError")
 		        .defaultSuccessUrl("/dashboard")
 		         
 		        .and()
 		        .logout()
-		        .logoutUrl("/user/user_logout")
+		        .logoutUrl("/user_logout")
 		        .logoutSuccessUrl("/login?logout")
 		        .deleteCookies("JSESSIONID")
 		         
@@ -110,8 +108,7 @@ public class SecurityConfig {
 		        .accessDeniedPage("/403")       
 		        
 	    	  	.and()
-		        .csrf().disable();
-	    	
+		        .csrf().disable();	    	
 	    }
 	}	
 }

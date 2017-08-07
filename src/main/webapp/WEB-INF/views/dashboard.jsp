@@ -1,4 +1,5 @@
 <%@page isELIgnored="false"%>
+<%@page session="true"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -43,8 +44,7 @@
 								src="<c:url value="/resources/img/a6.jpg" />" />
 							</span> <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<span class="clear text-grey text-center"> <span
-									class="block m-t-xs"> <strong class="font-bold">
-									${user.cusName!=null ? user.cusName : 'Guset User'}</strong>
+									class="block m-t-xs"> <strong class="font-bold">${user.cusName!=null ? user.cusName : 'Guset User'}</strong>
 								</span> <span class="text-light text-xs block">Designation <b
 										class="caret"></b></span>
 							</span>
@@ -53,7 +53,7 @@
 								<li><a href="#">Profile</a></li>
 								<li><a href="#">Contacts</a></li>
 								<li class="divider"></li>
-								<li><a href="${home}logout">Logout</a></li>
+								<li><a href="<c:url value="/user/user_logout" />">Logout</a></li>
 							</ul>
 						</div>
 						<div class="logo-element"></div></li>
@@ -82,9 +82,16 @@
 					<ul class="nav navbar-top-links navbar-right">
 						<li><span class="m-r-sm text-white welcome-message"><i
 								class="fa fa-phone"></i> 1800-180-4284</span></li>
-						<li><a href="login.html" class="text-white"> <i
-								class="fa fa-power-off"></i> Log in
-						</a></li>
+						<c:choose>
+						<c:when test="${user.cusName!=null}">
+							<li><a class="text-white" href="<c:url value="/user_logout" />"><i
+								class="fa fa-power-off"></i>Logout</a></li>
+						</c:when>    
+    					<c:otherwise>
+							<li><a href="<c:url value="/login" />" class="text-white"> <i
+								class="fa fa-power-off"></i> Log in</a></li>
+						</c:otherwise>
+						</c:choose>
 					</ul>
 				</nav>
 			</div>

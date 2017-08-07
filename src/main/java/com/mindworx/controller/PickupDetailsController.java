@@ -28,7 +28,7 @@ public class PickupDetailsController {
 	
 	private static final Logger log = Logger.getLogger(PickupDetailsController.class);
 	
-	@RequestMapping(value = "/user/recipt/{docket_no}",method = RequestMethod.GET)
+	@RequestMapping(value = "/user/receipt/{docket_no}",method = RequestMethod.GET)
 	public String getPrintReceipt(@PathVariable("docket_no") int docket_no,ModelMap map) {
 		PickupDetails pickupDetails = pickupDetailsDao.getPickupDetails(docket_no);
 		log.info(pickupDetails);
@@ -43,12 +43,14 @@ public class PickupDetailsController {
 	}
 	
 	@RequestMapping(value = "/user/docketprint",method = RequestMethod.GET)
-	public String showDocketPrint() {
+	public String showDocketPrint(ModelMap map) {
+		map.addAttribute("user",getPrincipal());
 		return "docketPrint";
 	}
 	
 	@RequestMapping(value = "/user/lableprint",method = RequestMethod.GET)
-	public String showLableRequest() {
+	public String showLableRequest(ModelMap map) {
+		map.addAttribute("user",getPrincipal());
 		return "lablePrint";
 	}
 	

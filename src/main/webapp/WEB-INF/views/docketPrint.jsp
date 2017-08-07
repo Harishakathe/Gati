@@ -43,8 +43,7 @@
 								src="<c:url value="/resources/img/a6.jpg" />" />
 							</span> <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<span class="clear text-grey text-center"> <span
-									class="block m-t-xs"> <strong class="font-bold">David
-											Williams</strong>
+									class="block m-t-xs"> <strong class="font-bold">${user.cusName!=null ? user.cusName : 'Guset User'}</strong>
 								</span> <span class="text-light text-xs block">Designation <b
 										class="caret"></b></span>
 							</span>
@@ -88,7 +87,26 @@
 			</div>
 			<div class="wrapper wrapper-content">
 				<div class="row">
-					<div class="col-sm-12">
+					<div class="col-md-offset-2 col-md-8 ">
+						<div class="card">
+							<form class="form" >
+								<div class="header header-primary text-center">
+									<h2>Print Your Docket</h2>									
+								</div>
+								<div class="content">
+									<div class="form-group label-floating">
+										<label class="control-label">Enter Docket No</label> 
+										<input type="text" class="form-control" name="docket_no" required pattern="[0-9]{9}" title="Enter Valid Docket Number" id="docket_no" size="9"/>
+									</div>
+									<div class="form-group">
+										<button type="submit" id="btn_search_docket" class="btn btn-info btn-wd" style="margin: 1px 1px;">
+											Search
+											<div class="ripple-container"></div>
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 				<!-- row -->
@@ -111,7 +129,50 @@
 	<script	src="<c:url value="/resources/js/slimscroll/jquery.slimscroll.min.js"/>"></script>
 	<script>
 		var serverContext = "${home}";
+		
+		$("form").submit(function(e){
+			 e.preventDefault();
+			var docket_no = $("#docket_no").val();
+			if (docket_no != '') {
+				$.ajax({
+					methed : "get",
+					headers : {
+						Accept : "application/json"
+					},
+					url : serverContext + "getDocketInfo/"
+							+ docket_no,
+					success : function(data) {
+						window.location = serverContext+"user/receipt/"+docket_no;
+					},
+					error : function(errorw) {	
+						alert("Docket Not Found");
+						$("#docket_no").val('');
+					}
+				});
+			}
+		});
 	</script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+	    $("#docket_no").keydown(function (e) {
+	        // Allow: backspace, delete, tab, escape, enter and .
+	        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+	             // Allow: Ctrl+A, Command+A
+	            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+	             // Allow: home, end, left, right, down, up
+	            (e.keyCode >= 35 && e.keyCode <= 40)) {
+	                 // let it happen, don't do anything
+	                 return;
+	        }
+	        // Ensure that it is a number and stop the keypress
+	        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+	            e.preventDefault();
+	        }
+	    });
+	});
+
+        
+    </script>
 	<!-- Custom and plugin javascript -->
 	<script src="<c:url value="/resources/js/inspinia.js"/>"></script>
 	<script src="<c:url value="/resources/js/pace/pace.min.js"/>" type="text/javascript"></script>	
