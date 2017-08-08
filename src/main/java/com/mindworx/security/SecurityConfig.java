@@ -31,7 +31,7 @@ public class SecurityConfig {
 	    @Override
 	    protected void configure(HttpSecurity http) throws Exception {
 	    	
-	    	http.antMatcher("/admin*")
+	    	http.antMatcher("/admin**")
 	          .authorizeRequests()
 	          .anyRequest()
 	          .hasRole("ADMIN")

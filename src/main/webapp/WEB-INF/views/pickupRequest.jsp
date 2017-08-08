@@ -63,7 +63,7 @@
 								<li><a href="#">Profile</a></li>
 								<li><a href="#">Contacts</a></li>
 								<li class="divider"></li>
-								<li><a href="<c:url value="/user/user_logout" />">Logout</a></li>
+								<li><a href="<c:url value="/user_logout" />">Logout</a></li>
 							</ul>
 						</div>
 						<div class="logo-element"></div></li>
@@ -92,7 +92,7 @@
 					<ul class="nav navbar-top-links navbar-right">
 						<li><span class="m-r-sm text-white welcome-message"><i
 								class="fa fa-phone"></i> 1800-180-4284</span></li>
-						<li><a class="text-white" href="<c:url value="/user/user_logout" />"><i
+						<li><a class="text-white" href="<c:url value="/user_logout" />"><i
 								class="fa fa-power-off"></i>Logout</a></li>
 					</ul>
 				</nav>

@@ -53,7 +53,7 @@
 								<li><a href="#">Profile</a></li>
 								<li><a href="#">Contacts</a></li>
 								<li class="divider"></li>
-								<li><a href="<c:url value="/user/user_logout" />">Logout</a></li>
+								<li><a href="<c:url value="/user_logout" />">Logout</a></li>
 							</ul>
 						</div>
 						<div class="logo-element"></div></li>
