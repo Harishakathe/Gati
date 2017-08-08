@@ -11,9 +11,9 @@ public class LoginController {
 		return "login";
 	}
 	
-	@RequestMapping(value = "/loginAdmin",method = RequestMethod.GET)
+	@RequestMapping(value = "/adminLogin",method = RequestMethod.GET)
 	public String showAdminLoginRequest() {
-		return "loginAdmin";
+		return "adminLogin";
 	}
 	
 	@RequestMapping(value = "/403",method = RequestMethod.GET)

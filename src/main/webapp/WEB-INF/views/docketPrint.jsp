@@ -89,6 +89,10 @@
 				<div class="row">
 					<div class="col-md-offset-2 col-md-8 ">
 						<div class="card">
+							<div class="alert alert-danger alert-dismissable" id="docket_error">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                Docket Not Found.
+                            </div>
 							<form class="form" >
 								<div class="header header-primary text-center">
 									<h2>Print Your Docket</h2>									
@@ -145,7 +149,7 @@
 						window.location = serverContext+"user/receipt/"+docket_no;
 					},
 					error : function(errorw) {	
-						alert("Docket Not Found");
+						$("#docket_error").show();
 						$("#docket_no").val('');
 					}
 				});
@@ -154,6 +158,10 @@
 	</script>
 	<script type="text/javascript">
 	$(document).ready(function() {
+		$("#docket_error").hide();
+		
+		
+		
 	    $("#docket_no").keydown(function (e) {
 	        // Allow: backspace, delete, tab, escape, enter and .
 	        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||

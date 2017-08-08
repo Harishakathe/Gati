@@ -1,13 +1,15 @@
 com\mindworx\controller\DashboardController.class
 com\mindworx\controller\PickupDetailsController.class
 com\mindworx\dao\PickupDetailsDaoImpl.class
+com\mindworx\dao\AdminDao.class
 com\mindworx\model\PickupDetails.class
 com\mindworx\model\PackageDetails.class
 com\mindworx\model\Admin.class
 com\mindworx\dao\UserDaoImpl.class
 com\mindworx\security\SecurityConfig.class
-com\mindworx\controller\LoginController.class
 com\mindworx\validator\EmailValidator.class
+com\mindworx\controller\LoginController.class
+com\mindworx\dao\AdminDaoImpl.class
 com\mindworx\validator\NumberValidator.class
 com\mindworx\model\User.class
 com\mindworx\model\JsonResponse.class

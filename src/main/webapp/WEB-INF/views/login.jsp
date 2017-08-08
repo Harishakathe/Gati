@@ -37,7 +37,7 @@
                     <p>You have been logged out successfully.</p>
                 </div>
             </c:if>
-            <form class="m-t" role="form" method="post" action="${home}user_login">
+            <form class="m-t" role="form" method="post" action="${home}login">
                 <div class="form-group">
                     <input type="text" class="form-control" name="username" id="username" placeholder="Username" >
                 </div>

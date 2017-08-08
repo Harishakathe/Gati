@@ -93,7 +93,7 @@
                         </tr>
                         <tr>
                            <td class="td1" height="16" colspan="2">
-                           	<span class="head">&nbsp;Pkg Nos : </span> 0 - 0
+                           	<span class="head">&nbsp;Pkg Nos : </span> ${pickupDetails.package_number_from} - ${pickupDetails.package_number_to}
                            </td>
                         </tr>
                         <tr>
@@ -261,7 +261,7 @@
                         </tr>
                         <tr>
                            <td class="td1" height="16" colspan="2">
-                           	<span class="head">&nbsp;Pkg Nos : </span> 0 - 0
+                           	<span class="head">&nbsp;Pkg Nos : </span> ${pickupDetails.package_number_from} - ${pickupDetails.package_number_to}
                            </td>
                         </tr>
                         <tr>
@@ -425,7 +425,7 @@
                         </tr>
                         <tr>
                            <td class="td1" height="16" colspan="2">
-                           	<span class="head">&nbsp;Pkg Nos : </span> 0 - 0
+                           	<span class="head">&nbsp;Pkg Nos : </span> ${pickupDetails.package_number_from} - ${pickupDetails.package_number_to}
                            </td>
                         </tr>
                         <tr>

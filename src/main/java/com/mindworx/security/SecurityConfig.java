@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig {
 	
 	@Configuration
-	@Order(1)
+	@Order(2)
 	public static class App1ConfigurationAdapter extends WebSecurityConfigurerAdapter {
 	    public App1ConfigurationAdapter() {
 	        super();
@@ -24,18 +24,14 @@ public class SecurityConfig {
 		private AdminDetailsService userDetailsService;
 	    
 	    @Override
-	    public void configure(WebSecurity web) throws Exception {
-	        web.ignoring().antMatchers("/resources/**");
-	    }
-	    
-	    @Override
 		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 			auth.userDetailsService(userDetailsService);
 		}
 	 
 	    @Override
 	    protected void configure(HttpSecurity http) throws Exception {
-	        http.antMatcher("/admin**")
+	    	
+	    	http.antMatcher("/admin*")
 	          .authorizeRequests()
 	          .anyRequest()
 	          .hasRole("ADMIN")
@@ -43,9 +39,9 @@ public class SecurityConfig {
 	          .and()
 	          .formLogin()
 	          .loginPage("/loginAdmin")
-	          .loginProcessingUrl("/admin_login")
+	          .loginProcessingUrl("/loginAdmin")
 	          .failureUrl("/loginAdmin?error=loginError")
-	          .defaultSuccessUrl("/adminPage")
+	          .defaultSuccessUrl("/adminDashboard")
 	           
 	          .and()
 	          .logout()
@@ -63,16 +59,11 @@ public class SecurityConfig {
 	}
 	
 	@Configuration
-	@Order(2)
+	@Order(1)
 	public static class App2ConfigurationAdapter extends WebSecurityConfigurerAdapter {
 	 
 	    public App2ConfigurationAdapter() {
 	        super();
-	    }
-	    
-	    @Override
-	    public void configure(WebSecurity web) throws Exception {
-	        web.ignoring().antMatchers("/resources/**");
 	    }
 	    
 	    @Autowired
@@ -85,15 +76,18 @@ public class SecurityConfig {
 		
 	 
 	    protected void configure(HttpSecurity http) throws Exception {
-	    	http.authorizeRequests().antMatchers("/", "/login","/user_logout").permitAll();
-	    	http.authorizeRequests()
-	    		.antMatchers("/user**","/user/**")
-		        .hasRole("USER")
-		         
+	    	
+	    	http.authorizeRequests().antMatchers("/login","/loginAdmin").permitAll();
+	    	
+	    	http.antMatcher("/**")
+	          .authorizeRequests()
+	          .anyRequest()
+	          .hasRole("USER")
+	          		         
 		        .and()
 		        .formLogin()
 		        .loginPage("/login")
-		        .loginProcessingUrl("/user_login")
+		        .loginProcessingUrl("/login")
 		        .failureUrl("/login?error=loginError")
 		        .defaultSuccessUrl("/dashboard")
 		         
@@ -109,6 +103,11 @@ public class SecurityConfig {
 		        
 	    	  	.and()
 		        .csrf().disable();	    	
+	    }
+	    
+	    @Override
+	    public void configure(WebSecurity web) throws Exception {
+	        web.ignoring().antMatchers("/resources/**");
 	    }
 	}	
 }

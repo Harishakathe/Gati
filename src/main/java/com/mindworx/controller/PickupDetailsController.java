@@ -56,16 +56,17 @@ public class PickupDetailsController {
 	
 	
 	private User getPrincipal(){
-		String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
-        } else {
-            userName = principal.toString();
-        }            
-        User user = userDao.getByLoginId(userName);
-        user.setCusPword("");
-        return user;        
+		if(SecurityContextHolder.getContext().getAuthentication()!=null){
+			String userName = null;
+	        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+	        if (principal instanceof UserDetails) {
+	            userName = ((UserDetails)principal).getUsername();
+	        } else {
+	            userName = principal.toString();
+	        }            
+	        return userDao.getByLoginId(userName); 
+		}
+		return null;		       
     }
 	
 	
