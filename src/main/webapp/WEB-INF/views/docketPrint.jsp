@@ -98,7 +98,7 @@
 				<div class="ibox">
 					<div class="ibox-content">
 						<div class="row">
-							<div class="col-md-offset-3 col-md-6">
+							<div class="col-md-offset-3 col-md-6" style="padding: 20px">
 
 								<div class="alert alert-danger alert-dismissable"
 									id="docket_error">
@@ -106,42 +106,29 @@
 										type="button">×</button>
 									Docket Not Found.
 								</div>
-								<form class="form">
-									<div class="header header-primary text-center">
-										<h2>Print Your Docket</h2>
-									</div>
-									<div class="content">
-										<div class="form-group label-floating">
-											<label class="control-label">Enter Docket No</label> <input
-												type="text" class="form-control" name="docket_no" required
+								<div class="header header-primary text-center" style="padding: 20px">
+									<h2>Print Your Docket</h2>
+								</div>
+								<div class="content">
+									<form class="form">									
+										<div class="form-group label-floating col-sm-offset-1 col-sm-6" >
+										 <input
+												type="text" class="form-control" placeholder="Enter Docket No" name="docket_no" required
 												pattern="[0-9]{9}" title="Enter Valid Docket Number"
 												id="docket_no" size="9" />
 										</div>
-									</div>									
-										<div class="form-group center-block ">
-										<div class="col-sm-offset-4 col-sm-4">
+										<div class="form-group center-block col-sm-4">
 											<button type="submit" id="btn_search_docket"
-												class="btn btn-info btn-sm btn-block btn-outline">
-												Search
+												class="btn btn-info btn-block btn-outline">
+												Print
 												<div class="ripple-container"></div>
 											</button>
 										</div>
-									</div>
-								</form>
-							</div>
-						</div>
-						<!-- <div class="row">
-							<div class="col-sm-offset-5 col-sm-2">
-								<div class="form-group center-block">
-									<button type="submit" id="btn_search_docket"
-										class="btn btn-info btn-sm btn-block btn-outline">
-										Search
-										<div class="ripple-container"></div>
-									</button>
+									
+									</form>
 								</div>
 							</div>
-							row
-						</div> -->
+						</div>
 					</div>
 				</div>
 

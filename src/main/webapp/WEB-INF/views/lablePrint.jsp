@@ -88,9 +88,40 @@
 				</nav>
 			</div>
 			<div class="wrapper wrapper-content">
-				<div class="row">
-					<div class="col-sm-12">
-						
+				<div class="ibox">
+					<div class="ibox-content">
+						<div class="row">
+							<div class="col-md-offset-3 col-md-6" style="padding: 20px">
+
+								<div class="alert alert-danger alert-dismissable"
+									id="docket_error">
+									<button aria-hidden="true" data-dismiss="alert" class="close"
+										type="button">×</button>
+									Docket Not Found.
+								</div>
+								<div class="header header-primary text-center" style="padding: 20px">
+									<h2>Print Your Lable</h2>
+								</div>
+								<div class="content">
+									<form class="form">									
+										<div class="form-group label-floating col-sm-offset-1 col-sm-6" >
+										 <input
+												type="text" class="form-control" placeholder="Enter Docket No" name="docket_no" required
+												pattern="[0-9]{9}" title="Enter Valid Docket Number"
+												id="docket_no" size="9" />
+										</div>
+										<div class="form-group center-block col-sm-4">
+											<button type="submit" id="btn_search_docket"
+												class="btn btn-info btn-block btn-outline">
+												Print
+												<div class="ripple-container"></div>
+											</button>
+										</div>
+									
+									</form>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<!-- row -->
@@ -116,7 +147,12 @@
 	</script>
 	<!-- Custom and plugin javascript -->
 	<script src="<c:url value="/resources/js/inspinia.js"/>"></script>
-	<script src="<c:url value="/resources/js/pace/pace.min.js"/>" type="text/javascript"></script>	
+	<script src="<c:url value="/resources/js/pace/pace.min.js"/>" type="text/javascript"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$("#docket_error").hide();
+	});
+	</script>
 </body>
 </html>
 
