@@ -1,11 +1,13 @@
 package com.mindworx.model;
 
 public class Admin {
+	
 	public String ouCode;
 	public String userid;
 	public String password;
 	public String status;
 	public String lastdate;
+	
 	public String getOuCode() {
 		return ouCode;
 	}

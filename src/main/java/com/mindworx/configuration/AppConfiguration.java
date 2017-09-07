@@ -29,8 +29,8 @@ import oracle.jdbc.pool.OracleDataSource;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.mindworx")
 @PropertySources({
-	@PropertySource("classpath:config.properties"),
-	@PropertySource("classpath:messages.properties")
+	@PropertySource("classpath:gatikwe-config.properties"),
+	@PropertySource("classpath:gatikwe-messages.properties")
 })
 public class AppConfiguration extends WebMvcConfigurerAdapter{
 	

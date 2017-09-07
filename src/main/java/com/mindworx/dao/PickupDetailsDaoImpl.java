@@ -281,7 +281,6 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	
 	//for autocomplete ajax Shipper Pincode || Receiver Pincode
 	public String getPinCodes(String pincode) {
-		//String sql = "SELECT distinct PINCODE,ou_code FROM gemsprod.GEMS_PINCODE_LOCATION_MST  WHERE PINCODE_STATUS='O'  AND END_DT > SYSDATE  AND STATUS='V' and pincode like ?";
 		String sql = "SELECT distinct PINCODE, Trim(location)||','||state_code location,ou_code FROM gemsprod.GEMS_PINCODE_LOCATION_MST  WHERE PINCODE_STATUS='O'  AND END_DT > SYSDATE  AND STATUS='V' AND serv_type='D'  and pincode like ?";
 		
 		StringBuffer out = new StringBuffer();
@@ -328,20 +327,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			cstmt = connection.prepareCall(Sql);
 			
 			cstmt.registerOutParameter(1, Types.VARCHAR); //Error Flag
-			cstmt.registerOutParameter(2, Types.VARCHAR); //Error Msg
-			
-		/*	cstmt.setInt(3, 0); 		//P_DKTNO || DOCKET_NO
-			cstmt.setString(4, p.getShipper_tin()); 	//P_BKGOU || OU_CODE 
-			cstmt.setString(5, p.getDocket_category()); 	//P_DKT_CATG || DOCKET_Category
-			cstmt.setString(6, p.getDocket_type()); 	//P_DKT_TYPE || DOCKET_type
-			cstmt.setDate(7, new java.sql.Date(p.getPickup_date().getTime())); 		//P_BKGDT || Date 
-			cstmt.setString(7, contract_no); 	//P_CONTRACTNO || contract_no
-			cstmt.setString(8, p.getShipper_code()); 	//P_CONSIGNOR || cust_code
-			cstmt.setString(9, p.getReceiver_code()); 	//P_CONSIGNEE || cust_code
-			cstmt.setString(10, p.getBooking_basis()); 	//P_BASISCODE || Booking Basis
-			cstmt.setString(11, p.getProduct()); 	//P_PRODCODE || product_code || service code
-			cstmt.setString(12, p.getReceiver_tin()); 	//P_DLYOU || to_ou */
-			
+			cstmt.registerOutParameter(2, Types.VARCHAR); //Error Msg				
 			cstmt.executeUpdate();
 			
 			String Flag = cstmt.getString(1);
@@ -359,8 +345,7 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 					connection.close();
 				} catch (SQLException e) {log.error("SQLException: " + e.getMessage());}
 			}
-		}
-		
+		}		
 		return out.toString();
 	}
 	//for Submit form and insert data
@@ -650,7 +635,6 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 				ps.close();
 		} catch (SQLException e) {
 			log.error("SQLException: " + e.getMessage());
-			//e.printStackTrace();
 		}
 		finally {
 			if (connection != null) {
@@ -667,19 +651,12 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 		
 		CallableStatement cstmt = null;
 		String sp = "{call gemsprod.gems_proc_dkt_generate_java('"+p.getBooking_ou()+"','BAL_30811','"+ p.getBooking_basis()+"',?,?,?)}";
-		//String sp = "{call gemsprod.gems_proc_dkt_generate_java(?,?,?,?,?,?)}";
 		StringBuffer out = new StringBuffer();
 		try {
 			log.info("call generateDocketNo CallableStatement :"+sp);
 			connection = dataSource.getConnection();
 			cstmt = connection.prepareCall(sp);
-			
-			//inparams
-			//cstmt.setString(1, p.getShipper_tin()); 		//Booking_STN 
-			//cstmt.setString(2, "BAL_30811"); 	//User Code HARD_CODE
-			//cstmt.setString(3, p.getBooking_basis()); 	//Booking Basis
-			//outparms
-			
+						
 			cstmt.registerOutParameter(1, Types.INTEGER); // Generate Docket No
 			cstmt.registerOutParameter(2, Types.VARCHAR); //Error Msg
 			cstmt.registerOutParameter(3, Types.VARCHAR); //Error Flag	
@@ -708,8 +685,6 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 	public String descTable() {
 		StringBuffer out = new StringBuffer();
 		try {
-			//String sql = "SELECT * FROM GEMSPROD.GEMS_GKE_DOCKET_UPLOAD WHERE DOCKET_NO =125602795";
-			//String sql = "SELECT * FROM GEMSPROD.GEMS_MOBILE_LOGIN WHERE STATUS ='V'";
 			String sql = "SELECT * FROM GATI_COM.GW_CUSTOMERS_NEW ";
 			connection = dataSource.getConnection();
 			Statement st = connection.createStatement();
@@ -745,7 +720,6 @@ public class PickupDetailsDaoImpl implements PickupDetailsDao {
 			rs.close();
 			st.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			log.error("SQLException: " + e.getMessage());
 		}
 		finally {
