@@ -317,8 +317,8 @@
 															<label class="control-label">Pin Code <span
 																class="text-danger">*</span></label> <input type="text"
 																class="form-control" name="shipper_pincode"
-																id="shipper_pincode"> <input type="hidden"
-																id="booking_ou" name="booking_ou">
+																id="shipper_pincode"> 
+																<input type="hidden" id="booking_ou" name="booking_ou">
 														</div>
 													</div>
 													<div class="col-sm-5 col-sm-offset-1">
@@ -662,8 +662,7 @@
 										<div class="clearfix"></div>
 									</div>
 									<textarea style="display: none" id="template">
-	                                       	<div
-											class="col-sm-5 col-sm-offset-1">
+	                                       	<div class="col-sm-5 col-sm-offset-1">
 		                                         <div class="row">
 		                                             <div class="col-sm-6">
 		                                                 <div
@@ -788,6 +787,74 @@
 		type="text/javascript"></script>
 	<script>
 	$(document).ready(function() {
+		
+		function triggerReciverField(){
+			$("#receiver_code").trigger("change");
+			$("#receiver_name").trigger("change");
+			$("#receiver_address1").trigger("change");
+			$("#receiver_address2").trigger("change");
+			$("#receiver_address3").trigger("change");
+			$("#receiver_address4").trigger("change");
+			$("#receiver_city").trigger("change");
+			$("#receiver_pincode").trigger("change");
+			$("#receiver_phone").trigger("change");
+			$("#receiver_mobile").trigger("change");
+			$("#receiver_email").trigger("change");
+			$("#receiver_tin").trigger("change");
+		}
+		
+		function triggerShipperField(){
+			$("#shipper_code").trigger("change");
+			$("#shipper_name").trigger("change");
+			$("#shipper_address1").trigger("change");
+			$("#shipper_address2").trigger("change");
+			$("#shipper_address3").trigger("change");
+			$("#shipper_address4").trigger("change");
+			$("#shipper_city").trigger("change");
+			$("#shipper_pincode").trigger("change");
+			$("#shipper_phone").trigger("change");
+			$("#shipper_mobile").trigger("change");
+			$("#shipper_email").trigger("change");
+			$("#shipper_tin").trigger("change");
+		}
+		
+		function clearReciverField(){
+			$("#receiver_code").val('');
+			$("#receiver_name").val('');
+			$("#receiver_address1").val('');
+			$("#receiver_address2").val('');
+			$("#receiver_address3").val('');
+			$("#receiver_address4").val('');
+			$("#receiver_city").val('');
+			$("#receiver_pincode").val('');
+			$("#receiver_phone").val('');
+			$("#receiver_mobile").val('');
+			$("#receiver_email").val('');
+			$("#receiver_tin").val('');
+			$("#delivery_ou").val('');
+		}
+		
+		function clearShipperField(){
+			$("#shipper_code").val('');
+			$("#shipper_name").val('');
+			$("#shipper_address1").val('');
+			$("#shipper_address2").val('');
+			$("#shipper_address3").val('');
+			$("#shipper_address4").val('');
+			$("#shipper_city").val('');
+			$("#shipper_pincode").val('');
+			$("#shipper_phone").val('');
+			$("#shipper_mobile").val('');
+			$("#shipper_email").val('');
+			$("#shipper_tin").val('');
+			$("#shipper_ou").val('');
+		}
+		
+		
+		
+		
+		
+			
 			$('#slim, #slim2, #slim3, #slim4').slimScroll({
 				height : '380px',
 				alwaysVisible : true
@@ -872,34 +939,10 @@
 						},
 						change : function(event, ui) {
 							if (ui.item == null) {
-								$("#shipper_name").val('');
-								$("#shipper_address1").val('');
-								$("#shipper_address2").val('');
-								$("#shipper_address3").val('');
-								$("#shipper_address4").val('');
-								$("#shipper_city").val('');
-								$("#shipper_pincode").val('');
-								$("#shipper_phone").val('');
-								$("#shipper_mobile").val('');
-								$("#shipper_email").val('');
-								$("#shipper_tin").val('');
-								$("#shipper_ou").val('');
-
-								$("#shipper_name").trigger("change");
-								$("#shipper_address1").trigger("change");
-								$("#shipper_address2").trigger("change");
-								$("#shipper_address3").trigger("change");
-								$("#shipper_address4").trigger("change");
-								$("#shipper_city").trigger("change");
-								$("#shipper_pincode").trigger("change");
-								$("#shipper_phone").trigger("change");
-								$("#shipper_mobile").trigger("change");
-								$("#shipper_email").trigger("change");
-								$("#shipper_tin").trigger("change");
+								clearShipperField();								
+								triggerShipperField();
 							}
-
 							return false;
-
 						},
 						select : function(event, ui) {
 							$("#shipper_code").val(ui.item.custCode);
@@ -916,17 +959,7 @@
 							$("#shipper_tin").val(ui.item.custTIN);
 							$("#booking_ou").val(ui.item.custOU);
 
-							$("#shipper_name").trigger("change");
-							$("#shipper_address1").trigger("change");
-							$("#shipper_address2").trigger("change");
-							$("#shipper_address3").trigger("change");
-							$("#shipper_address4").trigger("change");
-							$("#shipper_city").trigger("change");
-							$("#shipper_pincode").trigger("change");
-							$("#shipper_phone").trigger("change");
-							$("#shipper_mobile").trigger("change");
-							$("#shipper_email").trigger("change");
-							$("#shipper_tin").trigger("change");
+							triggerShipperField();							
 							return false;
 						}
 					}).autocomplete("instance")._renderItem = function(ul, item) {
@@ -959,30 +992,8 @@
 						change : function(event, ui) {
 
 							if (ui.item == null) {
-								$("#receiver_name").val('');
-								$("#receiver_address1").val('');
-								$("#receiver_address2").val('');
-								$("#receiver_address3").val('');
-								$("#receiver_address4").val('');
-								$("#receiver_city").val('');
-								$("#receiver_pincode").val('');
-								$("#receiver_phone").val('');
-								$("#receiver_mobile").val('');
-								$("#receiver_email").val('');
-								$("#receiver_tin").val('');
-								$("#delivery_ou").val('');
-
-								$("#receiver_name").trigger("change");
-								$("#receiver_address1").trigger("change");
-								$("#receiver_address2").trigger("change");
-								$("#receiver_address3").trigger("change");
-								$("#receiver_address4").trigger("change");
-								$("#receiver_city").trigger("change");
-								$("#receiver_pincode").trigger("change");
-								$("#receiver_phone").trigger("change");
-								$("#receiver_mobile").trigger("change");
-								$("#receiver_email").trigger("change");
-								$("#receiver_tin").trigger("change");
+								clearReciverField();
+								triggerReciverField();
 							}
 							return false;
 						},
@@ -1001,17 +1012,7 @@
 							$("#receiver_tin").val(ui.item.custTIN);
 							$("#delivery_ou").val(ui.item.custOU);
 
-							$("#receiver_name").trigger("change");
-							$("#receiver_address1").trigger("change");
-							$("#receiver_address2").trigger("change");
-							$("#receiver_address3").trigger("change");
-							$("#receiver_address4").trigger("change");
-							$("#receiver_city").trigger("change");
-							$("#receiver_pincode").trigger("change");
-							$("#receiver_phone").trigger("change");
-							$("#receiver_mobile").trigger("change");
-							$("#receiver_email").trigger("change");
-							$("#receiver_tin").trigger("change");
+							triggerReciverField();
 							return false;
 						}
 					}).autocomplete("instance")._renderItem = function(ul, item) {
@@ -1096,35 +1097,59 @@
 								+ item.ou_code + "</span>").appendTo(ul);
 			};
 
-			$("#btn_search_docket").click(
-					function() {
-						var docket_no = $("#docket_no").val();
-						if (docket_no != '') {
-							$.ajax({
-								methed : "get",
-								headers : {
-									Accept : "application/json"
-								},
-								url : serverContext + "getDocketInfo/"
-										+ docket_no,
-								success : function(data) {
-									fillInput(data);
-									$('#PickupDetailsForm').attr('action',
-											serverContext + 'update_docket');
-								},
-								error : function(errorw) {
-									alert("Docket Not Found");
-									var validator = $( "#PickupDetailsForm" ).validate();
-									validator.resetForm();
-									$("#docket_no").val('');
-									$('#PickupDetailsForm').attr('action',
-											serverContext + 'validate_xml');
-								}
-							})
-
-						}
-
-					});
+			$("#btn_search_docket").click(function(e) {
+				var docket_no = $("#docket_no").val();
+				
+				if(docket_no.length==9){					
+										
+						$.ajax({
+							methed : "get",
+							headers : {
+								Accept : "application/json"
+							},
+							url : serverContext + "getDocketInfo/"
+									+ docket_no,
+							success : function(data) {
+								fillInput(data);
+								$('#PickupDetailsForm').attr('action',
+										serverContext + 'update_docket');
+							},
+							error : function(errorw) {
+								alert("Docket Not Found");
+								var validator = $( "#PickupDetailsForm" ).validate();
+								validator.resetForm();
+								$("#docket_no").val('');
+								$('#PickupDetailsForm').attr('action',
+										serverContext + 'validate_xml');
+							}
+						})
+					
+				}else{
+					alert("Please enter valid Docket No");
+					$('#PickupDetailsForm').find('input:text, input:password, select, textarea').val('');
+					$('#PickupDetailsForm').find('input:text, input:password, select, textarea').trigger('change');
+				}
+			});
+			
+			$("#docket_no").keydown(function (e) {
+		        // Allow: backspace, delete, tab, escape, enter and .
+		        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+		             // Allow: Ctrl+A, Command+A
+		            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+		             // Allow: home, end, left, right, down, up
+		            (e.keyCode >= 35 && e.keyCode <= 40)) {
+		                 // let it happen, don't do anything
+		                 return;
+		        }
+		        // Ensure that it is a number and stop the keypress
+		        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+		            e.preventDefault();
+		        }
+		        if( $(this).val().length > 8 ) { 
+		        	e.preventDefault();
+		        }
+		    });
+			
 			function fillInput(p) {
 				action = serverContext +"validate_xml"
 				console.log(p);
@@ -1187,32 +1212,9 @@
 				$("#cod_dod_amount").val(p.cod_dod_amount);
 				
 
-				$("#receiver_code").trigger("change");
-				$("#receiver_name").trigger("change");
-				$("#receiver_address1").trigger("change");
-				$("#receiver_address2").trigger("change");
-				$("#receiver_address3").trigger("change");
-				$("#receiver_address4").trigger("change");
-				$("#receiver_city").trigger("change");
-				$("#receiver_phone").trigger("change");
-				$("#receiver_mobile").trigger("change");
-				$("#receiver_email").trigger("change");
-				$("#receiver_tin").trigger("change");
-				$("#delivery_ou").trigger("change");
-				$("#ess_code").trigger("change");
-				$("#receiver_pincode").trigger("change");
-				$("#shipper_code").trigger("change");
-				$("#shipper_name").trigger("change");
-				$("#shipper_address1").trigger("change");
-				$("#shipper_address2").trigger("change");
-				$("#shipper_address3").trigger("change");
-				$("#shipper_address4").trigger("change");
-				$("#shipper_city").trigger("change");				
-				$("#shipper_phone").trigger("change");
-				$("#shipper_mobile").trigger("change");
-				$("#shipper_email").trigger("change");
-				$("#shipper_tin").trigger("change");
-				$("#shipper_pincode").trigger("change");
+				triggerReciverField();			
+				triggerShipperField();
+				
 				$("#booking_ou").trigger("change");
 				$("#product").trigger("change");
 				$("#docket_type").trigger("change");
@@ -1232,6 +1234,7 @@
 				$("#cod_dod_amount").trigger("change");
 
 			}
+			
 		});
 	</script>
 </body>

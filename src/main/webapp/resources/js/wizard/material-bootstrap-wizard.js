@@ -83,7 +83,7 @@ $(document).ready(function(){
 	
 	
     var $validator = $('.wizard-card form').validate({
-		  rules: {
+    	  rules: {
 		    receiver_code: {
 		    	required: true,
 		    	digits: true,
@@ -223,7 +223,7 @@ $(document).ready(function(){
 				required: true,
 				range:[1,999999]
 			},
-			UOM: {
+			uom: {
 				required: true
 		    },
 			actual_weight: {
@@ -391,82 +391,93 @@ $(document).ready(function(){
 
     $(".wizard-card input[name*='finish']").click(function(event){
     	console.log("onFinish");
-    	event.preventDefault();
-    	var finish_btn = $(this);
-    	finish_btn.attr("disabled", true);
     	
-        var form = $("#PickupDetailsForm");
-        var xml = ConvertFormToXML(form);
-        var json = ConvertFormToJSON(form);
-        
-        console.log(JSON.stringify(json));
-        console.log(xml);
-        var submitUrl = form.attr('action');
-        
-        var maction = submitUrl.includes("update_docket")?'Updated':'Generated';
-        $.ajax({
-        	method: form.attr('method'),
-            url: form.attr('action'),
-            data: xml,
-            contentType: 'application/xml',
-            headers: {
-        	    Accept: "application/json"
-        	  },
-            success: function (data) {
-            	console.log(data);
-            	var mymodal = $('#myModal');
-                                
-            	if(data.status=='SUCCESS'){
-            		mymodal.find('.modal-title').html("<i class='fa fa-check' aria-hidden='true'></i> SUCCESS ALERT: Docket "+maction);
-            		mymodal.find('.modal-header').removeClass("error_header");
-            		mymodal.find('.modal-header').addClass("success_header");
-            		mymodal.find('.modal-body').text(data.message);
-            		mymodal.modal('show');
-            		$('#myModal').on('hidden.bs.modal', function (e) {
-            			//window.location = "recipt/"+data.result;
-            			window.location.reload();
-        			});
-            		//
-            	 }
-            	 else{
-            		 mymodal.find('.modal-title').html("<i class='fa fa-exclamation-triangle'></i> ERROR ALERT:"+data.message);
-            		 mymodal.find('.modal-header').addClass("error_header");
-            		 mymodal.find('.modal-body').text(data.result);
-             		 if(data.message==='Inserting Error' || data.message==='Docket Generation Error' || data.message==='Validation XML Error'){
-            		
-            		 }
-            		 else{
-            			 console.log(data.result);
-            			 var validator = $( "#PickupDetailsForm" ).validate({
-            				 errorElement: "em",
-            				 errorPlacement: function ( error, element ) {
-									// Add the `help-block` class to the error element
-									error.addClass( "help-block" );         	
-									element.parent().addClass( "has-feedback" );         	
-									if ( element.prop( "type" ) === "checkbox" ) {
-										error.insertAfter( element.parent( "label" ) );
-									} else {
-										error.insertAfter( element );
-									}
-									if ( !element.next( "span" )[ 0 ] ) {
-										$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
-									}
-								},
-            				 highlight: function ( element, errorClass, validClass ) {                                            					 
-									$( element ).parent().addClass( "has-error" ).removeClass( "has-success" );
-									$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
-								}});
-            			 validator.showErrors(data.result);                                            			
-            		 }
-             		mymodal.modal('show');
-             		finish_btn.attr("disabled", false);
-            	 }
-            },
-            error:function(e){
-            	alert(e);
-            	finish_btn.attr("disabled", false);
-            }
-        });   
+    	if($('#booking_ou').val!=''){
+    		event.preventDefault();
+        	var finish_btn = $(this);
+        	finish_btn.attr("disabled", true);
+        	
+            var form = $("#PickupDetailsForm");
+            var xml = ConvertFormToXML(form);
+            var json = ConvertFormToJSON(form);
+            
+            console.log(JSON.stringify(json));
+            console.log(xml);
+            var submitUrl = form.attr('action');
+            
+            var maction = submitUrl.includes("update_docket")?'Updated':'Generated';
+            $.ajax({
+            	method: form.attr('method'),
+                url: form.attr('action'),
+                data: xml,
+                contentType: 'application/xml',
+                headers: {
+            	    Accept: "application/json"
+            	  },
+                success: function (data) {
+                	console.log(data);
+                	var mymodal = $('#myModal');
+                                    
+                	if(data.status=='SUCCESS'){
+                		mymodal.find('.modal-title').html("<i class='fa fa-check' aria-hidden='true'></i> SUCCESS ALERT: Docket "+maction);
+                		mymodal.find('.modal-header').removeClass("error_header");
+                		mymodal.find('.modal-header').addClass("success_header");
+                		mymodal.find('.modal-body').text(data.message);
+                		mymodal.modal('show');
+                		$('#myModal').on('hidden.bs.modal', function (e) {
+                			//window.location = "recipt/"+data.result;
+                			window.location.reload();
+            			});
+                		//
+                	 }
+                	 else{
+                		 mymodal.find('.modal-title').html("<i class='fa fa-exclamation-triangle'></i> ERROR ALERT:"+data.message);
+                		 mymodal.find('.modal-header').addClass("error_header");
+                		 mymodal.find('.modal-body').text(data.result);
+                 		 if(data.message==='Inserting Error' || data.message==='Docket Generation Error' || data.message==='Validation XML Error'){
+                		
+                		 }
+                		 else{
+                			 console.log(data.result);
+                			 var validator = $( "#PickupDetailsForm" ).validate({
+                				 errorElement: "em",
+                				 errorPlacement: function ( error, element ) {
+    									// Add the `help-block` class to the error element
+    									error.addClass( "help-block" );         	
+    									element.parent().addClass( "has-feedback" );         	
+    									if ( element.prop( "type" ) === "checkbox" ) {
+    										error.insertAfter( element.parent( "label" ) );
+    									} else {
+    										error.insertAfter( element );
+    									}
+    									if ( !element.next( "span" )[ 0 ] ) {
+    										$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+    									}
+    								},
+                				 highlight: function ( element, errorClass, validClass ) {                                            					 
+    									$( element ).parent().addClass( "has-error" ).removeClass( "has-success" );
+    									$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+    								}});
+                			 validator.showErrors(data.result);                                            			
+                		 }
+                 		mymodal.modal('show');
+                 		finish_btn.attr("disabled", false);
+                	 }
+                },
+                error:function(e){
+                	alert(e);
+                	finish_btn.attr("disabled", false);
+                }
+            });
+    		
+    	}
+    	else{
+    		$validator.showErrors({
+    			  "shipper_pincode": "Plz Select suggetion option from dropdown"
+    			});
+    	}
+    	
+    	   
     });
 
 

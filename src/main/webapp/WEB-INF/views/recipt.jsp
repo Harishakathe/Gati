@@ -1,21 +1,52 @@
 <%@page session="true"%>
 <%@page isELIgnored="false"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
-      <title>Gati Print</title>
-      <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-      <style>
-      	 body {
-         margin: 0px
-         }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form</title>
+<c:url var="home" value="/" scope="request" />
+<link href="<c:url value="/resources/css/bootstrap.min.css" />"
+	rel="stylesheet">
+<link
+	href="<c:url value="/resources/css/font-awesome/css/font-awesome.css" />"
+	rel="stylesheet">
+
+<link href="<c:url value="/resources/css/animate.css" />"
+	rel="stylesheet">
+<link href="<c:url value="/resources/css/jquery-ui.min.css" />"
+	rel="stylesheet" type="text/css" />
+<link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
+<style type="text/css">
+.success_header {
+	border-radius: 3px;
+	background-color: #00bcd4;
+	color: #ffffff;
+}
+
+.error_header {
+	border-radius: 3px;
+	background-color: #f55145;
+	color: #ffffff;
+}
+@media print {
+    .withoutprint{
+        display: none;
+    }
+    .printonly{
+        display:block;
+        color: red;
+    }
+</style>
+      <style>      	 
          .tdess {
          font-size: 10px; font-family: Arial, Helvetica, sans-serif; color: #000000
          }
          .td1 {
-         font-size: 10px; border-top: #000000 1px solid; font-family: Arial, Helvetica, sans-serif; border-right: #000000 1px solid; border-bottom: #000000 1px solid; font-weight: bold; color: #000000; border-left: #000000 1px solid
+         font-size: 10px; border-top: #000000 1px solid; font-family: Arial, Helvetica, sans-serif; border-right: #000000 1px solid; border-bottom: #000000 1px solid; color: #000000; border-left: #000000 1px solid
          }
          .tdnew1 {
          font-size: 8px; font-family: Arial, Helvetica, sans-serif; font-weight: bold; color: #000000
@@ -44,6 +75,11 @@
          P.breakhere {
          PAGE-BREAK-AFTER: always
          }
+         hr.m5{
+    		margin-top: 10px;
+    		margin-bottom: 10px;
+    		}
+
       </style>
       <style type="text/css" media="screen,print">
          @font-face {
@@ -60,14 +96,71 @@
       </style>
       <script>function click(e){if(document.all){if(event.button == 2){alert('sorry');return false;}}if (document.layers){if(e.which == 3){alert(message);return false;}}}if (document.layers){document.captureEvents(Event.MOUSEDOWN);}document.onmousedown=click;</script>
       <meta name="GENERATOR" content="MSHTML 11.00.9600.18698">
-   </head>
-   <body onload="printstatus()" leftmargin="0" topmargin="0">
-      <script language="JavaScript">
-         function printstatus() {
-         	alert("Spooling is over, You can print the dockets now");
-         }	
-      </script>
-      <table class="td1" height="315" cellspacing="0" cellpadding="0" width="668" align="center">
+</head>
+
+<body class="md-skin">
+	<div id="wrapper">
+		<nav class="navbar-default navbar-static-side" role="navigation">
+			<div class="sidebar-collapse">
+				<ul class="nav metismenu" id="side-menu">
+					<li class="nav-header"><img alt="Gati KWE Logo"
+						class="img-responsive center-block logo"
+						src="<c:url value="/resources/img/logo.png" />" />
+						<div class="dropdown profile-element m-t-md">
+							<span> <img alt="image" class="img-circle center-block"
+								src="<c:url value="/resources/img/a6.jpg" />" />
+							</span> <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<span class="clear text-grey text-center"> <span
+									class="block m-t-xs"> <strong class="font-bold">${user.cusName!=null ? user.cusName : 'Guset User'}</strong>
+								</span> <span class="text-light text-xs block">Designation <b
+										class="caret"></b></span>
+							</span>
+							</a>
+							<ul class="dropdown-menu animated fadeInRight m-t-xs">
+								<li><a href="#">Profile</a></li>
+								<li><a href="#">Contacts</a></li>
+								<li class="divider"></li>
+								<li><a href="<c:url value="/user_logout" />">Logout</a></li>
+							</ul>
+						</div>
+						<div class="logo-element"></div></li>
+					<li><a href="${home}dashboard"><i
+							class="fa fa-th-large fa-fw"></i> <span class="nav-label">Dashboard</span></a></li>
+					<li><a href="${home}user/pickuprequest"><i
+							class="fa fa-edit fa-fw"></i> <span class="nav-label">Pickup
+								Request Details</span></a></li>
+					<li class="active"><a href="${home}user/docketprint"><i
+							class="fa fa-print fa-fw"></i> <span class="nav-label">Docket
+								Print</span></a></li>
+					<li><a href="${home}user/lableprint"><i
+							class="fa fa-print fa-fw"></i> <span class="nav-label">Lable
+								Print</span></a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div id="page-wrapper" class="gray-bg">
+			<div class="row border-bottom">
+				<nav class="navbar navbar-static-top  " role="navigation"
+					style="margin-bottom: 0">
+					<div class="navbar-header">
+						<a
+							class="navbar-minimalize minimalize-styl-2 btn text-white btn-link "
+							href="#"><i class="fa fa-bars"></i> </a>
+					</div>
+					<ul class="nav navbar-top-links navbar-right">
+						<li><span class="m-r-sm text-white welcome-message"><i
+								class="fa fa-phone"></i> 1800-180-4284</span></li>
+						<li><a class="text-white"
+							href="<c:url value="/user_logout" />"><i
+								class="fa fa-power-off"></i>Logout</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="wrapper wrapper-content">
+				<div class="row">
+					<div class="col-sm-12">
+						<table class="td1" height="315" cellspacing="0" cellpadding="0" width="668" align="center">
          <tbody>
             <tr>
                <td height="315" valign="top" width="255">
@@ -502,10 +595,16 @@
                            </td>
                         </tr>
                         <tr>
-                           <td class="td32" height="157" valign="bottom" align="center">
-                              <span class="barcode">!${pickupDetails.docket_no}!</span> 
-                              <hr size="1">
-                              <span class="tdnew1">&nbsp;Receiver's&nbsp;Signature,Stamp&nbsp;&amp;Comments:</span><br><br><br><br><br><br><span class="tdnew1">I/We&nbsp;received&nbsp;the&nbsp;cargo/documents&nbsp;in&nbsp;good&nbsp;conditions</span>
+                           <td class="td32" height="157" valign="bottom" >
+                           <table height="157" cellspacing="0" cellpadding="0">
+                                 <tbody>
+                                    <tr>
+                                       <td align="center"><span class="barcode">!${pickupDetails.docket_no}!</span> 
+                              <hr class="m5">
+                              <span class="tdnew1">&nbsp;Receiver's&nbsp;Signature,Stamp&nbsp;&amp;Comments:</span><br><br><br><br><br><br><span class="tdnew1">I/We&nbsp;received&nbsp;the&nbsp;cargo/documents&nbsp;in&nbsp;good&nbsp;conditions</span></td>
+                                    </tr>
+                                 </tbody>
+                              </table>                              
                            </td>
                         </tr>
                         <tr class="tdnew1">
@@ -581,6 +680,37 @@
                </td>
             </tr>
          </tbody>
-      </table>   
+      </table>
+					</div>
+				</div>
+				<div class="footer withoutprint">
+					<div class="pull-right">
+						10GB of <strong>250GB</strong> Free.
+					</div>
+					<div>
+						<strong>Copyright</strong> Gati KWE &copy; 2016-2017
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Mainly scripts -->
+		<script src="<c:url value="/resources/js/jquery-2.2.4.min.js"/>"></script>
+		<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+		<script src="<c:url value="/resources/js/jquery.bootstrap.js"/>"></script>
+		<script	src="<c:url value="/resources/js/metisMenu/jquery.metisMenu.js"/>"></script>
+		<script	src="<c:url value="/resources/js/slimscroll/jquery.slimscroll.min.js"/>"></script>
+
+		<script type="text/javascript">
+		var serverContext = "${home}";
+	$(document).ready(function() {
+		
+	});
+
+        
+    </script>
+		<!-- Custom and plugin javascript -->
+		<script src="<c:url value="/resources/js/inspinia.js"/>"></script>
+		<script src="<c:url value="/resources/js/pace/pace.min.js"/>"
+			type="text/javascript"></script>
 </body>
 </html>
